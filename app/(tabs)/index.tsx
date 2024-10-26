@@ -1,3 +1,10 @@
+import { Text, View } from "react-native";
 export default function Index() {
-  return <p>Hi this is our home page. Woohoo thi team.</p>;
+  return (
+    <View>
+      <Text style={{ color: "white" }}>
+        Hi this is our home page. Woohoo thi team.
+      </Text>
+    </View>
+  );
 }
