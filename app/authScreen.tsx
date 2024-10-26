@@ -58,7 +58,7 @@ export function AuthTextEntry({ label, value, onChangeText}: TextEntryProps){
     return (
         <View>
             <Text style = {styles.buttonLabel}>{label}</Text>
-            <TextInput 
+            <TextInput style={styles.loginTextBox}
                 value = {value} 
                 onChangeText = {onChangeText}
             />
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     },
     welcomeText: {
         fontSize: 28,
+        marginBottom: 11,
     },
     loginText: {
         fontSize: 20,
@@ -98,10 +99,18 @@ const styles = StyleSheet.create({
         fontSize: 20, 
     }, 
     loginButton:{   
-        borderColor: '#1c1c1e',
-        backgroundColor: '#1c1c1e',
+        borderColor: '#D9D9D9',
+        backgroundColor: 'white',
         flexDirection: 'row',
-        padding: 10,
-        borderRadius: 50, 
+        padding: 12,
+        borderRadius: 5, 
+    },
+    loginTextBox: {
+        width: 326, 
+        padding: 13,
+        backgroundColor: 'white',
+        borderColor: '#D9D9D9',
+        borderRadius: 1,
+
     },
 });
