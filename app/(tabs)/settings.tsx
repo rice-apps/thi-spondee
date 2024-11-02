@@ -1,11 +1,32 @@
 import React, {useState} from "react";
-import { Text, View, Button, Modal, StyleSheet, Image, TouchableOpacity, Dimensions} from "react-native";
+import { Text, View, Button, Modal, StyleSheet, Image, TouchableOpacity, Dimensions, Switch } from "react-native";
 import Slider from '@react-native-community/slider';
+// TODO: Uncomment this when we can try it on a real device!
+// import { VolumeManager } from 'react-native-volume-manager';
 
 export default function Settings() {
     const [modalVisible, setModalVisible] = useState(false);
     const [setSize, setSetSize] = useState(4);
-
+    const [soundEnabled, setSoundEnabled] = useState(false);
+    const [volume, setVolume] = useState(0.5);
+    const handleVolumeChange = async (value: number) => {
+        setVolume(value);
+        // TODO: Uncomment this when we can try it on a real device!
+        // VolumeManager.setVolume(value);
+    };
+    const handleIncreaseVolume = () => {
+        const newVolume = Math.min(volume + 0.1, 1); // Increment by 0.1, max 1
+        // TODO: Uncomment this when we can try it on a real device!
+        //VolumeManager.setVolume(newVolume);
+        setVolume(newVolume);
+      };
+    const handleDecreaseVolume = () => {
+    const newVolume = Math.max(volume - 0.1, 0); // Decrease by 0.1, min 0
+    // TODO: Uncomment this when we can try it on a real device!
+    //VolumeManager.setVolume(newVolume);
+    setVolume(newVolume);
+    };
+    
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -39,6 +60,7 @@ export default function Settings() {
                                 value={setSize}
                                 onValueChange={(newValue) => setSetSize(newValue)}
                                 />
+                                {/* Slider label "4 -- 8 -- 12" */}
                                 <View style={{flexDirection: "row", justifyContent: "space-between", width: 200}}>
                                     <Text>   4</Text>
                                     <Text>8</Text>
@@ -50,13 +72,39 @@ export default function Settings() {
                                 <Text style={styles.textStyle}>
                                     Volume
                                 </Text>
+                                <View style={ {flexDirection: "row", justifyContent: "space-between"} }>
+                                    <TouchableOpacity onPress={handleDecreaseVolume}>
+                                        <Image source={require("../../assets/images/remove.png")} style={ {width:17, marginTop: 15, marginRight: 15} }/>
+                                    </TouchableOpacity>
+                                    <Slider
+                                    style={{width: 200, height: 40}}
+                                    minimumValue={0}
+                                    maximumValue={1}
+                                    minimumTrackTintColor="black"
+                                    maximumTrackTintColor="black"
+                                    thumbTintColor="white"
+                                    step={0.01}
+                                    value={volume}
+                                    onValueChange={handleVolumeChange}
+                                    >  
+                                    </Slider>
+                                    <TouchableOpacity onPress={handleIncreaseVolume}>
+                                        <Image source={require("../../assets/images/add.png")} style={ {width: 40, height:40} }/>
+                                    </TouchableOpacity>
+                                </View>
+                               
                             </View>
                             <View>
                                 <Text style={styles.textStyle}>
                                     Sound
                                 </Text>
+                                <Switch
+                                    onValueChange={() => setSoundEnabled(!soundEnabled)}
+                                    value={soundEnabled}
+                                />
                             </View>
                         </View>
+                        {/* Update button */}
                         <View style={{alignItems: "flex-end"}}> 
                             <TouchableOpacity style={styles.buttonStyle} onPress={() => setModalVisible(false)}>
                                 <Text style={{color: "black", fontSize: 15, fontWeight: "normal", textAlign: "center"}}>
@@ -85,7 +133,7 @@ const styles = StyleSheet.create({
     },
     modalBox:{
         width: 500,
-        height: 300, 
+        height: 400, 
         backgroundColor: "white",  
         shadowColor: "black", 
         shadowRadius: 4, 
