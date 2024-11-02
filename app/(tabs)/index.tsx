@@ -30,17 +30,19 @@ export default function Index() {
 
   return (
     <View style={styles.containerStyle}>
-      {session && session.user ? (
-        <View>
-          <Text>Welcome, User!</Text>
-          <Text>Your User ID: {session.user.id}</Text>
-          <AuthButton label = "Log In" onPress = {handleLogout}/>
-        </View>
-      ) : (
-        <AuthScreen />
-      )}
+        {session && session.user ? (
+            <View>
+                <Text>
+                    Welcome, {session.user.user_metadata.first_name} {session.user.user_metadata.last_name}!
+                </Text>
+                <Text>Your User ID: {session.user.id}</Text>
+                <AuthButton label="Sign Out" onPress={handleLogout} />
+            </View>
+        ) : (
+            <AuthScreen />
+        )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
