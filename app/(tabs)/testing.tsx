@@ -43,8 +43,8 @@ export default function TestSelection() {
       </View>
       <View style={styles.testTypeGroupList}>
         {testTypes.map((test, i) => (
-          <View style={styles.testTypeGroup}>
-            <TestTypeGroup key={i} testType={test} />
+          <View key={i} style={styles.testTypeGroup}>
+            <TestTypeGroup testType={test} />
           </View>
         ))}
       </View>
