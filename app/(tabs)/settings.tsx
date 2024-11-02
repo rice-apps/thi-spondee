@@ -4,7 +4,7 @@ import Slider from '@react-native-community/slider';
 
 export default function Settings() {
     const [modalVisible, setModalVisible] = useState(false);
-    const [value, setValue] = useState(4);
+    const [setSize, setSetSize] = useState(4);
 
     return (
         <View style={styles.container}>
@@ -36,9 +36,14 @@ export default function Settings() {
                                 maximumTrackTintColor="black"
                                 thumbTintColor="white"
                                 step={4}
-                                value={value}
-                                onValueChange={(newValue) => setValue(newValue)}
+                                value={setSize}
+                                onValueChange={(newValue) => setSetSize(newValue)}
                                 />
+                                <View style={{flexDirection: "row", justifyContent: "space-between", width: 200}}>
+                                    <Text>   4</Text>
+                                    <Text>8</Text>
+                                    <Text>12  </Text>
+                                </View>
                         </View>
                         <View style={{flex: 0.4, flexDirection: "row", justifyContent: "space-between", }}> 
                             <View>
@@ -52,7 +57,7 @@ export default function Settings() {
                                 </Text>
                             </View>
                         </View>
-                        <View style={{height: 50, justifyContent: "center", alignItems: "flex-end"}}> 
+                        <View style={{alignItems: "flex-end"}}> 
                             <TouchableOpacity style={styles.buttonStyle} onPress={() => setModalVisible(false)}>
                                 <Text style={{color: "black", fontSize: 15, fontWeight: "normal", textAlign: "center"}}>
                                     Update
@@ -88,7 +93,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 10,
         padding: 20,
-        justifyContent: "center",
+        justifyContent: "space-between",
     },
     imageStyle:{
         width: 25, 
