@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
 import { TestTypeGroup } from "@/components/testing/TestTypeGroup";
 import { TestType } from "@/components/testing/TestingTypeDef";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function TestSelection() {
   const testTypes: TestType[] = [
@@ -37,7 +37,8 @@ export default function TestSelection() {
   ];
 
   return (
-    <View style={styles.container}>
+    // TODO: change from scroll view, but we 
+    <ScrollView style={styles.container}> 
       <View style={styles.pageTitleWrapper}>
         <Text style={styles.pageTitle}>Testing</Text>
       </View>
@@ -48,7 +49,7 @@ export default function TestSelection() {
           </View>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
