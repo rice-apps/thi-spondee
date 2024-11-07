@@ -20,11 +20,11 @@ export default function Card(){
 const styles = StyleSheet.create({
     content: {
         height: "20%",
-        width: "20%",
+        // width: "40%",
         marginLeft: "10%",
         marginRight: "10%",
         marginBottom: "10%",
-        minWidth:"20%",
+        // minWidth:"40%",
         backgroundColor: "powderblue",
         borderRadius:20,
         display:"flex",
