@@ -10,71 +10,53 @@
 //   );
 // }
 
+//This is supposed to be in the page TestScreen, but I put it in the index page 
+//so we don't have to go back and forth while testing
 
 import { Button, Text, View, StyleSheet, FlatList, StatusBar, TouchableOpacity } from "react-native";
-import Card from "../../components/Card";
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import Constants from "expo-constants";
-import {useState} from "react";
-import Feather from '@expo/vector-icons/Feather';
+import { useState } from "react";
 
+import Card from "@/components/spondee/Card";
+import { SessionControls } from "@/components/spondee/SessionControls";
+import {ProgressBar} from "@/components/spondee/ProgressBar";
 
-let DATA: any[] = [];
+let data: {id: string, title: string}[] = [];
 
-type ItemProps = {title: string};
-
-const Item = ({title}: ItemProps) => (
-  <View style={styles.item}>
-    <Text style={styles.name}>{title}</Text>
-  </View>
-);
-
-export default function Index({numCards, totalPages}: {numCards: number, totalPages: number}) {
+export default function Index({ numCards, totalPages }: { numCards: number, totalPages: number }) {
 
   const [pageNum, setPageNum] = useState(1);
 
-  numCards = 8; //DATA.size();
+  numCards = 6; 
   totalPages = 20;
-  let progressString: string = pageNum/totalPages*100+"%";
 
-  for(let i=0; i<numCards; i++){
-    DATA.push({
-      id: (""+i),
-      title: ("Item "+i),
+  for (let i = 0; i < numCards; i++) {
+    data.push({
+      id: ("" + i),
+      title: ("Item " + i),
     });
   }
 
   return (
-      <View style={styles.page}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Spondee Cards</Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>End Session</Text>
-          </TouchableOpacity>
-          <Feather name="settings" size={24} color="black" style={{flex: 1}}/>
-        </View>
-        <View style={styles.progressContainer}>
-          <View style={styles.progressCenter}>
-            <Text style={styles.progressText}>{pageNum}/{totalPages}</Text>
-            <View style={styles.progressBar}>
-              <View style={{width: progressString, height: "100%", backgroundColor: "black", borderRadius: 10,}}></View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.container}>
-          <FlatList contentContainerStyle={styles.flatlist}
-            data={DATA}
-            renderItem={({item}) => <Item title={item.title} />}
-            keyExtractor={item => item.id+1}
-            numColumns={(Math.min(Math.trunc((numCards+1)/2),4))}
-            horizontal={false}
-          />
-        </View>
+    <View style={styles.page}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Spondee Cards</Text>
+        <SessionControls />
       </View>
+      <ProgressBar numerator={pageNum} denominator={totalPages}/>
+      <View style={styles.container}>
+        <FlatList contentContainerStyle={styles.flatlist}
+          data={data}
+          renderItem={({ item }) => <Card text={item.title} />}
+          keyExtractor={item => item.id }
+          numColumns={(Math.min(Math.trunc((numCards + 1) / 2), 4))}
+          horizontal={false}
+        />
+      </View>
+    </View>
   );
 }
 
-let gray = "#e6e6e6";
+let grayColor = "#e6e6e6";
 
 const styles = StyleSheet.create({
   container: {
@@ -92,19 +74,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginTop: "5%",
   },
-  item: {
-    backgroundColor: gray,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 18,
-    width: 180,
-    aspectRatio: 1.1,
-    borderRadius: 15,
-    // width: "auto",
-  },
   titleContainer: {
     display: "flex",
     flexDirection: "row",
@@ -118,41 +87,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     flex: 8,
   },
-  name: {
-    fontSize: 32,
-  },
-  progressContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    // paddingTop: 2*Constants.statusBarHeight,
-    // backgroundColor: "green",
-  },
-  progressCenter: {
-    flexDirection: "row", //column direction
-    justifyContent: 'space-evenly',
-    gap: 30,
-    alignItems: 'center',
-    // paddingTop: 2*Constants.statusBarHeight,
-    // backgroundColor: "green",
-  },
-  progressBar: {
-    height: 15,
-    width: '60%',
-    backgroundColor: gray,
-    // borderWidth: 0.5,
-    borderRadius: 10,
-  },
-  progressText: {
-    color:"black",
-    paddingBottom: 5,
-    fontSize: 30,
-    height:"auto",
-  },
   page: {
     backgroundColor: "#ffffff",
+    paddingTop: "3%",
   },
   button: {
-    backgroundColor: gray,
+    backgroundColor: grayColor,
     borderRadius: 5,
     padding: 5,
   },
