@@ -1,30 +1,28 @@
 import React, {useState} from "react";
 import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import TopBar from "@/components/home/TopBar";
+import Card from "@/components/home/Card";
+
 
 export default function Home() {
     return (
         <View style={styles.container}>
-             <View>
-                    <Text style={ {color: "black", fontSize: 35, fontWeight: "500", textAlign: "left"} }>
-                        Name's Dashboard
-                    </Text>
-            </View>
-            <View style={{flex: 0.4, flexDirection: "row", justifyContent: "space-between", }}> 
-                <View style={{alignItems: "flex-end"}}>
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => "" }>
-                        <Text style={{color: "black", fontSize: 20, fontWeight: "normal", textAlign: "center"}}>
-                            Switch Profile
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-               
-            </View>
-            
+            <TopBar/>
             <View>
-               
                 <Text style={ {color: "black", fontSize: 25, fontWeight: "400", textAlign: "left", marginTop: 50} }>
                     Recent Sessions
                 </Text>
+            </View>
+            {/* rectangle that contains all the cards*/ }
+            <View style={styles.cardsContainer}>
+                <Card/>
+                <Card/>
+                <Card/>
+            </View>
+            <View style={styles.footer}>
+                {/* need to add on click */}
+                <AntDesign name="plus" size={24} color="black" />
             </View>
         </View>
     );
@@ -44,4 +42,21 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         backgroundColor: "#D9D9D9",  
     },
+    cardsContainer: {
+        display: "flex",
+        flexDirection: "row",
+        gap: 40,
+        flexWrap: "wrap"
+    },
+    footer: {
+        position: "absolute",
+        right: 50,
+        bottom: 50,
+        width: 50,
+        aspectRatio: 1/1,
+        backgroundColor: "#D9D9D9",
+        borderRadius: 100,
+        justifyContent: "center",
+        alignItems: "center"
+    }
 });
