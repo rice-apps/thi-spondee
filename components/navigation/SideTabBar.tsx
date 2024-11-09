@@ -15,7 +15,8 @@ interface SideTabBarProps {
 
 export function SideTabBar({state, navigation, descriptors}: SideTabBarProps) {
   return (
-    <View style={[{flexDirection: 'column', width: 100, alignItems: 'center', justifyContent: 'center'}]}>
+    <View style={[{flexDirection: 'column', height: 500, width: 100, alignItems: 'flex-start', justifyContent: 'flex-start'}]}>
+    {/*<View style={[{flexDirection: 'row'}]}>*/}
       {state.routes.map((route, index) => (
         <Pressable
           key={route.key}
