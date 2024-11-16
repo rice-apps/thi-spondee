@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
   logoContainer: {
     width: 256,
     height: 96,
-    marginBottom: 100,
+    marginBottom: 65,
   },
   logo: {
     width: "100%",
     height: "100%",
   },
   buttonContainer: {
-    width: 395,
+    width: 326,
     alignItems: "center",
   },
   button: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 25,
     width: "100%",
-    marginVertical: 8,
+    marginVertical: 35,
   },
   buttonText: {
     textAlign: "center",
@@ -94,11 +94,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 8,
-    marginVertical: 4,
   },
   dividerText: {
-    color: "#666",
-    fontSize: 16,
+    color: "#17262B",
+    fontSize: 18,
   },
 });
