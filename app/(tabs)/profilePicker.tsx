@@ -12,7 +12,7 @@ export default function profilePicker(){
         const fetchChildren = async () => {
             const { data, error } = await supabase
                 .from('children')
-                .select('id, first_name, last_name');
+                .select('id, first_name, last_name, username');
             if (error) {
                 console.error(error);
             } else if (data) {
@@ -36,7 +36,8 @@ export default function profilePicker(){
             }
             const filtered = children.filter((child) => {
                 const fullName = `${child.first_name} ${child.last_name}`.toLowerCase();
-                return fullName.startsWith(lowerCaseQuery);
+                const username = `${child.username.toLowerCase()}`
+                return fullName.startsWith(lowerCaseQuery) || username.startsWith(lowerCaseQuery);
             });
         setFilteredChildren(filtered);
         }
@@ -58,9 +59,9 @@ export default function profilePicker(){
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <View>
-                    <Text style={styles.header}>Choose Child Profile</Text>
+                    <Text style={styles.header}>Select Child Profile</Text>
                     <TextEntry 
-                        label="Search profile" 
+                        label="Search name or username" 
                         value={searchQuery} 
                         onChangeText={handleSearch}
                     />
@@ -78,6 +79,7 @@ export default function profilePicker(){
                                 id={child.id} 
                                 first_name={child.first_name}
                                 last_name={child.last_name}
+                                username={child.username}
                                 isSelected={selectedProfile === child.id} 
                                 chooseProfile={chooseProfile} 
                             />
@@ -98,6 +100,7 @@ type Child = {
     id: string;
     first_name: string;
     last_name: string;
+    username: string;
 };
 
 type AuthTextEntryProps = {
@@ -109,6 +112,7 @@ type AuthTextEntryProps = {
 type ProfileCardProps = {
     first_name: string;
     last_name: string;
+    username: string;
     id: string;
     isSelected: boolean;
     chooseProfile: (id: string) => void;
@@ -141,13 +145,8 @@ function SelectButton({handleButtonClick}: SelectButtonProps){
     )
 }
 
-export function ProfileCard({ first_name, last_name, id, isSelected, chooseProfile }: ProfileCardProps) {
-  const [isHighlighted, setIsHighlighted] = React.useState(false);
-
-  const handlePress = () => {
-    setIsHighlighted(!isHighlighted);
-  };
-
+export function ProfileCard({ first_name, last_name, username, id, isSelected, chooseProfile }: ProfileCardProps) {
+    const firstNameWithLastInitial = `${first_name} ${last_name.charAt(0)}.`;
   return (
     <View style={styles.cardWrapper}>
       <Pressable 
@@ -165,8 +164,11 @@ export function ProfileCard({ first_name, last_name, id, isSelected, chooseProfi
       <Text style={[
         styles.title,
         isSelected && styles.selectedTitle
+      ]}>{username}</Text>
+      <Text style={[
+        isSelected && styles.selectedTitle
       ]}>
-        {first_name + " " + last_name}
+        {firstNameWithLastInitial}
       </Text>
     </View>
   );
@@ -198,7 +200,8 @@ const styles = StyleSheet.create({
       fontSize: 15
     },
     input: {
-        borderColor: 'gray',
+        borderColor: '#95D0E7',
+        borderWidth:2,
         padding: 8,
         paddingLeft: 20,
         marginVertical: 5,
@@ -272,14 +275,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '500',
         marginTop: 5, // Space between card and text
         textAlign: 'center',
     },
     selectedCard: {
-        borderColor: '#007AFF', // iOS blue color, you can change this
-        backgroundColor: '#E5F1FF', // Light blue background
+        borderColor: '#95D0E7', // iOS blue color, you can change this
+        backgroundColor: '#95D0E7', // Light blue background
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
