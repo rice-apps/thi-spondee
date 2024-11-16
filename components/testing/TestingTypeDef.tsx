@@ -1,6 +1,7 @@
 type Test = {
   title: string;
   uri: string;
+  route: string;
 };
 
 type TestType = {

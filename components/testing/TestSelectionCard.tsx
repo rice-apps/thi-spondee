@@ -1,23 +1,26 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { Test } from "@/components/testing/TestingTypeDef";
+import { Link, Href } from "expo-router";
 
 export function TestSelectionCard({ test }: { test: Test }) {
   return (
-    <Pressable onPress={() => console.log(test.title)}>
-      <View style={styles.card}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: test.uri,
-            }}
-          />
+    <Link href={test.route as Href<string>} asChild>
+      <Pressable>
+        <View style={styles.card}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: test.uri,
+              }}
+            />
+          </View>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{test.title}</Text>
+          </View>
         </View>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{test.title}</Text>
-        </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </Link>
   );
 }
 
