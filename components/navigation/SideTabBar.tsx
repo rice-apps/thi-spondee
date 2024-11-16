@@ -22,6 +22,11 @@ export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) 
           const { options } = descriptors[route.key];
           const isFocused = state.index === index;
 
+          // Skip rendering if tabBarButton is provided (used to hide the tab)
+          if (options.tabBarButton) {
+            return null;
+          }
+
           return (
             <Pressable
               key={route.key}
@@ -75,17 +80,16 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#fff',
   },
   sideTabBar: {
-    width: 100,
-    backgroundColor: '#f4f4f4',
-    borderRightWidth: 1,
-    borderColor: '#ccc',
+    width: 105,
+    backgroundColor: '#fff',
+    borderRightWidth: 2,
+    borderColor: '#f6f6f6',
     paddingTop: 20,
   },
   tabButton: {
-    padding: 16,
+    paddingVertical: 25,
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
@@ -94,8 +98,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   tabText: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 15,
+    fontWeight: 400,
+    fontFamily: "inter",
+    color: '#17262B',
   },
   activeTabText: {
     color: '#000',

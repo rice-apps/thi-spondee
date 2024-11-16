@@ -21,10 +21,28 @@ export default function TabLayout() {
         // The custom tab bar will handle everything
         tabBar={props => <SideTabBar {...props} />}
       >
+
+        {/* Login page (hidden) */}
         <Tabs.Screen
           name="index"
           options={{
-            title: "Home",
+            tabBarButton: () => null, // Hide the tab
+          }}
+        />
+
+        {/* Random screen (hidden) */}
+        <Tabs.Screen
+          name="random"
+          options={{
+            tabBarButton: () => null, // Hide the tab
+          }}
+        />
+
+        {/* Dashboard */}
+        <Tabs.Screen
+          name="home"
+          options={{
+            title: "Dashboard",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "home" : "home-outline"}
@@ -33,16 +51,34 @@ export default function TabLayout() {
             ),
           }}
         />
+
+        {/* Testing */}
         <Tabs.Screen
-          name="random"
+          name="testing"
           options={{
-            title: "Random",
+            title: "Testing",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
-                name={focused ? "home" : "home-outline"}
+                name={focused ? "headset" : "headset-outline"}
                 color={color}
               />
             ),
+          }}
+        />
+
+        {/* Settings modal (hidden) */}
+        <Tabs.Screen
+          name="settings"
+          options={{
+            tabBarButton: () => null, // Hide the tab
+          }}
+        />
+
+        {/* Test screen (hidden) */}
+        <Tabs.Screen
+          name="testScreen"
+          options={{
+            tabBarButton: () => null, // Hide the tab
           }}
         />
       </Tabs>
