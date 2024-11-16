@@ -31,6 +31,7 @@ export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) 
                   target: route.key,
                   canPreventDefault: true,
                 });
+
                 if (!isFocused && !event.defaultPrevented) {
                   navigation.dispatch({
                     ...TabActions.jumpTo(route.name, route.params),
@@ -58,22 +59,7 @@ export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) 
         })}
       </View>
       <View style={styles.mainContent}>
-        {state.routes.map((route, index) => {
-          const { render } = descriptors[route.key];
-          const isFocused = state.index === index;
-
-          return (
-            <View
-              key={route.key}
-              style={[
-                styles.screenContainer,
-                { display: isFocused ? 'flex' : 'none' }
-              ]}
-            >
-              {render()}
-            </View>
-          );
-        })}
+        {descriptors[state.routes[state.index].key].render()}
       </View>
     </View>
   );
@@ -83,6 +69,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
+    // Ensure the tab bar container takes up the full screen
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
   },
   sideTabBar: {
     width: 100,
@@ -112,9 +105,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  screenContainer: {
-    flex: 1,
-  },
 });
-
-export default SideTabBar;
