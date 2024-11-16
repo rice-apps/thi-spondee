@@ -30,13 +30,13 @@ export default function profilePicker(){
         if (query === '') {
             setFilteredChildren(children); 
         } else {
-            const lowerCaseQuery = query.toLowerCase();
+            const lowerCaseQuery = query.toLowerCase().replace(/\s+/g, ' ');
             if(children == null){
                 return;
             }
             const filtered = children.filter((child) => {
                 const fullName = `${child.first_name} ${child.last_name}`.toLowerCase();
-                const username = `${child.username.toLowerCase()}`
+                const username = `${child.username.toLowerCase().replace(/\s+/g, ' ')}`
                 return fullName.startsWith(lowerCaseQuery) || username.startsWith(lowerCaseQuery);
             });
         setFilteredChildren(filtered);
