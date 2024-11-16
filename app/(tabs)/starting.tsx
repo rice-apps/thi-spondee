@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     color: "#17262B",
     fontSize: 20,
     fontWeight: "500",
+    fontFamily: "inter",
   },
   dividerContainer: {
     flexDirection: "row",
@@ -97,5 +98,6 @@ const styles = StyleSheet.create({
   dividerText: {
     color: "#17262B",
     fontSize: 18,
+    fontFamily: "inter",
   },
 });
