@@ -7,9 +7,13 @@ export default function AddProfile() {
     return (
         <View>
             <View style={styles.imageContainer}>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <View style={styles.image}></View>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <View style={styles.image}>
+                        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                            <Image source={require("../../assets/images/blackadd.png")} style={{width: 40, height: 40}}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
             </View>
             <Modal
                 transparent={true}
@@ -23,9 +27,9 @@ export default function AddProfile() {
                             Add Profile
                         </Text>
                         <View style={{ flexDirection: "row", display: "flex", gap: 80}}>
-                            <View style={styles.imageContainer}> 
+                            <View style={{flex: 0.75, justifyContent: "center", alignItems: "center"}}> 
                                 <View style={styles.image}>
-                                    <View style={styles.imageContainer}>
+                                    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
                                         <Image source={require("../../assets/images/blackadd.png")} style={{width: 40, height: 40}}/>
                                     </View>
                                 </View>
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1/1, 
     }, 
     imageContainer: {
-        flex: 0.5,
+        flex: 1,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 20,
         height: 50,
-        width: 200,
+        width: 300,
     },
     buttonStyle:{
         width: 87, 
@@ -127,7 +131,5 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: "#95D0E7",  
     },
-    imageStyle: {
-
-    }
+    
 });
