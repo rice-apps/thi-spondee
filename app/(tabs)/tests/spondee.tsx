@@ -14,7 +14,7 @@ export default function TestScreen({
   numCards: number;
   totalPages: number;
 }) {
-  const [pageNum, πsetPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(1);
 
   numCards = 6;
   totalPages = 20;
