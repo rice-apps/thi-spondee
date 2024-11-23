@@ -14,7 +14,7 @@ export default function StartingPointPage() {
       <View style={styles.mainContainer}>
         <View style={styles.logoContainer}>
           <Image
-            source={require("../../assets/images/thi-logo.png")}
+            source={require("@/assets/images/thi-logo.png")}
             style={styles.logo}
             resizeMode="contain"
           />

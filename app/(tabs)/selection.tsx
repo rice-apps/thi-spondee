@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignSelf: "flex-start",
     marginBottom: 20,
-    marginRight: 30,
+    // marginRight: 30,
   },
 });
