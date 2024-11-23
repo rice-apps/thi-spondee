@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { ScrollView, Text, View, Button, StyleSheet, Image, FlatList, TouchableOpacity, Dimensions} from "react-native";
+import { ScrollView, Text, View, StyleSheet, Image, TouchableOpacity} from "react-native";
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { Table, Row, Rows } from "react-native-table-component";
 
@@ -29,8 +29,12 @@ export default function SessionResults() {
                         Session Results 
                     </Text>
                     <View style={{width: "5%", flexDirection: "row", justifyContent: "space-between"}}>
-                        <Image source={require('../../assets/images/edit_icon.png')} style={{ width: 26, height: 26, marginTop: 10}} />
-                        <Image source={require('../../assets/images/share_icon.png')} style={{ width: 26, height: 26, marginTop: 10, marginLeft: 25}} />
+                        <TouchableOpacity>
+                            <Image source={require('../../assets/images/edit_icon.png')} style={{ width: 26, height: 26, marginTop: 10}} />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image source={require('../../assets/images/share_icon.png')} style={{ width: 26, height: 26, marginTop: 10, marginLeft: 25}} />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{flex: 1, width: "28%", flexDirection: "row", justifyContent: "space-between"}}> 
@@ -109,8 +113,8 @@ export default function SessionResults() {
                                 />
                             </Table>
                         </View>
-                        <ScrollView>
-                            <Table borderStyle={{ borderWidth: 1, borderColor: '#7B9CCF' }}>
+                        <ScrollView contentContainerStyle={{ paddingRight: 14 }} showsVerticalScrollIndicator={false}>
+                            <Table borderStyle={{ borderWidth: 1, borderColor: '#7B9CCF' }}>   
                                 {data.tableData.map((col, colIndex) => (
                                     <Row
                                         key={colIndex}
