@@ -1,12 +1,12 @@
-import React from 'react';
-import { Pressable, View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { Pressable, View, Text, StyleSheet } from "react-native";
 import {
   NavigationHelpers,
   NavigationState,
   ParamListBase,
   TabActions,
-} from '@react-navigation/native';
-import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
+} from "@react-navigation/native";
+import { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
 
 interface SideTabBarProps {
   state: NavigationState;
@@ -14,7 +14,11 @@ interface SideTabBarProps {
   descriptors: { [key: string]: any };
 }
 
-export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) {
+export function SideTabBar({
+  state,
+  navigation,
+  descriptors,
+}: SideTabBarProps) {
   return (
     <View style={styles.container}>
       <View style={styles.sideTabBar}>
@@ -32,7 +36,7 @@ export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) 
               key={route.key}
               onPress={() => {
                 const event = navigation.emit({
-                  type: 'tabPress',
+                  type: "tabPress",
                   target: route.key,
                   canPreventDefault: true,
                 });
@@ -44,19 +48,19 @@ export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) 
                   });
                 }
               }}
-              style={[styles.tabButton, isFocused && styles.activeTab]}
+              style={[
+                styles.tabButton,
+                isFocused && styles.activeTab,
+                options.style,
+              ]}
             >
               {options.tabBarIcon &&
                 options.tabBarIcon({
                   focused: isFocused,
-                  color: isFocused ? '#000' : '#666',
+                  color: isFocused ? "#000" : "#666",
                   size: 24,
-                })
-              }
-              <Text style={[
-                styles.tabText,
-                isFocused && styles.activeTabText
-              ]}>
+                })}
+              <Text style={[styles.tabText, isFocused && styles.activeTabText]}>
                 {options.title ?? route.name}
               </Text>
             </Pressable>
@@ -73,9 +77,9 @@ export function SideTabBar({ state, navigation, descriptors }: SideTabBarProps) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     // Ensure the tab bar container takes up the full screen
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -83,32 +87,32 @@ const styles = StyleSheet.create({
   },
   sideTabBar: {
     width: 105,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRightWidth: 2,
-    borderColor: '#f6f6f6',
+    borderColor: "#f6f6f6",
     paddingTop: 20,
   },
   tabButton: {
     paddingVertical: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     gap: 8,
   },
   activeTab: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: "#e0e0e0",
   },
   tabText: {
     fontSize: 15,
     fontWeight: 400,
     fontFamily: "inter",
-    color: '#17262B',
+    color: "#17262B",
   },
   activeTabText: {
-    color: '#000',
-    fontWeight: '500',
+    color: "#000",
+    fontWeight: "500",
   },
   mainContent: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 });

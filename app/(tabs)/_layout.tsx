@@ -79,6 +79,7 @@ export default function TabLayout() {
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={"log-out-outline"} color={color} />
             ),
+            style: { marginTop: 300 },
           }}
         />
 
