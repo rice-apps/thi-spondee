@@ -8,6 +8,7 @@ export default function Settings() {
     const [modalVisible, setModalVisible] = useState(false);
     const [setSize, setSetSize] = useState(4);
     const [soundEnabled, setSoundEnabled] = useState(false);
+    const [answerEnabled, setAnswerEnabled] = useState(false);
     const [volume, setVolume] = useState(0.5);
     const handleVolumeChange = async (value: number) => {
         setVolume(value);
@@ -41,32 +42,46 @@ export default function Settings() {
                 {/*----SETTINGS MODAL----*/}
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalBox}>
-                        <Text style={{color: "black", fontSize: 27, fontWeight: "normal", textAlign: "left"}}>
+                        <Text style={{color: "black", fontSize: 28, fontWeight: "600", textAlign: "left"}}>
                             Settings
                         </Text>
                         {/*----SET SIZE----*/}
-                        <View>
-                            <Text style={styles.textStyle}>
-                                Set Size
-                            </Text>
-                            <Slider
-                                style={{width: 200, height: 40}}
-                                minimumValue={4}
-                                maximumValue={12}
-                                minimumTrackTintColor="black"
-                                maximumTrackTintColor="black"
-                                thumbTintColor="white"
-                                step={4}
-                                value={setSize}
-                                onValueChange={(newValue) => setSetSize(newValue)}
+                        <View style={{flex: 0.4, flexDirection: "row", justifyContent: "space-between", }}>
+                            <View>
+                                <Text style={styles.textStyle}>
+                                    Set Size
+                                </Text>
+                                <Slider
+                                    style={{width: 200, height: 40}}
+                                    minimumValue={4}
+                                    maximumValue={12}
+                                    minimumTrackTintColor="#B6C3D9"
+                                    maximumTrackTintColor="#B6C3D9"
+                                    thumbTintColor="#95D0E7"
+                                    step={1}
+                                    value={setSize}
+                                    onValueChange={(newValue) => setSetSize(newValue)}
+                                    />
+                                    {/* Slider label "4 -- 8 -- 12" */}
+                                    <View style={{flexDirection: "row", justifyContent: "space-between", width: 200}}>
+                                        <Text style={{fontSize:18}}>   4</Text>
+                                        <Text style={{fontSize:18}}>8</Text>
+                                        <Text style={{fontSize:18}}>12  </Text>
+                                    </View>
+                            </View>
+                            {/* Answer Switch */}
+                            <View>
+                                <Text style={styles.textStyle}>
+                                    Correct Answer
+                                </Text>
+                                <Switch
+                                    trackColor={{ false: "#B6C3D9", true: "#95D0E7" }}
+                                    onValueChange={() => setAnswerEnabled(!answerEnabled)}
+                                    value={answerEnabled}
                                 />
-                                {/* Slider label "4 -- 8 -- 12" */}
-                                <View style={{flexDirection: "row", justifyContent: "space-between", width: 200}}>
-                                    <Text>   4</Text>
-                                    <Text>8</Text>
-                                    <Text>12  </Text>
-                                </View>
+                            </View>
                         </View>
+                        
                         <View style={{flex: 0.4, flexDirection: "row", justifyContent: "space-between", }}> 
                             <View>
                                 <Text style={styles.textStyle}>
@@ -80,9 +95,9 @@ export default function Settings() {
                                     style={{width: 200, height: 40}}
                                     minimumValue={0}
                                     maximumValue={1}
-                                    minimumTrackTintColor="black"
-                                    maximumTrackTintColor="black"
-                                    thumbTintColor="white"
+                                    minimumTrackTintColor="#B6C3D9"
+                                    maximumTrackTintColor="#B6C3D9"
+                                    thumbTintColor="#95D0E7"
                                     step={0.01}
                                     value={volume}
                                     onValueChange={handleVolumeChange}
@@ -96,9 +111,10 @@ export default function Settings() {
                             </View>
                             <View>
                                 <Text style={styles.textStyle}>
-                                    Sound
+                                    Sound     
                                 </Text>
                                 <Switch
+                                    trackColor={{ false: "#B6C3D9", true: "#95D0E7" }}
                                     onValueChange={() => setSoundEnabled(!soundEnabled)}
                                     value={soundEnabled}
                                 />
@@ -107,7 +123,7 @@ export default function Settings() {
                         {/* Update button */}
                         <View style={{alignItems: "flex-end"}}> 
                             <TouchableOpacity style={styles.buttonStyle} onPress={() => setModalVisible(false)}>
-                                <Text style={{color: "black", fontSize: 15, fontWeight: "normal", textAlign: "center"}}>
+                                <Text style={{color: "black", fontSize: 15, fontWeight: "500", textAlign: "center"}}>
                                     Update
                                 </Text>
                             </TouchableOpacity>
@@ -151,9 +167,11 @@ const styles = StyleSheet.create({
     textStyle:{
         marginTop: 15,
         color: "black",
-        fontSize: 20,
-        fontWeight: "300",
+        fontSize: 22,
+        fontWeight: "500",
         textAlign: "left",
+        fontFamily: "Inter",
+        marginBottom: 15,
     }, 
     buttonStyle:{
         width: 80, 
@@ -161,6 +179,6 @@ const styles = StyleSheet.create({
         padding: 8,
         justifyContent: "center", 
         borderRadius: 10,
-        backgroundColor: "#D9D9D9",  
+        backgroundColor: "#95D0E7",  
     },
 });
