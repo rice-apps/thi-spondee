@@ -1,13 +1,14 @@
 // import Config from "react-native-config";
 import { createClient } from "@supabase/supabase-js";
-import { AppState, AsyncStorage } from "react-native";
+import { AppState } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import "react-native-url-polyfill/auto";
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw Error("Supabase environment variables not set up");
+  throw Error("Supabase environment variables not set up");s
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
