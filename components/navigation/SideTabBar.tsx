@@ -1,24 +1,26 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import {Pressable, View, Text, StyleSheet} from "react-native";
 import {
   NavigationHelpers,
   NavigationState,
   ParamListBase,
   TabActions,
 } from "@react-navigation/native";
-import { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
+import {BottomTabNavigationEventMap} from "@react-navigation/bottom-tabs";
 
 interface SideTabBarProps {
   state: NavigationState;
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
   descriptors: { [key: string]: any };
+  customActions?: { [key: string]: () => void };
 }
 
 export function SideTabBar({
-  state,
-  navigation,
-  descriptors,
-}: SideTabBarProps) {
-  const screensWithoutNavbar: string[] = ["index"];
+                             state,
+                             navigation,
+                             descriptors,
+                             customActions = {},
+                           }: SideTabBarProps) {
+  const screensWithoutNavbar: string[] = ["login"];
 
   const currentRoute = state.routes[state.index]?.name;
   if (screensWithoutNavbar.includes(currentRoute)) {
@@ -29,7 +31,7 @@ export function SideTabBar({
     <View style={styles.container}>
       <View style={styles.sideTabBar}>
         {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
+          const {options} = descriptors[route.key];
           const isFocused = state.index === index;
 
           // Skip rendering if tabBarButton is provided (used to hide the tab)
@@ -37,10 +39,20 @@ export function SideTabBar({
             return null;
           }
 
+          // Handle custom action tabs
+          const isActionTab = options.customAction;
+          const customAction = customActions[route.name];
+
           return (
             <Pressable
               key={route.key}
               onPress={() => {
+                if (isActionTab && customAction) {
+                  // Execute custom action instead of navigation
+                  customAction();
+                  return;
+                }
+
                 const event = navigation.emit({
                   type: "tabPress",
                   target: route.key,
@@ -56,17 +68,22 @@ export function SideTabBar({
               }}
               style={[
                 styles.tabButton,
-                isFocused && styles.activeTab,
+                isFocused && !isActionTab && styles.activeTab,
                 options.style,
               ]}
             >
               {options.tabBarIcon &&
                 options.tabBarIcon({
-                  focused: isFocused,
-                  color: isFocused ? "#000" : "#666",
+                  focused: isFocused && !isActionTab,
+                  color: isFocused && !isActionTab ? "#000" : "#666",
                   size: 24,
                 })}
-              <Text style={[styles.tabText, isFocused && styles.activeTabText]}>
+              <Text
+                style={[
+                  styles.tabText,
+                  isFocused && !isActionTab && styles.activeTabText,
+                ]}
+              >
                 {options.title ?? route.name}
               </Text>
             </Pressable>
@@ -84,7 +101,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    // Ensure the tab bar container takes up the full screen
     position: "absolute",
     top: 0,
     left: 0,
@@ -109,7 +125,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontSize: 15,
-    fontWeight: 400,
+    fontWeight: "400",
     fontFamily: "inter",
     color: "#17262B",
   },

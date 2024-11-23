@@ -5,14 +5,16 @@ import Card from "@/components/spondee/Card";
 import { ProgressBar } from "@/components/spondee/ProgressBar";
 import { SessionControls } from "@/components/spondee/SessionControls";
 
-export default function Index({
+let data: { id: string; title: string }[] = [];
+
+export default function TestScreen({
   numCards,
   totalPages,
 }: {
   numCards: number;
   totalPages: number;
 }) {
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, πsetPageNum] = useState(1);
 
   numCards = 6;
   totalPages = 20;

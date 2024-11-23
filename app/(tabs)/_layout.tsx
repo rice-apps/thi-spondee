@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import {router, Tabs} from "expo-router";
 import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
@@ -8,6 +8,12 @@ import { View, StyleSheet } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  // Handle the logout after clicking log out tab button
+  const handleLogout = () => {
+    console.log("Log out!");
+    router.push("/(tabs)/login")
+  };
 
   return (
     <View style={styles.container}>
@@ -19,7 +25,9 @@ export default function TabLayout() {
           tabBarStyle: { display: "none" },
         }}
         // The custom tab bar will handle everything
-        tabBar={(props) => <SideTabBar {...props} />}
+        tabBar={(props) => <SideTabBar {...props} customActions={{
+          login: handleLogout
+        }} />}
       >
         {/* Dashboard */}
         <Tabs.Screen
@@ -63,15 +71,28 @@ export default function TabLayout() {
           }}
         />
 
-        {/* Logout */}
+        {/* Log out button */}
+        <Tabs.Screen
+          name="login"
+          options={{
+            title: "Log Out",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "log-out" : "log-out-outline"}
+                color={color}
+              />
+            ),
+            // This marks it as an action tab
+            customAction: true,
+            style: { marginTop: 300 },
+          }}
+        />
+
+        {/* Index (hidden) */}
         <Tabs.Screen
           name="index"
           options={{
-            title: "Logout",
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={"log-out-outline"} color={color} />
-            ),
-            style: { marginTop: 300 },
+            tabBarButton: () => null, // Hide the tab
           }}
         />
 
