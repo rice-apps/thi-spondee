@@ -11,8 +11,9 @@ export default function TabLayout() {
 
   // Handle the logout after clicking log out tab button
   const handleLogout = () => {
-    console.log("Log out!");
-    router.push("/(tabs)/login")
+    console.log("TODO: Actually log out");
+    // TODO: Actually log out before pushing back to login page!
+    router.push("/login")
   };
 
   return (
@@ -26,7 +27,7 @@ export default function TabLayout() {
         }}
         // The custom tab bar will handle everything
         tabBar={(props) => <SideTabBar {...props} customActions={{
-          login: handleLogout
+          empty: handleLogout
         }} />}
       >
         {/* Dashboard */}
@@ -45,7 +46,7 @@ export default function TabLayout() {
 
         {/* Testing */}
         <Tabs.Screen
-          name="testing"
+          name="selection"
           options={{
             title: "Testing",
             tabBarIcon: ({ color, focused }) => (
@@ -73,7 +74,7 @@ export default function TabLayout() {
 
         {/* Log out button */}
         <Tabs.Screen
-          name="login"
+          name="empty"
           options={{
             title: "Log Out",
             tabBarIcon: ({ color, focused }) => (
@@ -106,7 +107,7 @@ export default function TabLayout() {
 
         {/* Test screen (hidden) */}
         <Tabs.Screen
-          name="testScreen"
+          name="tests/spondee"
           options={{
             tabBarButton: () => null, // Hide the tab
           }}

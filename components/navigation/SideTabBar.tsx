@@ -20,7 +20,7 @@ export function SideTabBar({
                              descriptors,
                              customActions = {},
                            }: SideTabBarProps) {
-  const screensWithoutNavbar: string[] = ["login"];
+  const screensWithoutNavbar: string[] = ["login", "starting"];
 
   const currentRoute = state.routes[state.index]?.name;
   if (screensWithoutNavbar.includes(currentRoute)) {

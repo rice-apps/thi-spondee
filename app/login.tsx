@@ -5,7 +5,7 @@ import "react-native-url-polyfill/auto";
 import { supabase } from "@/lib/supabase";
 import AuthScreen, {
   AuthButton,
-} from "../../components/authentication/authScreen";
+} from "@/components/authentication/authScreen";
 import {router} from "expo-router";
 export default function Login() {
   const [session, setSession] = useState<Session | null>(null);
@@ -19,7 +19,7 @@ export default function Login() {
       setSession(session);
       // If they're logged in, push the testing selection route
       if (session && session.user) {
-        router.push("/(tabs)/home");
+        router.push("/starting");
       }
     });
   }, []);
