@@ -28,20 +28,15 @@ export default function SessionResults() {
                     <Text style={{color: "black", fontSize: 27, fontWeight: "normal", textAlign: "left"}}>
                         Session Results 
                     </Text>
-                    <View style={{width: "5%", flexDirection: "row", justifyContent: "space-between"}}>
-                        <TouchableOpacity>
-                            <Image source={require('../../assets/images/edit_icon.png')} style={{ width: 26, height: 26, marginTop: 10}} />
-                        </TouchableOpacity>
-                        <TouchableOpacity>
+                    <TouchableOpacity>
                             <Image source={require('../../assets/images/share_icon.png')} style={{ width: 26, height: 26, marginTop: 10, marginLeft: 25}} />
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{flex: 1, width: "28%", flexDirection: "row", justifyContent: "space-between"}}> 
                     <Text style={styles.grayTextStyle}>
                         Spondee Cards 
                     </Text>
-                    <Image source={require('../../assets/images/gray_dot.png')} style={{ width: 10, height: 10, marginTop: 23}} />
+                    <Image source={require('../../assets/images/gray_dot.png')} style={{ width: 10, height: 10, marginTop: 23, marginHorizontal: 10}} />
                     <Text style={styles.grayTextStyle}>
                         November 1, 2024 
                     </Text>
@@ -61,9 +56,14 @@ export default function SessionResults() {
                         </View>
                     </View>
                     <View style={{width: "80%", borderWidth: 1, borderColor: "#7B9CCF", justifyContent: "center", padding: 30}}>
-                        <Text style={{color: "black", fontSize: 22, fontWeight: "normal", textAlign: "left"}}>
-                            Additional Notes  
-                        </Text>
+                        <View style={{width: "100%", flexDirection: "row", justifyContent: "space-between"}}>
+                            <Text style={{color: "black", fontSize: 22, fontWeight: "normal", textAlign: "left"}}>
+                                Additional Notes  
+                            </Text>
+                            <TouchableOpacity>
+                                <Image source={require('../../assets/images/edit_icon.png')} style={{ width: 22, height: 22, marginTop: 3, marginLeft: 118}} />
+                            </TouchableOpacity>
+                        </View>
                         <Text style={styles.blackTextStyle}>
                                 Threshold Level: XX dB
                         </Text>
@@ -113,7 +113,7 @@ export default function SessionResults() {
                                 />
                             </Table>
                         </View>
-                        <ScrollView contentContainerStyle={{ paddingRight: 14 }} showsVerticalScrollIndicator={false}>
+                        <ScrollView>
                             <Table borderStyle={{ borderWidth: 1, borderColor: '#7B9CCF' }}>   
                                 {data.tableData.map((col, colIndex) => (
                                     <Row
