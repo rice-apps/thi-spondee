@@ -27,20 +27,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      {
-      <Tabs.Screen
-        name="profilePicker"
-        options={{
-          title: "Profile Picker",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-}
     </Tabs>
     
   );

@@ -12,12 +12,12 @@ export default function profilePicker(){
         const fetchChildren = async () => {
             const { data, error } = await supabase
                 .from('children')
-                .select('id, first_name, last_name, username');
+                .select('id, first_name, last_name, username, emoji');
             if (error) {
                 console.error(error);
             } else if (data) {
                 setChildren(data);
-                setFilteredChildren(data); // Initialize filtered list with full data
+                setFilteredChildren(data); 
             }
         };
 
@@ -80,6 +80,7 @@ export default function profilePicker(){
                                 first_name={child.first_name}
                                 last_name={child.last_name}
                                 username={child.username}
+                                emoji = {child.emoji}
                                 isSelected={selectedProfile === child.id} 
                                 chooseProfile={chooseProfile} 
                             />
@@ -101,6 +102,7 @@ type Child = {
     first_name: string;
     last_name: string;
     username: string;
+    emoji: string;
 };
 
 type AuthTextEntryProps = {
@@ -114,6 +116,7 @@ type ProfileCardProps = {
     last_name: string;
     username: string;
     id: string;
+    emoji: string;
     isSelected: boolean;
     chooseProfile: (id: string) => void;
 }
@@ -145,7 +148,7 @@ function SelectButton({handleButtonClick}: SelectButtonProps){
     )
 }
 
-export function ProfileCard({ first_name, last_name, username, id, isSelected, chooseProfile }: ProfileCardProps) {
+export function ProfileCard({ first_name, last_name, username, id, emoji, isSelected, chooseProfile }: ProfileCardProps) {
     const firstNameWithLastInitial = `${first_name} ${last_name.charAt(0)}.`;
   return (
     <View style={styles.cardWrapper}>
@@ -158,7 +161,7 @@ export function ProfileCard({ first_name, last_name, username, id, isSelected, c
         ]}
       >
         <View style={styles.imageContainer}> 
-          <Image style={styles.image} />
+                <Text style = {styles.emoji}>{emoji}</Text>
         </View>
       </Pressable>
       <Text style={[
@@ -204,7 +207,7 @@ const styles = StyleSheet.create({
         borderWidth:2,
         padding: 8,
         paddingLeft: 20,
-        marginVertical: 5,
+        marginVertical: 20,
         borderRadius: 20,
         backgroundColor: '#D9D9D9',
         width: 400,
@@ -222,13 +225,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
-        alignContent: 'flex-start', // This helps with vertical spacing
+        alignContent: 'flex-start', 
         width: '100%',
         minHeight: '100%',
     },
     profileContainer:{
-        width: 1000,
-        flex: 1,  // Changed from fixed height to flex
+        width: 1100,
+        flex: 1,  
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -249,7 +252,7 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     cardWrapper: {
-        width: 225,  // Adjusted width to fit more cards (1000px / 5 cards ≈ 200px - margins)
+        width: 225, 
         alignItems: 'center',
         margin: 10,
       },
@@ -261,6 +264,7 @@ const styles = StyleSheet.create({
         borderRadius: 70,
     },
     imageContainer: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -268,6 +272,9 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
+    },
+    emoji: {
+        fontSize: 60
     },
     titleContainer: {
         flex: 1.1,
@@ -277,12 +284,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: '500',
-        marginTop: 5, // Space between card and text
+        marginTop: 5, 
         textAlign: 'center',
     },
     selectedCard: {
-        borderColor: '#95D0E7', // iOS blue color, you can change this
-        backgroundColor: '#95D0E7', // Light blue background
+        borderColor: '#95D0E7', 
+        backgroundColor: '#95D0E7', 
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
