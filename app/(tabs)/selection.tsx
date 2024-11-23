@@ -10,12 +10,12 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           uri: "https://placehold.co/215x115.png",
-          route: "/spondee",
+          route: "/tests/spondee",
         },
         {
           title: "LHM-10/Ling Card",
           uri: "https://placehold.co/215x115.png",
-          route: "/",
+          route: "/tests/lhm10",
         },
       ],
     },
@@ -25,12 +25,12 @@ export default function TestSelection() {
         {
           title: "WIPI",
           uri: "https://placehold.co/215x115.png",
-          route: "/",
+          route: "/tests/wipi",
         },
         {
           title: "NU-CHIPS",
           uri: "https://placehold.co/215x115.png",
-          route: "/",
+          route: "/tests/nuchips",
         },
       ],
     },
@@ -40,12 +40,12 @@ export default function TestSelection() {
         {
           title: "Syllable Differentiation",
           uri: "https://placehold.co/215x115.png",
-          route: "/",
+          route: "/tests/esp",
         },
         {
           title: "Minimal Pairs",
           uri: "https://placehold.co/215x115.png",
-          route: "/",
+          route: "/tests/minpairs",
         },
       ],
     },

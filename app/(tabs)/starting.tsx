@@ -23,7 +23,7 @@ export default function StartingPointPage() {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => {
-              router.push('/(tests)/selection');
+              router.push('/selection');
             }}
             style={styles.button}
           >
