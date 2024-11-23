@@ -4,7 +4,7 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SideTabBar } from "@/components/navigation/SideTabBar";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,14 +21,6 @@ export default function TabLayout() {
         // The custom tab bar will handle everything
         tabBar={(props) => <SideTabBar {...props} />}
       >
-        {/* Login page (hidden) */}
-        <Tabs.Screen
-          name="index"
-          options={{
-            tabBarButton: () => null, // Hide the tab
-          }}
-        />
-
         {/* Dashboard */}
         <Tabs.Screen
           name="home"
@@ -73,7 +65,7 @@ export default function TabLayout() {
 
         {/* Logout */}
         <Tabs.Screen
-          name="authScreen"
+          name="index"
           options={{
             title: "Logout",
             tabBarIcon: ({ color, focused }) => (

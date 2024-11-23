@@ -1,4 +1,3 @@
-import React from "react";
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import {
   NavigationHelpers,
@@ -19,6 +18,13 @@ export function SideTabBar({
   navigation,
   descriptors,
 }: SideTabBarProps) {
+  const screensWithoutNavbar: string[] = ["index"];
+
+  const currentRoute = state.routes[state.index]?.name;
+  if (screensWithoutNavbar.includes(currentRoute)) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.sideTabBar}>
