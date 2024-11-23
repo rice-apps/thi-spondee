@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import "react-native-url-polyfill/auto";
 import { supabase } from "../../lib/supabase";
-import AuthScreen, { AuthButton } from "../authScreen";
+import AuthScreen, { AuthButton } from "./authScreen";
 export default function Index() {
   const [session, setSession] = useState<Session | null>(null);
 
