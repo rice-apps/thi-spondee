@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
+import {router} from "expo-router";
 
 export default function StartingPointPage() {
   return (
@@ -21,7 +22,9 @@ export default function StartingPointPage() {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => console.log("Start new test")}
+            onPress={() => {
+              router.push('/(tests)/selection');
+            }}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Start new test</Text>
