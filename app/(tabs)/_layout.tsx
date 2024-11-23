@@ -4,7 +4,7 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SideTabBar } from "@/components/navigation/SideTabBar";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -16,23 +16,14 @@ export default function TabLayout() {
           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
           // Hide the default tab bar completely
-          tabBarStyle: { display: 'none' },
+          tabBarStyle: { display: "none" },
         }}
         // The custom tab bar will handle everything
-        tabBar={props => <SideTabBar {...props} />}
+        tabBar={(props) => <SideTabBar {...props} />}
       >
-
         {/* Login page (hidden) */}
         <Tabs.Screen
           name="index"
-          options={{
-            tabBarButton: () => null, // Hide the tab
-          }}
-        />
-
-        {/* Random screen (hidden) */}
-        <Tabs.Screen
-          name="random"
           options={{
             tabBarButton: () => null, // Hide the tab
           }}
@@ -66,6 +57,31 @@ export default function TabLayout() {
           }}
         />
 
+        {/* Profiles */}
+        <Tabs.Screen
+          name="profiles"
+          options={{
+            title: "Profiles",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "person" : "person-outline"}
+                color={color}
+              />
+            ),
+          }}
+        />
+
+        {/* Logout */}
+        <Tabs.Screen
+          name="authScreen"
+          options={{
+            title: "Logout",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={"log-out-outline"} color={color} />
+            ),
+          }}
+        />
+
         {/* Settings modal (hidden) */}
         <Tabs.Screen
           name="settings"
@@ -90,7 +106,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // Force the container to take up the full screen
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
