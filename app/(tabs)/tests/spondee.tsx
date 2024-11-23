@@ -5,8 +5,6 @@ import Card from "@/components/spondee/Card";
 import { ProgressBar } from "@/components/spondee/ProgressBar";
 import { SessionControls } from "@/components/spondee/SessionControls";
 
-let data: { id: string; title: string }[] = [];
-
 export default function Index({
   numCards,
   totalPages,
@@ -19,12 +17,13 @@ export default function Index({
   numCards = 6;
   totalPages = 20;
 
-  for (let i = 0; i < numCards; i++) {
-    data.push({
-      id: "" + i,
-      title: "Item " + i,
-    });
-  }
+  const data: { id: number; title: string }[] = Array.from(
+    { length: numCards },
+    (_, i) => ({
+      id: i,
+      title: `Item ${i}`,
+    })
+  );
 
   return (
     <View style={styles.page}>
@@ -38,7 +37,7 @@ export default function Index({
           contentContainerStyle={styles.flatlist}
           data={data}
           renderItem={({ item }) => <Card text={item.title} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
           horizontal={false}
         />

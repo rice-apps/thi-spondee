@@ -1,15 +1,18 @@
-import { Text, View, StyleSheet, TouchableOpacity} from "react-native";
-import Feather from '@expo/vector-icons/Feather';
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import Settings from "@/app/(tabs)/settings";
 
 export function SessionControls() {
-    return (
-        <View style={styles.controlsContainer}>
-            <TouchableOpacity onPress={() => console.log("End Session")} style={styles.button}>
-                <Text style={styles.buttonText}>End Session</Text>
-            </TouchableOpacity>
-            <Feather name="settings" size={24} color="black" style={{ flex: 1}} />
-        </View>
-    )
+  return (
+    <View style={styles.controlsContainer}>
+      <TouchableOpacity
+        onPress={() => console.log("End Session")}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>End Session</Text>
+      </TouchableOpacity>
+      <Settings />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
