@@ -113,7 +113,7 @@ export default function SessionResults() {
                                 />
                             </Table>
                         </View>
-                        <ScrollView>
+                        <ScrollView showsVerticalScrollIndicator={true} style={{ flex: 1 }}>
                             <Table borderStyle={{ borderWidth: 1, borderColor: '#7B9CCF' }}>   
                                 {data.tableData.map((col, colIndex) => (
                                     <Row
