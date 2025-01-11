@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
-
+import {router} from "expo-router"
 export default function TopBar(){
     return (
         <View style={styles.container}>
@@ -13,7 +13,7 @@ export default function TopBar(){
             </View>
             <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}> 
                 <View style={{alignItems: "flex-end"}}>
-                    <TouchableOpacity style={styles.buttonStyle} onPress={() => "" }>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => router.push("/profilePicker") }>
                         <Text style={{color: "black", fontSize: 20, fontWeight: "normal", textAlign: "center"}}>
                             Switch Profile
                         </Text>

@@ -35,7 +35,7 @@ export default function StartingPointPage() {
           </View>
 
           <TouchableOpacity
-            onPress={() => console.log("Select child profile")}
+            onPress={() => router.push('/profilePicker')}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Select child profile</Text>
