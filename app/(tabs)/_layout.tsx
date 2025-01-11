@@ -4,15 +4,23 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SideTabBar } from "@/components/navigation/SideTabBar";
-import { View, StyleSheet } from "react-native";
+import { Alert, View, StyleSheet } from "react-native";
+import { supabase } from "@/lib/supabase";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   // Handle the logout after clicking log out tab button
-  const handleLogout = () => {
-    console.log("TODO: Actually log out");
-    // TODO: Actually log out before pushing back to login page!
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      Alert.alert("Logout Error", error.message);
+      return
+    } else {
+      console.log("User logged out successfully");
+    }
+    
     router.push("/login")
   };
 
