@@ -1,6 +1,7 @@
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, TextInput, Pressable, Image } from "react-native";
-import { supabase } from '../..//lib/supabase';
+import { Text, View, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, TextInput, Pressable, Image } from "react-native";
+import { supabase } from '../lib/supabase';
 import React from "react";
+import { router } from "expo-router"
 export default function profilePicker(){
     const [searchQuery, setSearchQuery] = React.useState<string>(''); 
     const [children, setChildren] = React.useState<Child[] | null>(null);
@@ -50,6 +51,7 @@ export default function profilePicker(){
     const handleButtonClick = () => {
         if (selectedProfile) {
             console.log(`Selected UUID: ${selectedProfile}`);
+            router.push('/(tabs)/home')
         } else {
             console.log("No profile selected.");
         }
