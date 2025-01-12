@@ -6,8 +6,10 @@ import {
   Text,
   TextInput,
   View,
+  Image,
 } from "react-native";
 import { supabase } from "../../lib/supabase";
+import { THIText } from "../THIText";
 
 export default function AuthScreen() {
   const [email, setEmail] = React.useState("");
@@ -81,10 +83,19 @@ export default function AuthScreen() {
 
   const renderLoginPage = () => (
     <View style={styles.container}>
-      <Text style={styles.header}>Welcome back!</Text>
-      <Text style={styles.subheader}>
-        Log in to access your patient profiles
-      </Text>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("@/assets/images/thi-logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={styles.header}>
+        <THIText style={styles.headerText}>Welcome back!</THIText>
+        <THIText style={styles.subheader}>
+          Log in to start a test session
+        </THIText>
+      </View>
       <AuthTextEntry label="Email" value={email} onChangeText={setEmail} />
       <AuthTextEntry
         label="Password"
@@ -92,22 +103,27 @@ export default function AuthScreen() {
         onChangeText={setPassword}
         secureTextEntry
       />
+      <View>
+        <Pressable style={styles.switch} onPress={() => setIsSigningUp(true)}>
+          <THIText style={styles.switchButton}>Create Account</THIText>
+        </Pressable>
+      </View>
       <AuthButton label="Log In" onPress={handleLoginPress} />
-      <Pressable onPress={() => setIsSigningUp(true)}>
-        <Text>
-          Don't have an account?{" "}
-          <Text style={styles.switchButton}>Sign Up</Text>{" "}
-        </Text>
-      </Pressable>
     </View>
   );
 
   const renderSignupPage = () => (
     <View style={styles.container}>
-      <Text style={styles.header}>Sign Up</Text>
-      <Text style={styles.subheader}>
-        Sign up to access your patient profiles
-      </Text>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("@/assets/images/thi-logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={styles.header}>
+        <THIText style={styles.headerText}>Create Account</THIText>
+      </View>
       <AuthTextEntry
         label="First Name"
         value={firstName}
@@ -125,21 +141,18 @@ export default function AuthScreen() {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <AuthButton label="Sign Up" onPress={handleSignupPress} />
-      <Pressable onPress={() => setIsSigningUp(false)}>
-        <Text>
-          Already have an account?{" "}
-          <Text style={styles.switchButton}> Log In</Text>
-        </Text>
+      <Pressable style={styles.switch} onPress={() => setIsSigningUp(false)}>
+        <THIText style={styles.switchButton}> Log In</THIText>
       </Pressable>
+      <AuthButton label="Sign Up" onPress={handleSignupPress} />
     </View>
   );
 
   const renderHomePage = () => (
     <View style={styles.container}>
-      <Text>Welcome to the Home Page!</Text>
+      <THIText>Welcome to the Home Page!</THIText>
       <Pressable onPress={handleLogout}>
-        <Text>Log Out</Text>
+        <THIText>Log Out</THIText>
       </Pressable>
     </View>
   );
@@ -168,7 +181,7 @@ export function AuthTextEntry({
 }: AuthTextEntryProps) {
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      <THIText style={styles.label}>{label}</THIText>
       <TextInput
         style={styles.input}
         value={value}
@@ -187,7 +200,7 @@ type AuthButtonProps = {
 export function AuthButton({ label, onPress }: AuthButtonProps) {
   return (
     <Pressable style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonLabel}>{label}</Text>
+      <THIText style={styles.buttonLabel}>{label}</THIText>
     </Pressable>
   );
 }
@@ -197,38 +210,52 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
   },
+  logo: {
+    width: "100%",
+    height: "100%",
+  },
+  logoContainer: { width: 354, height: 96, marginBottom: 30 },
   header: {
-    fontWeight: "bold",
-    fontSize: 25,
+    display: "flex",
+    gap: 15,
+    marginBottom: 25,
+  },
+  headerText: {
+    fontSize: 28,
+    fontWeight: 600,
   },
   subheader: {
-    fontWeight: "bold",
-    fontSize: 15,
+    fontWeight: 900,
+    fontFamily: "Thingy",
   },
   input: {
-    borderColor: "gray",
+    borderColor: "#D9D9D9",
     borderWidth: 1,
+    borderCurve: "circular",
+    fontSize: 20,
+    fontFamily: "Inter",
+    height: 50,
     padding: 8,
-    marginVertical: 5,
-    borderRadius: 5,
+    marginVertical: 10,
+    borderRadius: 10,
   },
   label: {
-    fontSize: 16,
-    fontWeight: "bold",
     marginVertical: 5,
   },
   button: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#95D0E7",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 50,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 25,
   },
   buttonLabel: {
-    color: "white",
-    fontWeight: "bold",
+    color: "#17262B",
   },
   switchButton: {
-    color: "#0000FF",
+    textDecorationLine: "underline",
+  },
+  switch: {
+    marginLeft: "auto",
   },
 });
