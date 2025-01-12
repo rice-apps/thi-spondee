@@ -92,9 +92,7 @@ export default function AuthScreen() {
       </View>
       <View style={styles.header}>
         <THIText style={styles.headerText}>Welcome back!</THIText>
-        <THIText style={styles.subheader}>
-          Log in to start a test session
-        </THIText>
+        <THIText>Log in to start a test session</THIText>
       </View>
       <AuthTextEntry label="Email" value={email} onChangeText={setEmail} />
       <AuthTextEntry
@@ -223,10 +221,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 28,
     fontWeight: 600,
-  },
-  subheader: {
-    fontWeight: 900,
-    fontFamily: "Thingy",
   },
   input: {
     borderColor: "#D9D9D9",
