@@ -12,9 +12,7 @@ export default function Home() {
       <View>
         <THIText
           style={{
-            color: "black",
-            fontSize: 25,
-            fontWeight: "400",
+            fontSize: 22,
             textAlign: "left",
             marginTop: 50,
           }}
@@ -31,6 +29,7 @@ export default function Home() {
       <View style={styles.footer}>
         {/* need to add on click */}
         <AntDesign name="plus" size={24} color="black" />
+        <THIText style={{ fontSize: 22 }}>New Test</THIText>
       </View>
     </View>
   );
@@ -45,7 +44,8 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: 140,
     height: 50,
-    padding: 8,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     justifyContent: "center",
     borderRadius: 12,
     backgroundColor: "#D9D9D9",
@@ -60,11 +60,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 50,
     bottom: 50,
-    width: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     aspectRatio: 1 / 1,
-    backgroundColor: "#D9D9D9",
-    borderRadius: 100,
+    backgroundColor: "#95D0E7",
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
   },
 });
