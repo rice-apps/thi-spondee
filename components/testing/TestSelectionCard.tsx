@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { Test } from "@/components/testing/TestingTypeDef";
-import { Link, Href } from "expo-router";
+import { Href, Link } from "expo-router";
+import { Image, Pressable, StyleSheet, View } from "react-native";
+import { THIText } from "../THIText";
 
 export function TestSelectionCard({ test }: { test: Test }) {
   return (
@@ -16,7 +17,7 @@ export function TestSelectionCard({ test }: { test: Test }) {
             />
           </View>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>{test.title}</Text>
+            <THIText style={styles.title}>{test.title}</THIText>
           </View>
         </View>
       </Pressable>

@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
 import { TestSelectionCard } from "@/components/testing/TestSelectionCard";
 import { Test, TestType } from "@/components/testing/TestingTypeDef";
+import { StyleSheet, View } from "react-native";
+import { THIText } from "../THIText";
 
 export function TestTypeGroup({ testType }: { testType: TestType }) {
   const { title, tests } = testType;
   return (
     <View style={styles.testType}>
-      <Text style={styles.testTypeTitle}>{title}</Text>
+      <THIText style={styles.testTypeTitle}>{title}</THIText>
       <View style={styles.testCardGroup}>
         {tests.map((test: Test, i: number) => (
           <TestSelectionCard key={i} test={test} />

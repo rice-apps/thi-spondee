@@ -1,4 +1,4 @@
-import { Text, TextStyle, StyleProp } from "react-native";
+import { StyleProp, Text, TextStyle } from "react-native";
 
 interface THITextProps {
   children: React.ReactNode;
