@@ -11,8 +11,8 @@ export default function TopBar() {
         <THIText
           style={{
             color: "black",
-            fontSize: 35,
-            fontWeight: "500",
+            fontSize: 28,
+            fontWeight: "600",
             textAlign: "left",
           }}
         >
@@ -34,9 +34,7 @@ export default function TopBar() {
           >
             <THIText
               style={{
-                color: "black",
-                fontSize: 20,
-                fontWeight: "normal",
+                fontSize: 18,
                 textAlign: "center",
               }}
             >
@@ -55,8 +53,8 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 8,
     justifyContent: "center",
-    borderRadius: 12,
-    backgroundColor: "#D9D9D9",
+    borderRadius: 15,
+    backgroundColor: "#95D0E7",
   },
   container: {
     display: "flex",
