@@ -185,19 +185,16 @@ export function ProfileCard({
           <THIText style={styles.emoji}>{emoji}</THIText>
         </View>
       </Pressable>
-      <THIText style={[styles.title, isSelected && styles.selectedTitle]}>
-        {username}
-      </THIText>
-      <THIText style={[isSelected && styles.selectedTitle]}>
-        {firstNameWithLastInitial}
-      </THIText>
+      <THIText style={styles.title}>{username}</THIText>
+      <THIText style={styles.name}>{firstNameWithLastInitial}</THIText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingTop: 60,
+    paddingHorizontal: 60,
     margin: 30,
     flex: 1,
     flexDirection: "column",
@@ -213,8 +210,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   header: {
-    fontWeight: "bold",
-    fontSize: 25,
+    fontWeight: 600,
+    fontSize: 28,
   },
   subheader: {
     fontWeight: "bold",
@@ -226,10 +223,12 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingLeft: 20,
     marginVertical: 20,
-    borderRadius: 20,
-    backgroundColor: "#D9D9D9",
-    width: 400,
-    height: 40,
+    borderRadius: 28,
+    fontWeight: 400,
+    color: "#6D6D6D",
+    backgroundColor: "#FFFFFF",
+    width: 474,
+    height: 48,
   },
   label: {
     fontSize: 16,
@@ -277,7 +276,7 @@ const styles = StyleSheet.create({
   card: {
     height: 120,
     width: 120,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#F6F6F6",
     margin: 10,
     borderRadius: 70,
   },
@@ -300,9 +299,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 18,
-    fontWeight: "500",
-    marginTop: 5,
+    marginVertical: 5,
     textAlign: "center",
   },
   selectedCard: {
@@ -324,4 +321,5 @@ const styles = StyleSheet.create({
     color: "#007AFF",
     fontWeight: "600",
   },
+  name: { color: "#6D6D6D", fontSize: 18, marginTop: 5 },
 });
