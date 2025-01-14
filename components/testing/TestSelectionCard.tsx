@@ -9,12 +9,7 @@ export function TestSelectionCard({ test }: { test: Test }) {
       <Pressable>
         <View style={styles.card}>
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: test.uri,
-              }}
-            />
+            <Image style={styles.image} source={test.img} />
           </View>
           <View style={styles.titleContainer}>
             <THIText style={styles.title}>{test.title}</THIText>
@@ -29,7 +24,7 @@ const styles = StyleSheet.create({
   card: {
     height: 158,
     width: 215,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#7B9CCF",
     borderRadius: 10,
     margin: 10,
     marginRight: 25,
@@ -41,7 +36,6 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontFamily: "inter",
     fontSize: 18,
   },
   imageContainer: {
