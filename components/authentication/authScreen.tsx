@@ -1,12 +1,11 @@
 import React from "react";
 import {
   Alert,
+  Image,
   Pressable,
   StyleSheet,
-  Text,
   TextInput,
   View,
-  Image,
 } from "react-native";
 import { supabase } from "../../lib/supabase";
 import { THIText } from "../THIText";

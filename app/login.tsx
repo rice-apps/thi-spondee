@@ -1,12 +1,11 @@
-import { Session } from "@supabase/supabase-js";
-import { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
-import "react-native-url-polyfill/auto";
+import AuthScreen, { AuthButton } from "@/components/authentication/authScreen";
+import { THIText } from "@/components/THIText";
 import { supabase } from "@/lib/supabase";
-import AuthScreen, {
-  AuthButton,
-} from "@/components/authentication/authScreen";
-import {router} from "expo-router";
+import { Session } from "@supabase/supabase-js";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import "react-native-url-polyfill/auto";
 export default function Login() {
   const [session, setSession] = useState<Session | null>(null);
 
@@ -38,11 +37,11 @@ export default function Login() {
     <View style={styles.containerStyle}>
       {session && session.user ? (
         <View>
-          <Text>
+          <THIText>
             Welcome, {session.user.user_metadata.first_name}{" "}
             {session.user.user_metadata.last_name}!
-          </Text>
-          <Text>Your User ID: {session.user.id}</Text>
+          </THIText>
+          <THIText>Your User ID: {session.user.id}</THIText>
           <AuthButton label="Sign Out" onPress={handleLogout} />
         </View>
       ) : (

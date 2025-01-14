@@ -1,6 +1,7 @@
+import { THIText } from "@/components/THIText";
 import { TestTypeGroup } from "@/components/testing/TestTypeGroup";
 import { TestType } from "@/components/testing/TestingTypeDef";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function TestSelection() {
   const testTypes: TestType[] = [
@@ -55,7 +56,7 @@ export default function TestSelection() {
     // TODO: change from scroll view, but we
     <ScrollView style={styles.container}>
       <View style={styles.pageTitleWrapper}>
-        <Text style={styles.pageTitle}>Testing</Text>
+        <THIText style={styles.pageTitle}>Testing</THIText>
       </View>
       <View style={styles.testTypeGroupList}>
         {testTypes.map((test, i) => (
