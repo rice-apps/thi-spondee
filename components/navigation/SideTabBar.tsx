@@ -1,11 +1,12 @@
-import {Pressable, View, Text, StyleSheet} from "react-native";
+import { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
 import {
   NavigationHelpers,
   NavigationState,
   ParamListBase,
   TabActions,
 } from "@react-navigation/native";
-import {BottomTabNavigationEventMap} from "@react-navigation/bottom-tabs";
+import { Pressable, StyleSheet, View } from "react-native";
+import { THIText } from "../THIText";
 
 interface SideTabBarProps {
   state: NavigationState;
@@ -15,11 +16,11 @@ interface SideTabBarProps {
 }
 
 export function SideTabBar({
-                             state,
-                             navigation,
-                             descriptors,
-                             customActions = {},
-                           }: SideTabBarProps) {
+  state,
+  navigation,
+  descriptors,
+  customActions = {},
+}: SideTabBarProps) {
   const screensWithoutNavbar: string[] = ["login", "starting"];
 
   const currentRoute = state.routes[state.index]?.name;
@@ -31,7 +32,7 @@ export function SideTabBar({
     <View style={styles.container}>
       <View style={styles.sideTabBar}>
         {state.routes.map((route, index) => {
-          const {options} = descriptors[route.key];
+          const { options } = descriptors[route.key];
           const isFocused = state.index === index;
 
           // Skip rendering if tabBarButton is provided (used to hide the tab)
@@ -78,14 +79,14 @@ export function SideTabBar({
                   color: isFocused && !isActionTab ? "#000" : "#666",
                   size: 24,
                 })}
-              <Text
+              <THIText
                 style={[
                   styles.tabText,
                   isFocused && !isActionTab && styles.activeTabText,
                 ]}
               >
                 {options.title ?? route.name}
-              </Text>
+              </THIText>
             </Pressable>
           );
         })}

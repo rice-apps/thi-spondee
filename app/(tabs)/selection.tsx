@@ -1,6 +1,7 @@
+import { THIText } from "@/components/THIText";
 import { TestTypeGroup } from "@/components/testing/TestTypeGroup";
 import { TestType } from "@/components/testing/TestingTypeDef";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function TestSelection() {
   const testTypes: TestType[] = [
@@ -9,12 +10,12 @@ export default function TestSelection() {
       tests: [
         {
           title: "Spondee Cards",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/AH.png"),
           route: "/tests/spondee",
         },
         {
           title: "LHM-10/Ling Card",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/MM.png"),
           route: "/tests/lhm10",
         },
       ],
@@ -24,12 +25,12 @@ export default function TestSelection() {
       tests: [
         {
           title: "WIPI",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/SH.png"),
           route: "/tests/wipi",
         },
         {
           title: "NU-CHIPS",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/SS.png"),
           route: "/tests/nuchips",
         },
       ],
@@ -39,12 +40,12 @@ export default function TestSelection() {
       tests: [
         {
           title: "Syllable Differentiation",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/EE.png"),
           route: "/tests/esp",
         },
         {
           title: "Minimal Pairs",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/OO.png"),
           route: "/tests/minpairs",
         },
       ],
@@ -55,7 +56,7 @@ export default function TestSelection() {
     // TODO: change from scroll view, but we
     <ScrollView style={styles.container}>
       <View style={styles.pageTitleWrapper}>
-        <Text style={styles.pageTitle}>Testing</Text>
+        <THIText style={styles.pageTitle}>Testing</THIText>
       </View>
       <View style={styles.testTypeGroupList}>
         {testTypes.map((test, i) => (
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     fontFamily: "inter",
+    fontWeight: 600,
     fontSize: 28,
   },
   testTypeGroupList: {

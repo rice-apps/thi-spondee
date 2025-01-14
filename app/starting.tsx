@@ -1,12 +1,12 @@
+import { THIText } from "@/components/THIText";
+import { router } from "expo-router";
 import {
-  View,
-  Text,
   Image,
-  TouchableOpacity,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import {router} from "expo-router";
 
 export default function StartingPointPage() {
   return (
@@ -23,22 +23,22 @@ export default function StartingPointPage() {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => {
-              router.push('/selection');
+              router.push("/selection");
             }}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Start new test</Text>
+            <THIText style={styles.buttonText}>Start new test</THIText>
           </TouchableOpacity>
 
           <View style={styles.dividerContainer}>
-            <Text style={styles.dividerText}>OR</Text>
+            <THIText style={styles.dividerText}>OR</THIText>
           </View>
 
           <TouchableOpacity
-            onPress={() => router.push('/profilePicker')}
+            onPress={() => router.push("/profilePicker")}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Select child profile</Text>
+            <THIText style={styles.buttonText}>Select child profile</THIText>
           </TouchableOpacity>
         </View>
       </View>

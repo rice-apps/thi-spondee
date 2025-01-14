@@ -1,55 +1,44 @@
-import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
-import {useState} from "react";
-
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 type CardProps = { text: string };
 
-export default function Card({text}: CardProps){
-    // const [text,setText] = useState(text);
+export default function Card({ text }: CardProps) {
+  // const [text,setText] = useState(text);
 
-    // const handlePress = (message)=>{
-    //     setText(message);
-    // 
+  // const handlePress = (message)=>{
+  //     setText(message);
+  //
 
-    return (
-        //add onPress
-        <TouchableOpacity style={styles.item} >
-            <Text style={styles.name}>{text}</Text>
-        </TouchableOpacity>
-    );
+  return (
+    //add onPress
+    <TouchableOpacity style={styles.item}>
+      <Image
+        style={{ height: "100%", width: "100%", objectFit: "contain" }}
+        source={require("../../assets/images/apple.png")}
+      ></Image>
+      {/* <THIText style={styles.name}>{text}</THIText> */}
+    </TouchableOpacity>
+  );
 }
 
-
-let grayColor = "#e6e6e6";
-
 const styles = StyleSheet.create({
-    content: {
-        height: "20%",
-        // width: "40%",
-        marginLeft: "10%",
-        marginRight: "10%",
-        marginBottom: "10%",
-        // minWidth:"40%",
-        backgroundColor: "powderblue",
-        borderRadius:20,
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-    },
-    item: {
-        backgroundColor: grayColor,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 18,
-        width: 180,
-        aspectRatio: 1.1,
-        borderRadius: 10,
-        // width: "auto",
-      },
-      name: {
-        fontSize: 32,
-      },
-  });
+  item: {
+    backgroundColor: "#FFFFFF",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    marginVertical: 20,
+    marginHorizontal: 25,
+    width: 350,
+    height: 250,
+    borderRadius: 10,
+    borderColor: "#7B9CCF",
+    borderStyle: "solid",
+    borderWidth: 3,
+    // width: "auto",
+  },
+  name: {
+    fontSize: 32,
+  },
+});
