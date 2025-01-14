@@ -162,11 +162,7 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "flex-end",
-    padding: 40,
-  },
+  container: {},
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
@@ -188,7 +184,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 25,
     height: 25,
-    marginTop: 20,
+    // marginTop: 20,
   },
   textStyle: {
     marginTop: 15,
