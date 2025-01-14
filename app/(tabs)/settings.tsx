@@ -17,6 +17,7 @@ export default function Settings() {
   const [setSize, setSetSize] = useState(4);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const [answerEnabled, setAnswerEnabled] = useState(false);
   const handleVolumeChange = async (value: number) => {
     setVolume(value);
     // TODO: Uncomment this when we can try it on a real device!
@@ -61,36 +62,53 @@ export default function Settings() {
             >
               Settings
             </THIText>
-            {/*----SET SIZE----*/}
-            <View>
-              <THIText style={styles.textStyle}>Set Size</THIText>
-              <Slider
-                style={{ width: 200, height: 40 }}
-                minimumValue={4}
-                maximumValue={12}
-                minimumTrackTintColor="black"
-                maximumTrackTintColor="black"
-                thumbTintColor="white"
-                step={4}
-                value={setSize}
-                onValueChange={(newValue) => setSetSize(newValue)}
-              />
-              {/* Slider label "4 -- 8 -- 12" */}
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: 200,
-                }}
-              >
-                <THIText> 4</THIText>
-                <THIText>8</THIText>
-                <THIText>12 </THIText>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              {/*----SET SIZE----*/}
+              <View>
+                <THIText style={styles.textStyle}>Set Size</THIText>
+                <Slider
+                  style={{ width: 334, height: 40 }}
+                  lowerLimit={4}
+                  minimumValue={4}
+                  upperLimit={12}
+                  maximumValue={12}
+                  minimumTrackTintColor="#6D88B480"
+                  maximumTrackTintColor="#6D88B480"
+                  thumbTintColor="#95D0E7"
+                  step={2}
+                  value={setSize}
+                  onValueChange={(newValue) => setSetSize(newValue)}
+                />
+                {/* Slider label "4 -- 8 -- 12" */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: 334,
+                  }}
+                >
+                  <THIText> 4</THIText>
+                  <THIText> 8</THIText>
+                  <THIText>12 </THIText>
+                </View>
+              </View>
+              <View>
+                <THIText style={styles.textStyle}>Correct Answer</THIText>
+                <Switch
+                  onValueChange={() => setAnswerEnabled(!answerEnabled)}
+                  value={answerEnabled}
+                  trackColor={{ true: "#95D0E7", false: "#95D0E7" }} //erm idrk diff between t/f
+                />
               </View>
             </View>
             <View
               style={{
-                flex: 0.4,
                 flexDirection: "row",
                 justifyContent: "space-between",
               }}
@@ -110,12 +128,12 @@ export default function Settings() {
                     />
                   </TouchableOpacity>
                   <Slider
-                    style={{ width: 200, height: 40 }}
+                    style={{ width: 224, height: 40 }}
                     minimumValue={0}
                     maximumValue={1}
-                    minimumTrackTintColor="black"
-                    maximumTrackTintColor="black"
-                    thumbTintColor="white"
+                    minimumTrackTintColor="#6D88B480"
+                    maximumTrackTintColor="#6D88B480"
+                    thumbTintColor="#95D0E7"
                     step={0.01}
                     value={volume}
                     onValueChange={handleVolumeChange}
@@ -128,11 +146,16 @@ export default function Settings() {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View>
+              <View
+                style={{
+                  marginRight: 87, // pls just ignore this, move on and don't look into this
+                }}
+              >
                 <THIText style={styles.textStyle}>Sound</THIText>
                 <Switch
                   onValueChange={() => setSoundEnabled(!soundEnabled)}
                   value={soundEnabled}
+                  trackColor={{ true: "#95D0E7", false: "#95D0E7" }}
                 />
               </View>
             </View>
@@ -170,15 +193,15 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalBox: {
-    width: 500,
-    height: 400,
+    width: "55%",
+    height: "60%",
     backgroundColor: "white",
     shadowColor: "black",
     shadowRadius: 4,
     shadowOpacity: 0.8,
     elevation: 5,
     borderRadius: 10,
-    padding: 20,
+    padding: 60,
     justifyContent: "space-between",
   },
   imageStyle: {
@@ -188,9 +211,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     marginTop: 15,
+    marginBottom: 15,
     color: "black",
-    fontSize: 20,
-    fontWeight: "300",
     textAlign: "left",
   },
   buttonStyle: {
