@@ -10,12 +10,12 @@ export default function TestSelection() {
       tests: [
         {
           title: "Spondee Cards",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/AH.png"),
           route: "/tests/spondee",
         },
         {
           title: "LHM-10/Ling Card",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/MM.png"),
           route: "/tests/lhm10",
         },
       ],
@@ -25,12 +25,12 @@ export default function TestSelection() {
       tests: [
         {
           title: "WIPI",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/SH.png"),
           route: "/tests/wipi",
         },
         {
           title: "NU-CHIPS",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/SS.png"),
           route: "/tests/nuchips",
         },
       ],
@@ -40,12 +40,12 @@ export default function TestSelection() {
       tests: [
         {
           title: "Syllable Differentiation",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/EE.png"),
           route: "/tests/esp",
         },
         {
           title: "Minimal Pairs",
-          uri: "https://placehold.co/215x115.png",
+          img: require("../../assets/images/test-images/OO.png"),
           route: "/tests/minpairs",
         },
       ],
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     fontFamily: "inter",
+    fontWeight: 600,
     fontSize: 28,
   },
   testTypeGroupList: {
