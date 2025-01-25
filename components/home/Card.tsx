@@ -22,25 +22,25 @@ export default function Card(){
                                 <Text style={{textAlign: "center", fontWeight: 400,
                                  padding: 4, fontSize:15, color: "white"}}>4 set</Text>
                             </View>
-                            
+
                         </View>
                     </View>
                     <View style={styles.progressContainer}>
-                        <Progress.Circle 
-                              indeterminate={false} 
-                              animated={false} 
-                              progress={0.5} 
-                              showsText={true} 
-                              size={60} 
-                              textStyle={{ fontSize: 18, color: "black", fontWeight: 500}} 
-                              color={"#7B9CCF"} 
-                              unfilledColor={"#D9D9D9"} 
-                              borderWidth={0} 
-                              thickness={6} 
+                        <Progress.Circle
+                              indeterminate={false}
+                              animated={false}
+                              progress={0.5}
+                              showsText={true}
+                              size={60}
+                              textStyle={{ fontSize: 18, color: "black", fontWeight: 500}}
+                              color={"#7B9CCF"}
+                              unfilledColor={"#D9D9D9"}
+                              borderWidth={0}
+                              thickness={6}
                         />
                     </View>
                 </View>
-            </View>      
+            </View>
     );
 }
 
@@ -49,15 +49,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#F6F6F6",
         width: 275,
         height: 195,
-        borderRadius:12, 
+        borderRadius:12,
         padding: 20,
         marginTop: 20,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
         gap: 40,
-    },
-    innerBox: {
+    },innerBox: {
         width: 210,
         height: 152,
 
@@ -72,13 +71,13 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontWeight: "400",
         marginBottom: -5,
-    }, 
+    },
     whiteBox: {
-        backgroundColor: "#6D88B4", 
+        backgroundColor: "#6D88B4",
         width: 66,
         height: 28,
         borderRadius: 20,
-        
+
     },
     whiteBoxContainer: {
         // position: "absolute",
@@ -89,10 +88,9 @@ const styles = StyleSheet.create({
     },
     textContainer: {
     },
-    progressContainer: { 
-        
+    progressContainer: {
         display: "flex",
-        justifyContent: "right",
+        // justifyContent: "flex-end",
         alignContent: "center",
         flex: 1,
         flexDirection: "row-reverse",
