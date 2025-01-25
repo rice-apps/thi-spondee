@@ -1,22 +1,25 @@
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import {THIText} from "@/components/THIText";
+type CardProps = { text: string; correct: string };
+import spondeeImageMap from "@/components/spondee/SpondeeImageMap";
 
-type CardProps = { text: string };
-
-export default function Card({ text }: CardProps) {
+export default function Card({ text, correct }: CardProps) {
   // const [text,setText] = useState(text);
 
-  // const handlePress = (message)=>{
-  //     setText(message);
-  //
+  const handlePress = () => {
+    if (correct === text) {
+      console.log("correct");
+    }
+  };
+
 
   return (
-    //add onPress
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={handlePress}>
+      <THIText>{text}</THIText>
       <Image
         style={{ height: "100%", width: "100%", objectFit: "contain" }}
-        source={require("../../assets/images/apple.png")}
+        source={spondeeImageMap[text]}
       ></Image>
-      {/* <THIText style={styles.name}>{text}</THIText> */}
     </TouchableOpacity>
   );
 }
