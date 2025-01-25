@@ -1,11 +1,11 @@
-import {router, Tabs} from "expo-router";
-import React from "react";
+import { SideTabBar } from "@/components/navigation/SideTabBar";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { SideTabBar } from "@/components/navigation/SideTabBar";
-import { Alert, View, StyleSheet } from "react-native";
 import { supabase } from "@/lib/supabase";
+import { router, Tabs } from "expo-router";
+import React from "react";
+import { Alert, StyleSheet, View } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -16,12 +16,12 @@ export default function TabLayout() {
 
     if (error) {
       Alert.alert("Logout Error", error.message);
-      return
+      return;
     } else {
       console.log("User logged out successfully");
     }
-    
-    router.push("/login")
+
+    router.push("/login");
   };
 
   return (
@@ -34,9 +34,14 @@ export default function TabLayout() {
           tabBarStyle: { display: "none" },
         }}
         // The custom tab bar will handle everything
-        tabBar={(props) => <SideTabBar {...props} customActions={{
-          empty: handleLogout
-        }} />}
+        tabBar={(props) => (
+          <SideTabBar
+            {...props}
+            customActions={{
+              empty: handleLogout,
+            }}
+          />
+        )}
       >
         {/* Dashboard */}
         <Tabs.Screen
