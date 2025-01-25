@@ -1,10 +1,11 @@
-import { Theme, ThemeProvider } from "@react-navigation/native";
+import {DefaultTheme, Theme, ThemeProvider} from "@react-navigation/native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// TODO: Franklin why?? It never hides the splash screen lol
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   return (
@@ -30,4 +31,5 @@ const OurTheme: Theme = {
     border: "rgb(216, 216, 216)",
     notification: "rgb(255, 59, 48)",
   },
+  fonts: DefaultTheme.fonts,
 };
