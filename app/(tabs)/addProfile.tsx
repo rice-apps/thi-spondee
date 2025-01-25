@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Text, TouchableOpacity, Modal, View, StyleSheet, TextInput, Image } from "react-native";
+import {supabase} from "@/lib/supabase";
 export default function AddProfile() {
     const [modalVisible, setModalVisible] = useState(false);
     const [text, setText] = useState('');
@@ -55,7 +56,25 @@ export default function AddProfile() {
                         </View>
                         {/*----Save Button----*/}
                         <View style={{alignItems: "flex-end"}}> 
-                            <TouchableOpacity style={styles.buttonStyle} onPress={() => setModalVisible(false)}>
+                            <TouchableOpacity style={styles.buttonStyle} onPress={() => {
+
+                                // TODO
+                                const fetchChildren = async () => {
+                                    const { data, error } = await supabase
+                                      .from('children')
+                                      .insert()
+                                    if (error) {
+                                        console.error(error);
+                                    } else if (data) {
+                                        // setChildren(data);
+                                        // setFilteredChildren(data);
+                                    }
+                                };
+
+                                fetchChildren();
+
+                                setModalVisible(false);
+                            }}>
                                 <Text style={{color: "#17262B", fontSize: 17, fontWeight: "500", textAlign: "center", fontFamily: "Inter"}}>
                                     Save
                                 </Text>
