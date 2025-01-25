@@ -22,6 +22,8 @@ export default function TestScreen({
   totalPages: number;
 }) {
   const [pageNum, setPageNum] = useState(1);
+  // Emoji rain trigger / reward mechanism. Just do setRainTrigger(true)
+  const [rainTrigger, setRainTrigger] = useState(false);
 
   numCards = 4;
   totalPages = 20;
@@ -36,8 +38,16 @@ export default function TestScreen({
 
   return (
     <View style={styles.page}>
-      {/*TODO: Emoji rain*/}
-      <EmojiRain emoji="😘" count={30}/>
+      <EmojiRain
+        emoji="😘"
+        count={30}
+        trigger={rainTrigger}
+        onRainComplete={() => {
+          // Optional callback when rain finishes
+          console.log('Rain completed');
+          setRainTrigger(false);
+        }}
+      />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Spondee Cards</Text>
         <SessionControls />
