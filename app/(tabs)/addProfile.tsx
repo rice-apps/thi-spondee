@@ -5,114 +5,174 @@ export default function AddProfile() {
     const [modalVisible, setModalVisible] = useState(false);
     const [text, setText] = useState('');
     const [text2, setText2] = useState('');
+    const fetchChildren = async () => {
+        const { data, error } = await supabase
+          .from('children')
+          .insert({first_name: text.split(" ")[0], last_name: text.split(" ")[1], username: text2, emoji: "🐶"})
+        if (error) {
+            console.error(error);
+        } else if (data) {
+            // setChildren(data);
+            // setFilteredChildren(data);
+        }
+    };
     return (
-        <View>
-            <View style={styles.imageContainer}>
-                <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <View style={styles.container}>
+            
+            <Text style={styles.headingStyle}>
+                Add Profile
+            </Text>
+            <View style={{ flexDirection: "row", display: "flex", gap: 80}}>
+                <View style={{ justifyContent: "center", alignItems: "center"}}> 
                     <View style={styles.image}>
                         <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                            <Image source={require("../../assets/images/blackadd.png")} style={{width: 40, height: 40}}/>
+                            <Image source={require("../../assets/images/blackadd.png")} style={{width: 60, height: 60}}/>
                         </View>
                     </View>
+                    <Text style={styles.textStyle}>
+                        Name
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setText}
+                        value={text}
+                    ></TextInput>
+                    <Text style={styles.textStyle}>
+                        Username
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setText2}
+                        value={text2}
+                    ></TextInput>
+                </View>
+                {/*----EMOJIS----*/}
+                <View style={{ marginTop: 60, justifyContent: "center", alignItems: "flex-end", flexDirection: "column", marginLeft: -45}}>
+
+                    <View style={{flexDirection: "row"}} >
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐶</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐱 </Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐰 </Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐻 </Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐼 </Text>
+                        </View>
+
+                    </View>
+
+                    <View style={{flexDirection: "row", marginTop: "25"}} >
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🦁</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐸 </Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🐢</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🦈</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🦄</Text>
+                        </View>
+
+                    </View>
+
+                    <View style={{flexDirection: "row", marginTop: "25"}} >
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🦖</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🤖</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 💩</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🍕</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🎵</Text>
+                        </View>
+
+                    </View>
+
+                    <View style={{flexDirection: "row", marginTop: "25"}} >
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🌱</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🌸</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🌈</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🏎️</Text>
+                        </View>
+
+                        <View style={styles.smallCircle} >
+                            <Text style={styles.emojiStyle}> 🚀</Text>
+                        </View>
+
+                    </View>
+
+                    
+                </View>
+            </View>
+            {/*----Save Button----*/}
+            <View style={{alignItems: "flex-end"}}> 
+                <TouchableOpacity style={styles.buttonStyle} onPress={() => {
+
+                    fetchChildren();
+
+                }}>
+                    <Text style={{color: "#17262B", fontSize: 20, fontWeight: "500", textAlign: "center", fontFamily: "Inter"}}>
+                        Save
+                    </Text>
                 </TouchableOpacity>
             </View>
-            <Modal
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                {/*----ADD PROFILE MODAL----*/}
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalBox}>
-                        <Text style={styles.headingStyle}>
-                            Add Profile
-                        </Text>
-                        <View style={{ flexDirection: "row", display: "flex", gap: 80}}>
-                            <View style={{flex: 0.75, justifyContent: "center", alignItems: "center"}}> 
-                                <View style={styles.image}>
-                                    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                                        <Image source={require("../../assets/images/blackadd.png")} style={{width: 40, height: 40}}/>
-                                    </View>
-                                </View>
-                            </View>
-                            <View>
-                                <Text style={styles.textStyle}>
-                                    Name
-                                </Text>
-                                <TextInput
-                                    style={styles.input}
-                                    onChangeText={setText}
-                                    value={text}
-                                ></TextInput>
-                                <Text style={styles.textStyle}>
-                                    Username
-                                </Text>
-                                <TextInput
-                                    style={styles.input}
-                                    onChangeText={setText2}
-                                    value={text2}
-                                ></TextInput>
-                            </View>
-                        </View>
-                        {/*----Save Button----*/}
-                        <View style={{alignItems: "flex-end"}}> 
-                            <TouchableOpacity style={styles.buttonStyle} onPress={() => {
-
-                                // TODO
-                                const fetchChildren = async () => {
-                                    const { data, error } = await supabase
-                                      .from('children')
-                                      .insert()
-                                    if (error) {
-                                        console.error(error);
-                                    } else if (data) {
-                                        // setChildren(data);
-                                        // setFilteredChildren(data);
-                                    }
-                                };
-
-                                fetchChildren();
-
-                                setModalVisible(false);
-                            }}>
-                                <Text style={{color: "#17262B", fontSize: 17, fontWeight: "500", textAlign: "center", fontFamily: "Inter"}}>
-                                    Save
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+                    
 
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    modalOverlay:{
-        flex: 1, 
-        justifyContent: "center", 
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",  
-    },
-    modalBox: {
-        width: 652,
-        height: 490, 
-        backgroundColor: "white",  
-        shadowColor: "black", 
-        shadowRadius: 4, 
-        shadowOpacity: 0.8, 
-        elevation: 5,
-        borderRadius: 10,
-        padding: 40,
-        justifyContent: "space-between",
+    container: {
+        margin: 100
     },
     image: {
         backgroundColor: "#F6F6F6",
         borderRadius: 100,
-        width: 140,
-        height: 140,
+        width: 180,
+        height: 180,
         aspectRatio: 1/1, 
+        marginTop: 80
     }, 
     imageContainer: {
         flex: 1,
@@ -131,7 +191,8 @@ const styles = StyleSheet.create({
         fontWeight: 500, 
         fontFamily: "Inter",
         fontStyle: "normal",
-        marginTop: 25,
+        marginTop: 40,
+        alignSelf: "stretch"
     },
     input: {
         borderWidth: 1,
@@ -141,14 +202,31 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 50,
         width: 300,
+        alignSelf: "stretch"
     },
     buttonStyle:{
-        width: 87, 
-        height: 42,
-        padding: 8,
+        width: 326, 
+        height: 54,
+        padding: 10,
         justifyContent: "center", 
-        borderRadius: 15,
-        backgroundColor: "#95D0E7",  
+        borderRadius: 30,
+        backgroundColor: "#95D0E7", 
+         marginTop: 70
     },
-    
+    smallCircle: {
+        backgroundColor: "#F6F6F6",
+        borderRadius: 100,
+        width: 85,
+        height: 85,
+        aspectRatio: 1/1, 
+        marginTop: 25,
+        padding: 14,
+        marginLeft: 25
+    },
+    emojiStyle: {
+        fontSize: 40,
+        fontWeight: "600", 
+        fontFamily: "Inter",
+        justifyContent: "center"
+    }
 });
