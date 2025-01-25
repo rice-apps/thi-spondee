@@ -1,15 +1,5 @@
-/*
-* Hi!
-*
-* I stole this from https://github.com/pinqy520/react-native-emoji-rain
-*
-* – Omar
-* */
-
-// @flow
-
-import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Animated, Dimensions, Easing } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Text, StyleSheet, Animated, Dimensions, Easing, ViewStyle, TextStyle } from 'react-native'
 
 const Y = Dimensions.get('window').height
 
@@ -18,32 +8,55 @@ export type EmojiDropProps = {
 }
 
 export type EmojiRainProps = {
-  count?: number
+  count?: number,
+  trigger?: boolean,
+  onRainComplete?: () => void
 } & EmojiDropProps
 
-function drops(count: number = 25, props: EmojiDropProps) {
+function drops(count: number = 25, props: EmojiDropProps, trigger: number) {
   const list = []
   for (let i = 0; i < count; i++) {
-    list.push(<EmojiDrop key={i} {...props} />)
+    list.push(<EmojiDrop key={`${trigger}-${i}`} {...props} />)
   }
   return list
 }
 
 export function EmojiRain(props: EmojiRainProps) {
+  const { count = 25, emoji, trigger = false, onRainComplete } = props
+  const [rainTrigger, setRainTrigger] = useState(0)
+
+  useEffect(() => {
+    if (trigger) {
+      setRainTrigger(prev => prev + 1)
+    }
+  }, [trigger])
+
+  const handleAnimationComplete = useCallback(() => {
+    if (onRainComplete) {
+      onRainComplete()
+    }
+  }, [onRainComplete])
+
   return (
     <View style={styles.container} pointerEvents="none">
-      {drops(props.count, props)}
+      {rainTrigger > 0 ? drops(count, { emoji }, rainTrigger).map((drop, index) =>
+        React.cloneElement(drop, {
+          onAnimationComplete: index === count - 1 ? handleAnimationComplete : undefined
+        })
+      ) : null}
     </View>
   )
 }
 
-export function useDropAnimation() {
+export function useDropAnimation(onAnimationComplete?: () => void) {
   const [animated] = useState(new Animated.Value(0))
-  const [style] = useState({
+  const [style] = useState<TextStyle>({
     position: 'absolute',
-    top: 0, left: `${Math.random() * 100}%`
+    top: 0,
+    left: `${Math.random() * 100}%`
   })
   const [scale] = useState(1.2 + Math.random())
+
   function animation() {
     Animated.timing(animated, {
       toValue: 1,
@@ -51,8 +64,13 @@ export function useDropAnimation() {
       duration: 750 + Math.round(Math.random() * 400),
       easing: Easing.in(Easing.ease),
       useNativeDriver: true
-    }).start()
+    }).start(({ finished }) => {
+      if (finished && onAnimationComplete) {
+        onAnimationComplete()
+      }
+    })
   }
+
   useEffect(animation, [1])
   return {
     ...style,
@@ -65,11 +83,10 @@ export function useDropAnimation() {
   }
 }
 
-function EmojiDrop(props: EmojiDropProps) {
-  const style = useDropAnimation()
+function EmojiDrop(props: EmojiDropProps & { onAnimationComplete?: () => void }) {
+  const style = useDropAnimation(props.onAnimationComplete)
   return <Animated.Text style={style}>{props.emoji}</Animated.Text>
 }
-
 
 const styles = StyleSheet.create({
   container: {
