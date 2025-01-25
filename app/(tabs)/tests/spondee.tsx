@@ -32,12 +32,14 @@ export default function TestScreen({
   numCards: number;
   totalPages: number;
 }) {
-  const [pageNum, setPageNum] = useState(1);
+  // const [pageNum, setPageNum] = useState(1);
+  const [totalTrials, setTotalTrials] = useState(0);
+  const [numCorrect, setNumCorrect] = useState(0);
 
   numCards = 4;
   totalPages = 20;
 
-  // Select random numCards from shuffled spondeeCards
+  // Select random numCards from shuffled set of spondee cards
   const selectedCards: SpondeeCard[] = shuffleArray(SpondeeCards).slice(0, numCards);
 
   // Randomly choose correct card
@@ -53,13 +55,14 @@ export default function TestScreen({
     <View style={styles.page}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Spondee Cards</Text>
-        <SessionControls />
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
       </View>
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.flatlist}
           data={data}
-          renderItem={({ item }) => <Card text={item.title} correct={correctCard}/>}
+          renderItem={({ item }) =>
+              <Card text={item.title} correct={correctCard} setTotalTrials={setTotalTrials} setNumCorrect={setNumCorrect}/>}
           keyExtractor={(item) => item.id.toString()}
           numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
           horizontal={false}

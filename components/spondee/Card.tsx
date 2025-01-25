@@ -1,17 +1,22 @@
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import {THIText} from "@/components/THIText";
-type CardProps = { text: string; correct: string };
 import spondeeImageMap from "@/components/spondee/SpondeeImageMap";
 
-export default function Card({ text, correct }: CardProps) {
-  // const [text,setText] = useState(text);
+type CardProps = {
+  text: string;
+  correct: string;
+  setTotalTrials: (update: (prev: number) => number) => void;
+  setNumCorrect: (update: (prev: number) => number) => void;
+};
 
+export default function Card({ text, correct, setTotalTrials, setNumCorrect }: CardProps) {
   const handlePress = () => {
     if (correct === text) {
-      console.log("correct");
+      setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+      console.log(correct, text);
     }
+    setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
   };
-
 
   return (
     <TouchableOpacity style={styles.item} onPress={handlePress}>
