@@ -10,6 +10,8 @@ import {
   View,
 } from "react-native";
 
+import {EmojiRain} from "@/components/testing/EmojiRain";
+
 let data: { id: string; title: string }[] = [];
 
 export default function TestScreen({
@@ -34,6 +36,8 @@ export default function TestScreen({
 
   return (
     <View style={styles.page}>
+      {/*TODO: Emoji rain*/}
+      <EmojiRain emoji="😘" count={30}/>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Spondee Cards</Text>
         <SessionControls />
