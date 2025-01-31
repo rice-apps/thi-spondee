@@ -1,29 +1,44 @@
+import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { THIText } from "../THIText";
+type CardProps = {
+  text: string;
+  button: boolean;
+  backgroundColor: string;
+  onPress: () => void;
+  onSubmit: () => void;
+};
 
-type CardProps = { text: string };
-
-export default function Card({ text }: CardProps) {
-  // const [text,setText] = useState(text);
-
-  // const handlePress = (message)=>{
-  //     setText(message);
-  //
+export default function Card({
+  text,
+  button,
+  backgroundColor,
+  onPress,
+  onSubmit,
+}: CardProps) {
+  const style = { ...styles.item, backgroundColor: backgroundColor };
 
   return (
     //add onPress
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity style={style} onPress={onPress}>
       <Image
         style={{ height: "100%", width: "100%", objectFit: "contain" }}
         source={require("../../assets/images/apple.png")}
       ></Image>
-      {/* <THIText style={styles.name}>{text}</THIText> */}
+      {button ? (
+        <TouchableOpacity style={styles.submit} onPress={onSubmit}>
+          <THIText style={{ fontSize: 17 }}>Submit</THIText>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -40,5 +55,11 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 32,
+  },
+  submit: {
+    backgroundColor: "#95D0E7",
+    borderRadius: 10,
+    padding: 15,
+    position: "absolute",
   },
 });

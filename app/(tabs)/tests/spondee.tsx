@@ -20,6 +20,7 @@ export default function TestScreen({
   totalPages: number;
 }) {
   const [pageNum, setPageNum] = useState(1);
+  const [selectedId, setSelectedId] = useState();
 
   numCards = 4;
   totalPages = 20;
@@ -32,6 +33,21 @@ export default function TestScreen({
     })
   );
 
+  const renderCard = ({ item }: any) => {
+    const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
+    const submitButton = item.id === selectedId ? true : false;
+
+    return (
+      <Card
+        text={item.title}
+        backgroundColor={backgroundColor}
+        button={submitButton}
+        onPress={() => setSelectedId(item.id)}
+        onSubmit={() => console.log(item.id)}
+      />
+    );
+  };
+
   return (
     <View style={styles.page}>
       <View style={styles.titleContainer}>
@@ -42,13 +58,13 @@ export default function TestScreen({
         <FlatList
           contentContainerStyle={styles.flatlist}
           data={data}
-          renderItem={({ item }) => <Card text={item.title} />}
+          renderItem={renderCard}
           keyExtractor={(item) => item.id.toString()}
           numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
           horizontal={false}
         />
       </View>
-      <TouchableOpacity style={styles.footer}>  
+      <TouchableOpacity style={styles.footer}>
         <FontAwesome name="volume-up" size={36} />
       </TouchableOpacity>
     </View>
