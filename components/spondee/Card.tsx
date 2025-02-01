@@ -11,9 +11,9 @@ type CardProps = {
 
 export default function Card({ text, correct, setTotalTrials, setNumCorrect }: CardProps) {
   const handlePress = () => {
+    console.log(text, correct);
     if (correct === text) {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
-      console.log(correct, text);
     }
     setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
   };

@@ -5,8 +5,8 @@ import { THIText } from "../THIText";
 type SessionControlProps = {
   totalTrials: number;
   numCorrect: number;
-  setTotalTrials: (update: (prev: number) => number) => void;
-  setNumCorrect: (update: (prev: number) => number) => void;
+  //setTotalTrials: (update: (prev: number) => number) => void;
+  //setNumCorrect: (update: (prev: number) => number) => void;
 }
 
 export function SessionControls({totalTrials, numCorrect} : SessionControlProps) {
