@@ -1,6 +1,8 @@
 import { THIText } from "@/components/THIText";
 import { router } from "expo-router";
 import React from "react";
+import { userData, setCurrentID, setFirstName } from "./currentProfile";
+
 import {
   Pressable,
   ScrollView,
@@ -57,6 +59,10 @@ export default function profilePicker() {
 
   const chooseProfile = async (id: string) => {
     setSelectedProfile(id);
+    console.log(userData.CURRENT_ID);
+    setCurrentID(id);
+    console.log(userData.CURRENT_ID);
+
   };
 
   const handleButtonClick = () => {
@@ -170,6 +176,7 @@ export function ProfileCard({
   isSelected,
   chooseProfile,
 }: ProfileCardProps) {
+
   const firstNameWithLastInitial = `${first_name} ${last_name.charAt(0)}.`;
   return (
     <View style={styles.cardWrapper}>
