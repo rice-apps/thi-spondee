@@ -1,5 +1,6 @@
 import { THIText } from "@/components/THIText";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
+import {router} from "expo-router";
 
 export default function InputSessionNotes() {
   const currentDate = new Date();
@@ -34,13 +35,13 @@ export default function InputSessionNotes() {
         />
 
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              // TODO: Submit / pass data to session results page
-              () => console.log("TODO: Submit")
+          <TouchableOpacity style={styles.button} onPress={
+            // TODO: Submit / pass data to session results page
+            () => {
+              console.log("TODO: Submit");
+              router.push('/(tabs)/sessionResults');
             }
-          >
+          }>
             <THIText style={styles.buttonText}>Submit</THIText>
           </TouchableOpacity>
         </View>
