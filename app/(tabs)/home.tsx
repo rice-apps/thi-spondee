@@ -4,10 +4,14 @@ import profilePicker from "../profilePicker";
 import { THIText } from "@/components/THIText";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { StyleSheet, View } from "react-native";
+import {supabase} from "@/lib/supabase";
 import { userData } from "../../app/currentProfile";
 
 export default function Home() {
-  
+  supabase
+    .from("test_session")
+    .select("id")
+    .eq('child', '0b188d2d-8db1-4dcc-ab93-998041adc66d')
 
   return (
     <View style={styles.container}>
