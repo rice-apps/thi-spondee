@@ -1,13 +1,20 @@
 import { SessionControls } from "@/components/spondee/SessionControls";
 import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useState } from "react";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
+import {useEffect, useState} from "react";
+import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions"
+import * as Speech from 'expo-speech';
 
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import TestGrid from "../../../components/spondee/TestGrid";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import TestGrid from "@/components/spondee/TestGrid";
 
-let data: { id: number; title: string }[] = [];
+// let data: { id: string; title: string}[] = [];
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -39,6 +46,14 @@ export default function TestScreen() {
   const correctCard: string = selectedCards[randomIdx].word;
   console.log("correct: ", correctCard);
   console.log("total ", totalTrials, " numCorrect: ", numCorrect);
+
+  useEffect(() => {
+    Speech.speak(correctCard, {
+      language: 'en', // Language code (e.g., 'en' for English)
+      pitch: 1.0, // Pitch of the voice (1.0 is normal)
+      rate: 1.0, // Speed of the speech (1.0 is normal)
+    });
+  }, [correctCard]);
 
   const data = selectedCards.map((card, i) => ({
     id: i,
