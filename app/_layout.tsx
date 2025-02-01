@@ -1,33 +1,15 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
+import {DefaultTheme, Theme, ThemeProvider} from "@react-navigation/native";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import "react-native-reanimated";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// TODO: Franklin why?? It never hides the splash screen lol
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={OurTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="starting" options={{ headerShown: false }} />
@@ -38,3 +20,16 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+const OurTheme: Theme = {
+  dark: false,
+  colors: {
+    primary: "rgb(0, 122, 255)",
+    background: "rgb(255,255,255)",
+    card: "rgb(255, 255, 255)",
+    text: "rgb(28, 28, 30)",
+    border: "rgb(216, 216, 216)",
+    notification: "rgb(255, 59, 48)",
+  },
+  fonts: DefaultTheme.fonts,
+};

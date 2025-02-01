@@ -1,6 +1,6 @@
 type Test = {
   title: string;
-  uri: string;
+  img: any; // pls don't tell anyone about this
   route: string;
 };
 

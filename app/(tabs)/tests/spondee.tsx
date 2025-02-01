@@ -1,9 +1,14 @@
-import { useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-
 import Card from "@/components/spondee/Card";
-import { ProgressBar } from "@/components/spondee/ProgressBar";
 import { SessionControls } from "@/components/spondee/SessionControls";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useState } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 let data: { id: string; title: string }[] = [];
 
@@ -16,7 +21,7 @@ export default function TestScreen({
 }) {
   const [pageNum, setPageNum] = useState(1);
 
-  numCards = 6;
+  numCards = 4;
   totalPages = 20;
 
   const data: { id: number; title: string }[] = Array.from(
@@ -33,7 +38,6 @@ export default function TestScreen({
         <Text style={styles.title}>Spondee Cards</Text>
         <SessionControls />
       </View>
-      <ProgressBar numerator={pageNum} denominator={totalPages} />
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.flatlist}
@@ -44,6 +48,9 @@ export default function TestScreen({
           horizontal={false}
         />
       </View>
+      <TouchableOpacity style={styles.footer}>  
+        <FontAwesome name="volume-up" size={36} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -57,27 +64,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     width: "100%",
-    height: "100%",
+    height: "90%",
   },
   flatlist: {
     width: "100%",
     display: "flex",
     alignItems: "center",
     alignContent: "center",
-    marginTop: "5%",
+    marginTop: "2%",
   },
   titleContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 10,
-    paddingHorizontal: 50,
-    gap: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 40,
   },
   title: {
     fontSize: 32,
-    flex: 8,
+    fontWeight: 600,
   },
   page: {
     backgroundColor: "#ffffff",
@@ -90,5 +96,20 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 25,
+  },
+  footer: {
+    position: "absolute",
+    right: 50,
+    bottom: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    aspectRatio: 1 / 1,
+    backgroundColor: "#95D0E7",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
   },
 });

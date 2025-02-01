@@ -1,26 +1,31 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Settings from "@/app/(tabs)/settings";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {THIText} from "../THIText";
+import {router} from "expo-router";
 
 export function SessionControls() {
   return (
     <View style={styles.controlsContainer}>
       <TouchableOpacity
-        onPress={() => console.log("End Session")}
+        onPress={() => {
+          console.log("End Session");
+          // TODO: Pass data
+          router.push("/(tabs)/inputSessionNotes");
+        }}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>End Session</Text>
+        <THIText style={styles.buttonText}>End Session</THIText>
       </TouchableOpacity>
-      <Settings />
+      <Settings/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#e6e6e6",
+    backgroundColor: "#95D0E7",
     borderRadius: 15,
     padding: 15,
-    flex: 2,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -31,9 +36,8 @@ const styles = StyleSheet.create({
   controlsContainer: {
     display: "flex",
     flexDirection: "row",
-    flex: 1.5,
-    gap: 5,
     justifyContent: "center",
     alignItems: "center",
+    gap: 27,
   },
 });
