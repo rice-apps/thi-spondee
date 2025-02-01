@@ -1,11 +1,14 @@
 import Card from "@/components/home/Card";
 import TopBar from "@/components/home/TopBar";
+import profilePicker from "../profilePicker";
 import { THIText } from "@/components/THIText";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
 export default function Home() {
+  
+
   return (
     <View style={styles.container}>
       <TopBar />
@@ -17,7 +20,7 @@ export default function Home() {
             marginTop: 50,
           }}
         >
-          Recent Sessions
+          Recent Sessions 
         </THIText>
       </View>
       {/* rectangle that contains all the cards*/}
