@@ -1,8 +1,6 @@
 import { THIText } from "@/components/THIText";
 import { router } from "expo-router";
 import React from "react";
-import { userData, setCurrentID, setFirstName } from "./currentProfile";
-
 import {
   Pressable,
   ScrollView,
@@ -12,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { supabase } from "../lib/supabase";
+import { userData, setCurrentID, setFirstName } from "./currentProfile";
 export default function profilePicker() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [children, setChildren] = React.useState<Child[] | null>(null);
@@ -59,15 +58,12 @@ export default function profilePicker() {
 
   const chooseProfile = async (id: string) => {
     setSelectedProfile(id);
-    console.log(userData.CURRENT_ID);
-    setCurrentID(id);
-    console.log(userData.CURRENT_ID);
-
   };
 
   const handleButtonClick = () => {
     if (selectedProfile) {
       console.log(`Selected UUID: ${selectedProfile}`);
+      setCurrentID(selectedProfile);
       router.push("/(tabs)/home");
     } else {
       console.log("No profile selected.");
@@ -176,7 +172,6 @@ export function ProfileCard({
   isSelected,
   chooseProfile,
 }: ProfileCardProps) {
-
   const firstNameWithLastInitial = `${first_name} ${last_name.charAt(0)}.`;
   return (
     <View style={styles.cardWrapper}>
