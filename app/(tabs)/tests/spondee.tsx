@@ -39,6 +39,16 @@ export default function TestScreen({
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
 
+  // This is called when a card is tapped.
+  const callback = (isCorrect: boolean) => {
+    setTotalTrials(prev => prev + 1);
+    if (isCorrect) {
+      setNumCorrect(prev => prev + 1);
+    }
+    // Call reward!
+    setRainTrigger(true);
+  };
+
   numCards = 4;
   totalPages = 20;
 
@@ -75,7 +85,7 @@ export default function TestScreen({
           contentContainerStyle={styles.flatlist}
           data={data}
           renderItem={({ item }) =>
-              <Card text={item.title} correct={correctCard} setTotalTrials={setTotalTrials} setNumCorrect={setNumCorrect}/>}
+              <Card text={item.title} correct={correctCard} callback={callback}/>}
           keyExtractor={(item) => item.id.toString()}
           numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
           horizontal={false}

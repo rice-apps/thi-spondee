@@ -5,17 +5,17 @@ import spondeeImageMap from "@/components/spondee/SpondeeImageMap";
 type CardProps = {
   text: string;
   correct: string;
-  setTotalTrials: (update: (prev: number) => number) => void;
-  setNumCorrect: (update: (prev: number) => number) => void;
+  callback: (isCorrect: boolean) => void;
 };
 
-export default function Card({ text, correct, setTotalTrials, setNumCorrect }: CardProps) {
+export default function Card({ text, correct, callback, }: CardProps) {
   const handlePress = () => {
     console.log(text, correct);
     if (correct === text) {
-      setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+      callback(true);
+    } else {
+      callback(false);
     }
-    setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
   };
 
   return (
