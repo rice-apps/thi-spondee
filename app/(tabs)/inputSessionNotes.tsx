@@ -1,6 +1,5 @@
 import React from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import Ionicons from '@expo/vector-icons/Ionicons'
+import {Text, TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
 
 export default function InputSessionNotes() {
   const currentDate = new Date();
@@ -12,40 +11,18 @@ export default function InputSessionNotes() {
 
   return (
     <View style={styles.wrapper}>
-     
-      <View style={styles.sidebar}>
-        <View style={styles.item1}>
-          <Ionicons name="home" size={40} color="#000" />
-          <Text style={styles.sidebarItemText}>Dashboard</Text>
-        </View>
-
-        <View style={styles.sidebarItemWrapper}>
-          <Ionicons name="headset-outline" size={40} color="#000" />
-          <Text style={styles.sidebarItemText}>Testing</Text>
-        </View>
-
-        <View style={styles.sidebarItemWrapper}>
-          <Ionicons name="person-outline" size={40} color="#000" />
-          <Text style={styles.sidebarItemText}>Profiles</Text>
-        </View>
-
-        <View style={[styles.sidebarItemWrapper, styles.logOut]}>
-          <Ionicons name="log-out-outline" size={40} color="#000" />
-          <Text style={styles.sidebarItemText}>Log Out</Text>
-        </View>
-      </View>
       <View style={styles.container}>
         <Text style={styles.header}>Optional Session Notes</Text>
         <Text style={styles.date}>Spondee Cards • {formattedDate}</Text>
 
         <Text style={styles.label}>Maximum Threshold Level</Text>
         <View style={styles.levelInput}>
-        <TextInput
-          style={styles.input}
-          keyboardType="numeric"
-          placeholderTextColor="#C4C4C4"
-        />
-        <Text style={styles.dB}>dB</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            placeholderTextColor="#C4C4C4"
+          />
+          <Text style={styles.dB}>dB</Text>
         </View>
         <Text style={styles.label}>Additional Notes</Text>
         <TextInput
@@ -57,8 +34,11 @@ export default function InputSessionNotes() {
         />
 
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Continue</Text>
+          <TouchableOpacity style={styles.button} onPress={
+            // TODO: Submit / pass data to session results page
+            () => console.log("TODO: Submit")
+          }>
+            <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -82,21 +62,21 @@ const styles = StyleSheet.create({
   },
   item1: {
     marginTop: 100,
-    alignItems: "center", 
+    alignItems: "center",
     justifyContent: "center",
-    marginBottom: 40, 
+    marginBottom: 40,
   },
   sidebarItemWrapper: {
     alignItems: "center",
-    marginBottom: 40, 
+    marginBottom: 40,
   },
   sidebarItemText: {
     fontSize: 14,
     color: "#5B6366",
-    marginTop: 10, 
+    marginTop: 10,
     textAlign: "center",
   },
-  logOut:{
+  logOut: {
     paddingTop: 300,
   },
   container: {
@@ -125,9 +105,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   levelInput: {
-    flexDirection: "row",  
-    alignItems: "center", 
-    marginBottom: 20,  
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
   },
   input: {
     borderWidth: 1,
@@ -135,8 +115,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    marginRight: 10,  
-    width: "10%",  
+    marginRight: 10,
+    width: "10%",
   },
   dB: {
     fontSize: 18,
