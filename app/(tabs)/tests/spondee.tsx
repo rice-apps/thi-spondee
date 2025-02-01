@@ -26,6 +26,15 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
+function speakCorrectCard(correctCard: string) {
+  Speech.speak(correctCard, {
+    language: 'en', // Language code (e.g., 'en' for English)
+    pitch: 1.0, // Pitch of the voice (1.0 is normal)
+    rate: 1.0, // Speed of the speech (1.0 is normal)
+  });
+}
+
+
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
@@ -48,11 +57,7 @@ export default function TestScreen() {
   console.log("total ", totalTrials, " numCorrect: ", numCorrect);
 
   useEffect(() => {
-    Speech.speak(correctCard, {
-      language: 'en', // Language code (e.g., 'en' for English)
-      pitch: 1.0, // Pitch of the voice (1.0 is normal)
-      rate: 1.0, // Speed of the speech (1.0 is normal)
-    });
+    speakCorrectCard(correctCard);
   }, [correctCard]);
 
   const data = selectedCards.map((card, i) => ({
@@ -73,7 +78,7 @@ export default function TestScreen() {
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
       />
-      <TouchableOpacity style={styles.footer}>
+      <TouchableOpacity style={styles.footer} onPress = {() => speakCorrectCard(correctCard)}>
         <FontAwesome name="volume-up" size={36} />
       </TouchableOpacity>
     </View>
