@@ -15,7 +15,7 @@ export const setCurrentID = async (id) => {
 
 export const fetchUserData = async (id) => {
   const { data, error } = await supabase
-    .from("children") // Table name in Supabase
+    .from("children") 
     .select("first_name, last_name, username, emoji")
     .eq("id", id)
     .single();
