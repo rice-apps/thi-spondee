@@ -125,6 +125,14 @@ export default function TabLayout() {
             tabBarButton: () => null, // Hide the tab
           }}
         />
+
+        {/* Input session notes screen (hidden) */}
+        <Tabs.Screen
+          name="inputSessionNotes"
+          options={{
+            tabBarButton: () => null, // Hide the tab
+          }}
+        />
       </Tabs>
     </View>
   );

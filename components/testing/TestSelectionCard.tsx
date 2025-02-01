@@ -5,7 +5,7 @@ import { THIText } from "../THIText";
 
 export function TestSelectionCard({ test }: { test: Test }) {
   return (
-    <Link href={test.route as Href<string>} asChild>
+    <Link href={test.route as Href} asChild>
       <Pressable>
         <View style={styles.card}>
           <View style={styles.imageContainer}>
