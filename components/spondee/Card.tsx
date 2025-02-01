@@ -1,37 +1,52 @@
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
-import {THIText} from "@/components/THIText";
+import { THIText } from "@/components/THIText";
 import spondeeImageMap from "@/components/spondee/SpondeeImageMap";
+import React from "react";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 type CardProps = {
   text: string;
   correct: string;
   setTotalTrials: (update: (prev: number) => number) => void;
   setNumCorrect: (update: (prev: number) => number) => void;
+  button: boolean;
+  backgroundColor: string;
+  onPress: () => void;
+  onSubmit: () => void;
 };
 
-export default function Card({ text, correct, setTotalTrials, setNumCorrect }: CardProps) {
-  const handlePress = () => {
-    console.log(text, correct);
-    if (correct === text) {
-      setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
-    }
-    setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
-  };
+export default function Card({
+  text,
+  correct,
+  setTotalTrials,
+  setNumCorrect,
+  button,
+  backgroundColor,
+  onPress,
+  onSubmit,
+}: CardProps) {
+  const style = { ...styles.item, backgroundColor: backgroundColor };
 
   return (
-    <TouchableOpacity style={styles.item} onPress={handlePress}>
+    <TouchableOpacity style={style} onPress={onPress}>
       <THIText>{text}</THIText>
       <Image
         style={{ height: "100%", width: "100%", objectFit: "contain" }}
         source={spondeeImageMap[text]}
       ></Image>
+      {button ? (
+        <TouchableOpacity style={styles.submit} onPress={onSubmit}>
+          <THIText style={{ fontSize: 17 }}>Submit</THIText>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -48,5 +63,11 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 32,
+  },
+  submit: {
+    backgroundColor: "#95D0E7",
+    borderRadius: 10,
+    padding: 15,
+    position: "absolute",
   },
 });
