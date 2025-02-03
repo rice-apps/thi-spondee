@@ -1,14 +1,25 @@
 import Settings from "@/app/(tabs)/settings";
-import {StyleSheet, TouchableOpacity, View} from "react-native";
-import {THIText} from "../THIText";
-import {router} from "expo-router";
+import { router } from "expo-router";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { THIText } from "../THIText";
 
-export function SessionControls() {
+type SessionControlProps = {
+  totalTrials: number;
+  numCorrect: number;
+  //setTotalTrials: (update: (prev: number) => number) => void;
+  //setNumCorrect: (update: (prev: number) => number) => void;
+};
+
+export function SessionControls({
+  totalTrials,
+  numCorrect,
+}: SessionControlProps) {
   return (
     <View style={styles.controlsContainer}>
       <TouchableOpacity
         onPress={() => {
           console.log("End Session");
+          console.log(numCorrect, totalTrials, "End Session");
           // TODO: Pass data
           router.push("/(tabs)/inputSessionNotes");
         }}
@@ -16,7 +27,7 @@ export function SessionControls() {
       >
         <THIText style={styles.buttonText}>End Session</THIText>
       </TouchableOpacity>
-      <Settings/>
+      <Settings />
     </View>
   );
 }

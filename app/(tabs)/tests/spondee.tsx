@@ -1,7 +1,10 @@
-import Card from "@/components/spondee/Card";
 import { SessionControls } from "@/components/spondee/SessionControls";
+import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions"
+import * as Speech from 'expo-speech';
+
 import {
   FlatList,
   StyleSheet,
@@ -9,46 +12,73 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import TestGrid from "@/components/spondee/TestGrid";
 
-let data: { id: string; title: string }[] = [];
+// let data: { id: string; title: string}[] = [];
 
-export default function TestScreen({
-  numCards,
-  totalPages,
-}: {
-  numCards: number;
-  totalPages: number;
-}) {
-  const [pageNum, setPageNum] = useState(1);
+// Fisher-Yates Shuffle Algorithm
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array]; // Create a copy to avoid mutating original array
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
-  numCards = 4;
-  totalPages = 20;
+function speakCorrectCard(correctCard: string) {
+  Speech.speak(correctCard, {
+    language: 'en', // Language code (e.g., 'en' for English)
+    pitch: 1.0, // Pitch of the voice (1.0 is normal)
+    rate: 1.0, // Speed of the speech (1.0 is normal)
+  });
+}
 
-  const data: { id: number; title: string }[] = Array.from(
-    { length: numCards },
-    (_, i) => ({
-      id: i,
-      title: `Item ${i}`,
-    })
+
+export default function TestScreen() {
+  const [totalTrials, setTotalTrials] = useState(0);
+  const [numCorrect, setNumCorrect] = useState(0);
+  // const [pageNum, setPageNum] = useState(1);
+  // const [selectedId, setSelectedId] = useState();
+
+  const numCards = 4;
+  // const totalPages = 20;
+
+  // Select random numCards from shuffled set of spondee cards
+  const selectedCards: SpondeeCard[] = shuffleArray(SpondeeCards).slice(
+    0,
+    numCards
   );
+
+  // Randomly choose correct card
+  const randomIdx: number = Math.floor(Math.random() * selectedCards.length);
+  const correctCard: string = selectedCards[randomIdx].word;
+  console.log("correct: ", correctCard);
+  console.log("total ", totalTrials, " numCorrect: ", numCorrect);
+
+  useEffect(() => {
+    speakCorrectCard(correctCard);
+  }, [correctCard]);
+
+  const data = selectedCards.map((card, i) => ({
+    id: i,
+    title: card.word,
+  }));
 
   return (
     <View style={styles.page}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Spondee Cards</Text>
-        <SessionControls />
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
       </View>
-      <View style={styles.container}>
-        <FlatList
-          contentContainerStyle={styles.flatlist}
-          data={data}
-          renderItem={({ item }) => <Card text={item.title} />}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
-          horizontal={false}
-        />
-      </View>
-      <TouchableOpacity style={styles.footer}>  
+      <TestGrid
+        numCards={numCards}
+        data={data}
+        correctCard={correctCard}
+        setTotalTrials={setTotalTrials}
+        setNumCorrect={setNumCorrect}
+      />
+      <TouchableOpacity style={styles.footer} onPress = {() => speakCorrectCard(correctCard)}>
         <FontAwesome name="volume-up" size={36} />
       </TouchableOpacity>
     </View>
