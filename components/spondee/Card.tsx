@@ -1,6 +1,5 @@
 import { THIText } from "@/components/THIText";
 import spondeeImageMap from "@/components/spondee/SpondeeImageMap";
-import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 type CardProps = {
