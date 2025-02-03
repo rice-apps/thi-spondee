@@ -18,7 +18,7 @@ export default function Login() {
       setSession(session);
       // If they're logged in, push the testing selection route
       if (session && session.user) {
-        router.push("/starting");
+        router.push("/profilePicker");
       }
     });
   }, []);
