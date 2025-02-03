@@ -85,6 +85,14 @@ export default function profilePicker() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.profileGrid}>
+          <View style={styles.cardWrapper}>
+            <Pressable onPress={() => router.push("/addProfile")} style={styles.card}>
+              <View style={styles.imageContainer}>
+                <THIText style={styles.emoji}>+</THIText>
+              </View>
+            </Pressable>
+            <THIText style={styles.title}>Add Profile</THIText>
+          </View>
           {filteredChildren ? (
             filteredChildren.map((child) => (
               <ProfileCard
