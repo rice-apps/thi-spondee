@@ -1,5 +1,5 @@
-import React from "react";
-import {Text, TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
+import { THIText } from "@/components/THIText";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function InputSessionNotes() {
   const currentDate = new Date();
@@ -12,19 +12,19 @@ export default function InputSessionNotes() {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <Text style={styles.header}>Optional Session Notes</Text>
-        <Text style={styles.date}>Spondee Cards • {formattedDate}</Text>
+        <THIText style={styles.header}>Optional Session Notes</THIText>
+        <THIText style={styles.date}>Spondee Cards • {formattedDate}</THIText>
 
-        <Text style={styles.label}>Maximum Threshold Level</Text>
+        <THIText style={styles.label}>Maximum Threshold Level</THIText>
         <View style={styles.levelInput}>
           <TextInput
             style={styles.input}
             keyboardType="numeric"
             placeholderTextColor="#C4C4C4"
           />
-          <Text style={styles.dB}>dB</Text>
+          <THIText style={styles.dB}>dB</THIText>
         </View>
-        <Text style={styles.label}>Additional Notes</Text>
+        <THIText style={styles.label}>Additional Notes</THIText>
         <TextInput
           style={[styles.input, styles.notesInput]}
           placeholder="Type any additional notes here"
@@ -34,11 +34,14 @@ export default function InputSessionNotes() {
         />
 
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.button} onPress={
-            // TODO: Submit / pass data to session results page
-            () => console.log("TODO: Submit")
-          }>
-            <Text style={styles.buttonText}>Submit</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={
+              // TODO: Submit / pass data to session results page
+              () => console.log("TODO: Submit")
+            }
+          >
+            <THIText style={styles.buttonText}>Submit</THIText>
           </TouchableOpacity>
         </View>
       </View>
@@ -88,8 +91,6 @@ const styles = StyleSheet.create({
   header: {
     color: "#17262B",
     fontSize: 28,
-    fontWeight: "500",
-    fontFamily: "Inter",
     marginBottom: 13,
     marginTop: 100,
   },
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 120,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "500",
     color: "#000000",
   },

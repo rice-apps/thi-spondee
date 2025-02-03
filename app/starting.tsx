@@ -22,19 +22,6 @@ export default function StartingPointPage() {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => {
-              router.push("/selection");
-            }}
-            style={styles.button}
-          >
-            <THIText style={styles.buttonText}>Start new test</THIText>
-          </TouchableOpacity>
-
-          <View style={styles.dividerContainer}>
-            <THIText style={styles.dividerText}>OR</THIText>
-          </View>
-
-          <TouchableOpacity
             onPress={() => router.push("/profilePicker")}
             style={styles.button}
           >

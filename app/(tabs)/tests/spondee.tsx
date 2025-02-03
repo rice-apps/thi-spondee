@@ -1,18 +1,13 @@
 import { SessionControls } from "@/components/spondee/SessionControls";
 import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {useEffect, useState} from "react";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions"
-import * as Speech from 'expo-speech';
+import * as Speech from "expo-speech";
+import { useEffect, useState } from "react";
+import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
 
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import TestGrid from "@/components/spondee/TestGrid";
+import { THIText } from "@/components/THIText";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -28,12 +23,11 @@ function shuffleArray<T>(array: T[]): T[] {
 
 function speakCorrectCard(correctCard: string) {
   Speech.speak(correctCard, {
-    language: 'en', // Language code (e.g., 'en' for English)
+    language: "en", // Language code (e.g., 'en' for English)
     pitch: 1.0, // Pitch of the voice (1.0 is normal)
     rate: 1.0, // Speed of the speech (1.0 is normal)
   });
 }
-
 
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
@@ -68,7 +62,7 @@ export default function TestScreen() {
   return (
     <View style={styles.page}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Spondee Cards</Text>
+        <THIText style={styles.title}>Spondee Cards</THIText>
         <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
       </View>
       <TestGrid
@@ -78,7 +72,10 @@ export default function TestScreen() {
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
       />
-      <TouchableOpacity style={styles.footer} onPress = {() => speakCorrectCard(correctCard)}>
+      <TouchableOpacity
+        style={styles.footer}
+        onPress={() => speakCorrectCard(correctCard)}
+      >
         <FontAwesome name="volume-up" size={36} />
       </TouchableOpacity>
     </View>
