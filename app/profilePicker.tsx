@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { supabase } from "../lib/supabase";
+import {setCurrentID } from "./currentProfile";
 export default function profilePicker() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [children, setChildren] = React.useState<Child[] | null>(null);
@@ -57,9 +58,12 @@ export default function profilePicker() {
 
   const chooseProfile = async (id: string) => {
     setSelectedProfile(id);
+    {/* Currently calls network everytime a profile is click - can be bettered in future*/}
+    setCurrentID(id);
   };
 
   const handleButtonClick = () => {
+  
     if (selectedProfile) {
       console.log(`Selected UUID: ${selectedProfile}`);
       router.push("/(tabs)/home");
