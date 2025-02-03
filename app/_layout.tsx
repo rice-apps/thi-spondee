@@ -1,6 +1,5 @@
-import {DefaultTheme, Theme, ThemeProvider} from "@react-navigation/native";
+import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -15,6 +14,7 @@ export default function RootLayout() {
         <Stack.Screen name="starting" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="profilePicker" options={{ headerShown: false }} />
+        <Stack.Screen name="addProfile" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
