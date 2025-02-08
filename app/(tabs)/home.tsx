@@ -3,42 +3,54 @@ import TopBar from "@/components/home/TopBar";
 import profilePicker from "../profilePicker";
 import { THIText } from "@/components/THIText";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import {supabase} from "@/lib/supabase";
 
 export default function Home() {
-  supabase
-    .from("test_session")
-    .select("id")
-    .eq('child', '0b188d2d-8db1-4dcc-ab93-998041adc66d')
 
-  return (
-    <View style={styles.container}>
-      <TopBar />
-      <View>
-        <THIText
-          style={{
-            fontSize: 22,
-            textAlign: "left",
-            marginTop: 50,
-          }}
-        >
-          Recent Sessions 
-        </THIText>
-      </View>
-      {/* rectangle that contains all the cards*/}
-      <View style={styles.cardsContainer}>
-        <Card />
-        <Card />
-        <Card />
-      </View>
-      <View style={styles.footer}>
-        {/* need to add on click */}
-        <AntDesign name="plus" size={24} color="black" />
-        <THIText style={{ fontSize: 22 }}>New Test</THIText>
-      </View>
+  async function fetchTestSessions(childId: string) {
+    const { data, error } = await supabase
+      .from("test_session")
+      .select("id")
+      .eq('child_id', childId);
+  
+    if (error) {
+      console.error('Error fetching test sessions:', error);
+      return null;
+    }
+  
+    return data; // Returns an array of sessions
+  }
+  
+
+return (
+  <View style={styles.container}>
+    <TopBar />
+    <View>
+      <THIText
+        style={{
+          fontSize: 22,
+          textAlign: "left",
+          marginTop: 50,
+        }}
+      >
+        Recent Sessions 
+      </THIText>
     </View>
+    {/* rectangle that contains all the cards*/}
+    <View style={styles.cardsContainer}>
+      
+      <Card testId="1" />
+      <Card testId="2" />
+      <Card testId="3" />
+    </View>
+    <View style={styles.footer}>
+      {/* need to add on click */}
+      <AntDesign name="plus" size={24} color="black" />
+      <THIText style={{ fontSize: 22 }}>New Test</THIText>
+    </View>
+  </View>
   );
 }
 
