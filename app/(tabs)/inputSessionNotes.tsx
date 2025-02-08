@@ -5,6 +5,7 @@ import {Trial} from "@/app/(tabs)/tests/spondee";
 import uuid from 'react-native-uuid';
 import {supabase} from "@/lib/supabase";
 import {useState, useEffect} from "react";
+import {userData} from "@/app/currentProfile";
 
 export default function InputSessionNotes() {
   const [formattedDate, setFormattedDate] = useState<string>("");
@@ -76,16 +77,17 @@ export default function InputSessionNotes() {
   }
 
   async function handleSubmission() {
+    const userUUID = userData.CURRENT_ID;
     const sessionUUID = generateUUID();
 
     try {
-      const newSession = await createTestSession(sessionUUID, "de9bbcd4-b1aa-4d2e-812c-3a98346060bf"); // Pass UUID to createTestSession
+      const newSession = await createTestSession(sessionUUID, userUUID);
 
       if (!newSession) {
         throw new Error("Failed to create test session");
       }
 
-      await insertAttempts(sessionUUID); // Pass UUID to insertAttempts
+      await insertAttempts(sessionUUID);
 
       console.log("Test session created and attempts inserted successfully");
     } catch (error) {
