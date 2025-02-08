@@ -9,6 +9,7 @@ import TestGrid from "@/components/spondee/TestGrid";
 import {THIText} from "@/components/THIText";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
+import {userData} from "@/app/currentProfile";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -74,7 +75,7 @@ export default function TestScreen() {
   return (
     <View style={styles.page}>
       <EmojiRain
-        emoji="😘"
+        emoji={userData.EMOJI}
         count={30}
         trigger={rainTrigger}
         onRainComplete={() => {
