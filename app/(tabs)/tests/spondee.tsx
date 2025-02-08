@@ -4,10 +4,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
 import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
+import { userData } from "../../currentProfile";
 
 import TestGrid from "@/components/spondee/TestGrid";
 import { THIText } from "@/components/THIText";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -32,6 +33,7 @@ function speakCorrectCard(correctCard: string) {
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
+  const [selectedCorrect, setSelectedCorrect] = useState(false);
   // const [pageNum, setPageNum] = useState(1);
   // const [selectedId, setSelectedId] = useState();
 
@@ -59,11 +61,17 @@ export default function TestScreen() {
     title: card.word,
   }));
 
+  const handleSelection = (selectedWord : string) => {
+    if (selectedWord === correctCard) {
+      setSelectedCorrect(true);
+    }
+  };
+
   return (
     <View style={styles.page}>
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect}/>
       </View>
       <TestGrid
         numCards={numCards}
@@ -71,7 +79,13 @@ export default function TestScreen() {
         correctCard={correctCard}
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
+        setSelectedCorrect={setSelectedCorrect}
       />
+      {selectedCorrect && (
+        <View style={styles.emojiContainer}>
+        <Text style={styles.emoji}>{userData.EMOJI}</Text>
+      </View>
+      )}
       <TouchableOpacity
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
@@ -115,6 +129,22 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
     paddingTop: "3%",
+  },
+  emojiContainer: {
+    position: "absolute",
+    top: "70%", 
+    left: 0,
+    right: 0,
+    width: "50%",
+    height: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+
+    zIndex: 10,
+  },
+  emoji: {
+    fontSize: 1, 
+    fontWeight: 600,
   },
   button: {
     backgroundColor: grayColor,

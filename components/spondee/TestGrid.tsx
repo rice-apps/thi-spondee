@@ -9,12 +9,14 @@ export default function TestGrid({
   correctCard,
   setTotalTrials,
   setNumCorrect,
+  setSelectedCorrect,
 }: {
   numCards: number;
   data: { id: number; title: string }[];
   correctCard: string;
   setTotalTrials: (update: (prev: number) => number) => void;
   setNumCorrect: (update: (prev: number) => number) => void;
+  setSelectedCorrect: (correct: boolean) => void;
 }) {
   const [selectedId, setSelectedId] = useState<number>();
 
@@ -26,9 +28,12 @@ export default function TestGrid({
       console.log(item.title, correctCard);
       if (correctCard === item.title) {
         setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+        setSelectedCorrect(true);
+
       }
       setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
       setSelectedId(-1);
+
     };
 
     return (
