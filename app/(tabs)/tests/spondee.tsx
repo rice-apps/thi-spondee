@@ -1,13 +1,14 @@
-import { SessionControls } from "@/components/spondee/SessionControls";
-import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
+import {SessionControls} from "@/components/spondee/SessionControls";
+import {SpondeeCard} from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
 
 import TestGrid from "@/components/spondee/TestGrid";
-import { THIText } from "@/components/THIText";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {THIText} from "@/components/THIText";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {EmojiRain} from "@/components/testing/EmojiRain";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -32,11 +33,22 @@ function speakCorrectCard(correctCard: string) {
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
-  // const [pageNum, setPageNum] = useState(1);
-  // const [selectedId, setSelectedId] = useState();
 
   const numCards = 4;
-  // const totalPages = 20;
+
+  // Emoji rain trigger / reward mechanism. Just do setRainTrigger(true)
+  const [rainTrigger, setRainTrigger] = useState(false);
+
+  // Callback after a card is tapped
+  const callback = (item: { id: number; title: string; }) => {
+    console.log(item.title, correctCard);
+    if (correctCard === item.title) {
+      setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+    }
+    setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
+
+    setRainTrigger(true);
+  };
 
   // Select random numCards from shuffled set of spondee cards
   const selectedCards: SpondeeCard[] = shuffleArray(SpondeeCards).slice(
@@ -61,9 +73,19 @@ export default function TestScreen() {
 
   return (
     <View style={styles.page}>
+      <EmojiRain
+        emoji="😘"
+        count={30}
+        trigger={rainTrigger}
+        onRainComplete={() => {
+          // Optional callback when rain finishes
+          console.log('Rain completed');
+          setRainTrigger(false);
+        }}
+      />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect}/>
       </View>
       <TestGrid
         numCards={numCards}
@@ -71,12 +93,13 @@ export default function TestScreen() {
         correctCard={correctCard}
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
+        callback={callback}
       />
       <TouchableOpacity
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
       >
-        <FontAwesome name="volume-up" size={36} />
+        <FontAwesome name="volume-up" size={36}/>
       </TouchableOpacity>
     </View>
   );
