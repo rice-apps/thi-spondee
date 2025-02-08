@@ -1,18 +1,22 @@
 import Card from "@/components/spondee/Card";
 import { useState } from "react";
-
+import {Trial} from "@/app/(tabs)/tests/spondee";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function TestGrid({
   numCards,
   data,
   correctCard,
+  attempts,
+  setAttempts,
   setTotalTrials,
   setNumCorrect,
 }: {
   numCards: number;
   data: { id: number; title: string }[];
   correctCard: string;
+  attempts: Trial[];
+  setAttempts: (attempts: Trial[]) => void;
   setTotalTrials: (update: (prev: number) => number) => void;
   setNumCorrect: (update: (prev: number) => number) => void;
 }) {
@@ -22,10 +26,20 @@ export default function TestGrid({
 
   const renderCard = ({ item }: any) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
-    const submitButton = item.id === selectedId ? true : false;
+    const submitButton = item.id === selectedId;
+
+    const addItem = (newItem: Trial) => {
+      setAttempts([...attempts, newItem]);
+    }
 
     const handlePress = () => {
       console.log(item.title, correctCard);
+
+      addItem({
+        prompt: correctCard,
+        response: item.title,
+      });
+
       if (correctCard === item.title) {
         setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
       }
