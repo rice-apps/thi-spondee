@@ -1,19 +1,98 @@
 import { StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { THIText } from "../THIText";
+import {supabase} from "@/lib/supabase";
+import {useEffect, useState} from "react";
 
-export default function Card() {
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-  return (
-    <View style={styles.box}>
-      <View style={styles.innerBox}>
-        <View style={styles.textContainer}>
-          <THIText style={styles.dateText}>{formattedDate}</THIText>
+type CardProps = {
+    testId: string;
+}
+
+export default function Card( {
+  testId
+} : CardProps){
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    console.log(testId);
+
+  const [accuracy, setAccuracy] = useState(0);
+  const childId = "0b188d2d-8db1-4dcc-ab93-998041adc66d";
+
+  async function fetchTestSessions(childId: string) {
+    const { data, error } = await supabase
+      .from("test_session")
+      .select("id")
+      .eq('child_id', childId);
+
+    if (error) {
+      console.error('Error fetching test sessions:', error);
+      return null;
+    }
+
+    return data; // Returns an array of sessions
+  }
+
+  async function fetchTestResults(sessionIds: readonly any[]) {
+    const { data, error } = await supabase
+      .from("test_trial")
+      .select("prompt, response, test_session_id")
+      .in('test_session_id', sessionIds);
+
+    if (error) {
+      console.error('Error fetching test results:', error);
+      return null;
+    }
+
+    return data;
+  }
+
+  function calculateAccuracy(results: { prompt: any; response: any; test_session_id: any; }[]) {
+    if (!results || results.length === 0) return 0;
+
+    const correctCount = results.filter(
+      (item) => item.prompt.trim() === item.response.trim()
+    ).length;
+
+    return ((correctCount / results.length)).toFixed(2);
+  }
+
+  async function fetchDataAndCalculateAccuracy(childId: string) {
+    try {
+      const sessions = await fetchTestSessions(childId);
+
+      if (!sessions || sessions.length === 0) {
+        console.log('No test sessions found for this child.');
+        return;
+      }
+
+      const sessionIds = sessions.map(session => session.id);
+      const testResults = await fetchTestResults(sessionIds);
+
+      if (testResults) {
+        const accuracy = calculateAccuracy(testResults);
+        console.log(`Accuracy for child ${childId}: ${accuracy}%`);
+        return accuracy;
+      } else {
+        console.log('No test results found.');
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
+  }
+
+useEffect(() => {
+  fetchDataAndCalculateAccuracy(childId);
+}, []);
+
+    return (
+            <View style={styles.box}>
+                <View style={styles.innerBox}>
+                    <View style={styles.textContainer}>
+                        <THIText style={styles.dateText}>{formattedDate}</THIText>
           <THIText style={styles.textStyle}>Spondee Cards</THIText>
           <View style={styles.whiteBoxContainer}>
             <View style={styles.whiteBox}>
@@ -35,7 +114,7 @@ export default function Card() {
           <Progress.Circle
             indeterminate={false}
             animated={false}
-            progress={0.5}
+            progress={accuracy}
             showsText={true}
             size={60}
             textStyle={{ fontSize: 18, color: "black", fontWeight: 500 }}
