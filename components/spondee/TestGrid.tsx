@@ -18,6 +18,8 @@ export default function TestGrid({
 }) {
   const [selectedId, setSelectedId] = useState<number>();
 
+  let columns = Math.min(Math.trunc((numCards + 1) / 2), 4);
+
   const renderCard = ({ item }: any) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
     const submitButton = item.id === selectedId ? true : false;
@@ -41,6 +43,8 @@ export default function TestGrid({
         correct={correctCard}
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
+        size={columns}
+        numCards={numCards}
       />
     );
   };
@@ -50,10 +54,11 @@ export default function TestGrid({
       <FlatList
         contentContainerStyle={styles.flatlist}
         data={data}
+        numColumns={columns}
         renderItem={renderCard}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
         horizontal={false}
+        key={numCards}
       />
     </View>
   );

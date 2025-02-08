@@ -35,7 +35,8 @@ export default function TestScreen() {
   // const [pageNum, setPageNum] = useState(1);
   // const [selectedId, setSelectedId] = useState();
 
-  const numCards = 4;
+
+  const [numCards, setNumCards] = useState(4);
   // const totalPages = 20;
 
   // Select random numCards from shuffled set of spondee cards
@@ -58,12 +59,11 @@ export default function TestScreen() {
     id: i,
     title: card.word,
   }));
-
   return (
     <View style={styles.page}>
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={setNumCards}/>
       </View>
       <TestGrid
         numCards={numCards}
