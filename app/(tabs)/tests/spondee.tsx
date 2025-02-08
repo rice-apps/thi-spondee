@@ -2,13 +2,13 @@ import { SessionControls } from "@/components/spondee/SessionControls";
 import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
 import { userData } from "../../currentProfile";
 
 import TestGrid from "@/components/spondee/TestGrid";
 import { THIText } from "@/components/THIText";
-import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View, Animated} from "react-native";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -34,6 +34,7 @@ export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
   const [selectedCorrect, setSelectedCorrect] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   // const [pageNum, setPageNum] = useState(1);
   // const [selectedId, setSelectedId] = useState();
 
@@ -60,12 +61,24 @@ export default function TestScreen() {
     id: i,
     title: card.word,
   }));
-
-  const handleSelection = (selectedWord : string) => {
-    if (selectedWord === correctCard) {
-      setSelectedCorrect(true);
+  
+  useEffect(() => {
+    if (selectedCorrect) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        setTimeout(() => {
+          Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }).start();
+        }, 1000);
+      });
     }
-  };
+  }, [selectedCorrect]); 
 
   return (
     <View style={styles.page}>
@@ -81,11 +94,11 @@ export default function TestScreen() {
         setNumCorrect={setNumCorrect}
         setSelectedCorrect={setSelectedCorrect}
       />
-      {selectedCorrect && (
-        <View style={styles.emojiContainer}>
+      {/* {selectedCorrect && (
+        <Animated.View style={[styles.emojiContainer, {opacity: fadeAnim}]}>
         <Text style={styles.emoji}>{userData.EMOJI}</Text>
-      </View>
-      )}
+      </Animated.View>
+      )} */}
       <TouchableOpacity
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
@@ -132,19 +145,16 @@ const styles = StyleSheet.create({
   },
   emojiContainer: {
     position: "absolute",
-    top: "70%", 
+    top: "50%", 
     left: 0,
     right: 0,
-    width: "50%",
-    height: "50%",
     alignItems: "center",
     justifyContent: "center",
 
     zIndex: 10,
   },
   emoji: {
-    fontSize: 1, 
-    fontWeight: 600,
+    fontSize: 100,
   },
   button: {
     backgroundColor: grayColor,

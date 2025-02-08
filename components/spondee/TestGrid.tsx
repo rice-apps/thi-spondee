@@ -1,7 +1,7 @@
 import Card from "@/components/spondee/Card";
-import { useState } from "react";
+import { useState, useRef} from "react";
 
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, Animated} from "react-native";
 
 export default function TestGrid({
   numCards,
@@ -29,7 +29,6 @@ export default function TestGrid({
       if (correctCard === item.title) {
         setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
         setSelectedCorrect(true);
-
       }
       setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
       setSelectedId(-1);
