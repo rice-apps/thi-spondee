@@ -9,6 +9,7 @@ import TestGrid from "@/components/spondee/TestGrid";
 import {THIText} from "@/components/THIText";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
+import {userData} from "@/app/currentProfile";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -33,11 +34,40 @@ function speakCorrectCard(correctCard: string) {
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
+  // Emoji rain trigger / reward mechanism. Just do setRainTrigger(true)
+  const [rainTrigger, setRainTrigger] = useState(false);
+  // Store selected cards in state
+  const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
+  const [correctCard, setCorrectCard] = useState("");
 
   const numCards = 4;
 
-  // Emoji rain trigger / reward mechanism. Just do setRainTrigger(true)
-  const [rainTrigger, setRainTrigger] = useState(false);
+  /**
+   * Randomizes cards shown, updates state, and returns that list (not limited by set size)
+   */
+  function randomizeSelectedCards() {
+    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numCards);
+    setSelectedCards(initialSelectedCards);
+    return initialSelectedCards;
+  }
+
+  // Initialize selected cards and first correct card
+  useEffect(() => {
+    const initialSelectedCards = randomizeSelectedCards();
+
+    const initialCorrectCard = initialSelectedCards[Math.floor(Math.random() * numCards)].word;
+    setCorrectCard(initialCorrectCard);
+  }, []); // Empty dependency array means this only runs once on mount
+
+  // Generate a new random card and updates state from the specified list of selected cards
+  const generateNewCard = (list: SpondeeCard[]) => {
+    const randomIdx = Math.floor(Math.random() * list.length);
+    setCorrectCard(list[randomIdx].word);
+  };
+
+
+  console.log("correct: ", correctCard);
+  console.log("total ", totalTrials, " numCorrect: ", numCorrect);
 
   // Callback after a card is tapped
   const callback = (item: { id: number; title: string; }) => {
@@ -49,18 +79,6 @@ export default function TestScreen() {
 
     setRainTrigger(true);
   };
-
-  // Select random numCards from shuffled set of spondee cards
-  const selectedCards: SpondeeCard[] = shuffleArray(SpondeeCards).slice(
-    0,
-    numCards
-  );
-
-  // Randomly choose correct card
-  const randomIdx: number = Math.floor(Math.random() * selectedCards.length);
-  const correctCard: string = selectedCards[randomIdx].word;
-  console.log("correct: ", correctCard);
-  console.log("total ", totalTrials, " numCorrect: ", numCorrect);
 
   useEffect(() => {
     speakCorrectCard(correctCard);
@@ -74,12 +92,15 @@ export default function TestScreen() {
   return (
     <View style={styles.page}>
       <EmojiRain
-        emoji="😘"
+        emoji={userData.EMOJI}
         count={30}
         trigger={rainTrigger}
         onRainComplete={() => {
-          // Optional callback when rain finishes
+          // Callback when rain finishes
           console.log('Rain completed');
+          // Generate new list
+          let list = randomizeSelectedCards();
+          generateNewCard(list);
           setRainTrigger(false);
         }}
       />
