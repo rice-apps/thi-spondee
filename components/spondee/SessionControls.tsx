@@ -2,6 +2,7 @@ import Settings from "@/app/(tabs)/settings";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
+import {Dispatch, SetStateAction} from "react";
 import {Trial} from "@/app/(tabs)/tests/spondee";
 
 type SessionControlProps = {
@@ -10,12 +11,16 @@ type SessionControlProps = {
   attempts: Trial[];
   //setTotalTrials: (update: (prev: number) => number) => void;
   //setNumCorrect: (update: (prev: number) => number) => void;
+  numCards: number;
+  setNumCards: Dispatch<SetStateAction<number>>;
 };
 
 export function SessionControls({
-    totalTrials,
-    numCorrect,
-    attempts
+  totalTrials,
+  numCorrect,
+  numCards,
+  setNumCards
+  attempts
 }: SessionControlProps) {
   return (
     <View style={styles.controlsContainer}>
@@ -32,7 +37,7 @@ export function SessionControls({
       >
         <THIText style={styles.buttonText}>End Session</THIText>
       </TouchableOpacity>
-      <Settings />
+      <Settings numCards={numCards} setNumCards={setNumCards}/>
     </View>
   );
 }
