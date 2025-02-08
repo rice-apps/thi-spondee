@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { fetchGuestData } from "./currentProfile";
 
 export default function StartingPointPage() {
   return (
@@ -21,6 +22,20 @@ export default function StartingPointPage() {
         </View>
 
         <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              fetchGuestData();
+              router.push("/selection");
+            }}
+            style={styles.button}
+          >
+            <THIText style={styles.buttonText}>Start new test</THIText>
+          </TouchableOpacity>
+
+          <View style={styles.dividerContainer}>
+            <THIText style={styles.dividerText}>OR</THIText>
+          </View>
+
           <TouchableOpacity
             onPress={() => router.push("/profilePicker")}
             style={styles.button}

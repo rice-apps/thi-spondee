@@ -15,9 +15,30 @@ export const setCurrentID = async (id) => {
 
 export const fetchUserData = async (id) => {
   const { data, error } = await supabase
-    .from("children") 
+    .from("children")
     .select("first_name, last_name, username, emoji")
     .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("Error fetching user data:", error);
+    return;
+  }
+
+  if (data) {
+    userData.FIRST_NAME = data.first_name;
+    userData.LAST_NAME = data.last_name;
+    userData.USERNAME = data.username;
+    userData.EMOJI = data.emoji;
+    console.log("User data updated:", userData);
+  }
+};
+
+export const fetchGuestData = async () => {
+  const { data, error } = await supabase
+    .from("children")
+    .select("first_name, last_name, username, emoji")
+    .eq("emoji", "👤")
     .single();
 
   if (error) {
