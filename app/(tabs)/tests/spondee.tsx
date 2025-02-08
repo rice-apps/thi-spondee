@@ -29,9 +29,15 @@ function speakCorrectCard(correctCard: string) {
   });
 }
 
+export interface Trial {
+  prompt: string;
+  response: string;
+}
+
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
+  const [attempts, setAttempts] = useState<Trial[]>([]);
   // const [pageNum, setPageNum] = useState(1);
   // const [selectedId, setSelectedId] = useState();
 
@@ -63,12 +69,14 @@ export default function TestScreen() {
     <View style={styles.page}>
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} />
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} attempts={attempts} />
       </View>
       <TestGrid
         numCards={numCards}
         data={data}
         correctCard={correctCard}
+        attempts={attempts}
+        setAttempts={setAttempts}
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
       />

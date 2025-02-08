@@ -1,13 +1,98 @@
 import { THIText } from "@/components/THIText";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {router, useLocalSearchParams} from "expo-router";
+import {Trial} from "@/app/(tabs)/tests/spondee";
+import uuid from 'react-native-uuid';
+import {supabase} from "@/lib/supabase";
+import {useState, useEffect} from "react";
 
 export default function InputSessionNotes() {
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const [formattedDate, setFormattedDate] = useState<string>("");
+  const [parsedAttempts, setParsedAttempts] = useState<Trial[]>([]);
+  const { attempts } = useLocalSearchParams();
+
+  const generateUUID = () => {
+    const newUUID = uuid.v4();
+    console.log("Generated UUID:", newUUID);
+    return newUUID;
+  };
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const formatted = currentDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    setFormattedDate(formatted);
+
+    if (attempts) {
+      try {
+        const parsedAttempts: Trial[] = JSON.parse(attempts as string);
+        setParsedAttempts(parsedAttempts);
+      } catch (error) {
+        console.error("Error parsing attempts:", error);
+        setParsedAttempts([]);
+      }
+    }
+  }, [attempts]);
+
+
+  async function createTestSession(sessionUUID: string, childId: string) {
+    try {
+      const { data, error } = await supabase
+          .from('test_session')
+          .insert({ id: sessionUUID, child_id: childId })
+          .select()
+          .single();
+
+      if (error) {
+        console.log("Error fetching test session:", error.message);
+        return null;
+      }
+      console.log('Test session created:', data);
+      return data;
+    } catch (error) {
+      console.error('Error creating test session:', (error as Error).message);
+      return null;
+    }
+  }
+
+
+  async function insertAttempts(sessionUUID: string) {
+    const trials = parsedAttempts.map((trial) => ({
+      prompt: trial.prompt,
+      response: trial.response,
+      test_session_id: sessionUUID,
+    }));
+
+    const {data, error} = await supabase.from("test_trial").insert(trials);
+
+    if (error) {
+      console.log("Error fetching test trial:", error.message);
+      return null;
+    }
+    console.log("Successfully inserted trials");
+  }
+
+  async function handleSubmission() {
+    const sessionUUID = generateUUID();
+
+    try {
+      const newSession = await createTestSession(sessionUUID, "de9bbcd4-b1aa-4d2e-812c-3a98346060bf"); // Pass UUID to createTestSession
+
+      if (!newSession) {
+        throw new Error("Failed to create test session");
+      }
+
+      await insertAttempts(sessionUUID); // Pass UUID to insertAttempts
+
+      console.log("Test session created and attempts inserted successfully");
+    } catch (error) {
+      console.error("Error in submission process:", error);
+    }
+  }
+
 
   return (
     <View style={styles.wrapper}>
@@ -36,10 +121,9 @@ export default function InputSessionNotes() {
         <View style={styles.buttonWrapper}>
           <TouchableOpacity
             style={styles.button}
-            onPress={
-              // TODO: Submit / pass data to session results page
-              () => console.log("TODO: Submit")
-            }
+            onPress={async () => {
+              await handleSubmission();
+            }}
           >
             <THIText style={styles.buttonText}>Submit</THIText>
           </TouchableOpacity>
