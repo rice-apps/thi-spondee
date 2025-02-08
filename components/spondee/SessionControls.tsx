@@ -19,7 +19,7 @@ export function SessionControls({
   totalTrials,
   numCorrect,
   numCards,
-  setNumCards
+  setNumCards,
   attempts
 }: SessionControlProps) {
   return (
