@@ -133,6 +133,14 @@ export default function TabLayout() {
             tabBarButton: () => null, // Hide the tab
           }}
         />
+
+        {/* Session results screen (hidden) */}
+        <Tabs.Screen
+          name="sessionResults"
+          options={{
+            tabBarButton: () => null, // Hide the tab
+          }}
+        />
       </Tabs>
     </View>
   );
