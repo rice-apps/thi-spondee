@@ -4,24 +4,18 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { supabase } from "@/lib/supabase";
 import { router, Tabs } from "expo-router";
-import React from "react";
+import {React, useState} from "react";
 import { Alert, StyleSheet, View } from "react-native";
+import { LogOutModal } from "@/components/navigation/LogOutModal";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   // Handle the logout after clicking log out tab button
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      Alert.alert("Logout Error", error.message);
-      return;
-    } else {
-      console.log("User logged out successfully");
-    }
-
-    router.push("/login");
+  const handleLogout = () => {
+    setShowLogoutModal(true);
+   
   };
 
   return (
@@ -133,7 +127,20 @@ export default function TabLayout() {
             tabBarButton: () => null, // Hide the tab
           }}
         />
+        
       </Tabs>
+      <LogOutModal 
+        visible={showLogoutModal} 
+        onClose={() => setShowLogoutModal(false)} 
+        onLogout={async () => {
+          const { error } = await supabase.auth.signOut();
+          if (error) {
+            Alert.alert("Logout Error", error.message);
+            return;
+          }
+          router.push("/login");
+        }}
+      />
     </View>
   );
 }
