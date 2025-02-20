@@ -1,13 +1,9 @@
 import { THIText } from "@/components/THIText";
 import spondeeImageMap from "@/components/spondee/SpondeeImageMap";
-import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 type CardProps = {
   text: string;
-  correct: string;
-  setTotalTrials: (update: (prev: number) => number) => void;
-  setNumCorrect: (update: (prev: number) => number) => void;
   button: boolean;
   backgroundColor: string;
   onPress: () => void;
@@ -16,9 +12,6 @@ type CardProps = {
 
 export default function Card({
   text,
-  correct,
-  setTotalTrials,
-  setNumCorrect,
   button,
   backgroundColor,
   onPress,

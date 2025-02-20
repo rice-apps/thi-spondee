@@ -2,13 +2,13 @@ import Card from "@/components/home/Card";
 import TopBar from "@/components/home/TopBar";
 import { THIText } from "@/components/THIText";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import React from "react";
 import { StyleSheet, View } from "react-native";
+import { userData } from "../../app/currentProfile";
 
 export default function Home() {
   return (
     <View style={styles.container}>
-      <TopBar />
+      <TopBar emoji={userData.EMOJI} username={userData.USERNAME} />
       <View>
         <THIText
           style={{
