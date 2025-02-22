@@ -1,16 +1,22 @@
 import { THIText } from "@/components/THIText";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import {router, useLocalSearchParams} from "expo-router";
+import {useLocalSearchParams} from "expo-router";
 import {Trial} from "@/app/(tabs)/tests/spondee";
 import uuid from 'react-native-uuid';
 import {supabase} from "@/lib/supabase";
 import {useState, useEffect} from "react";
 import {userData} from "@/app/currentProfile";
+import {SessionData} from "@/components/spondee/SessionControls";
 
 export default function InputSessionNotes() {
   const [formattedDate, setFormattedDate] = useState<string>("");
   const [parsedAttempts, setParsedAttempts] = useState<Trial[]>([]);
-  const { attempts } = useLocalSearchParams();
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [numCards, setNumCards] = useState(0);
+  const [maximumThresholdLevel, setMaximumThresholdLevel] = useState(0);
+  const [sessionNotes, setSessionNotes] = useState<string>("");
+
+  const {sessionData} = useLocalSearchParams<{sessionData?: string}>();
 
   const generateUUID = () => {
     const newUUID = uuid.v4();
@@ -27,16 +33,20 @@ export default function InputSessionNotes() {
     });
     setFormattedDate(formatted);
 
-    if (attempts) {
+    // Parse the sessionData if it exists.
+    if (sessionData) {
       try {
-        const parsedAttempts: Trial[] = JSON.parse(attempts as string);
-        setParsedAttempts(parsedAttempts);
+        const parsedData: SessionData = JSON.parse(sessionData);
+        setParsedAttempts(parsedData.attempts);
+        setSoundEnabled(parsedData.soundEnabled);
+        setNumCards(parsedData.numCards);
       } catch (error) {
-        console.error("Error parsing attempts:", error);
+        console.error("Error parsing session data:", error);
         setParsedAttempts([]);
       }
     }
-  }, [attempts]);
+  }, [sessionData]);
+
 
 
   async function createTestSession(sessionUUID: string, childId: string) {
@@ -76,6 +86,31 @@ export default function InputSessionNotes() {
     console.log("Successfully inserted trials");
   }
 
+  async function insertSettingsData(sessionUUID: string) {
+    try {
+      const {data, error} = await supabase
+          .from("test_session_settings")
+          .insert({
+                id: sessionUUID,
+                set_size: numCards,
+                sound_enabled: soundEnabled,
+                max_thresh_level: maximumThresholdLevel,
+                session_notes: sessionNotes,
+              }
+          ).select()
+          .single();
+      if (error) {
+        console.log("Error creating settings data:", error.message);
+      }
+      console.log('Test session created:', data);
+      return data;
+    }
+    catch(error) {
+      console.error('Error creating test session:', (error as Error).message);
+      return null;
+    }
+  }
+
   async function handleSubmission() {
     const userUUID = userData.CURRENT_ID;
     const sessionUUID = generateUUID();
@@ -88,6 +123,7 @@ export default function InputSessionNotes() {
       }
 
       await insertAttempts(sessionUUID);
+      await insertSettingsData(sessionUUID);
 
       console.log("Test session created and attempts inserted successfully");
     } catch (error) {
@@ -108,6 +144,12 @@ export default function InputSessionNotes() {
             style={styles.input}
             keyboardType="numeric"
             placeholderTextColor="#C4C4C4"
+            value={maximumThresholdLevel ? maximumThresholdLevel.toString() : ""}
+            onChangeText={(text) => {
+              // Convert entered text to a number.
+              const numericValue = Number(text);
+              setMaximumThresholdLevel(isNaN(numericValue) ? 0 : numericValue);
+            }}
           />
           <THIText style={styles.dB}>dB</THIText>
         </View>
@@ -118,6 +160,8 @@ export default function InputSessionNotes() {
           placeholderTextColor="#C4C4C4"
           multiline
           numberOfLines={4}
+          value={sessionNotes}
+          onChangeText={(text) => setSessionNotes(text)}
         />
 
         <View style={styles.buttonWrapper}>

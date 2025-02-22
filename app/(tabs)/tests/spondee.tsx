@@ -10,8 +10,6 @@ import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
 import {userData} from "@/app/currentProfile";
 
-// let data: { id: string; title: string}[] = [];
-
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array]; // Create a copy to avoid mutating original array
@@ -65,8 +63,6 @@ export default function TestScreen() {
     const initialCorrectCard = initialSelectedCards[Math.floor(Math.random() * numCards)].word;
     setCorrectCard(initialCorrectCard);
   }, []); // Empty dependency array means this only runs once on mount
-
-    // const totalPages = 20;
 
   // Generate a new random card and updates state from the specified list of selected cards
   const generateNewCard = (list: SpondeeCard[]) => {
@@ -123,8 +119,6 @@ export default function TestScreen() {
         correctCard={correctCard}
         attempts={attempts}
         setAttempts={setAttempts}
-        setTotalTrials={setTotalTrials}
-        setNumCorrect={setNumCorrect}
         callback={callback}
       />
       <TouchableOpacity
@@ -185,7 +179,7 @@ const styles = StyleSheet.create({
     bottom: 50,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    aspectRatio: 1 / 1,
+    aspectRatio: 1,
     backgroundColor: "#95D0E7",
     borderRadius: 30,
     justifyContent: "center",

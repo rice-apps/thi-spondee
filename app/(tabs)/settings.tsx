@@ -15,15 +15,17 @@ import {
 type SettingsProps = {
   numCards: number;
   setNumCards: Dispatch<SetStateAction<number>>;
+  soundEnabled: boolean;
+  setSoundEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Settings({
   numCards,
-  setNumCards
+  setNumCards,
+  soundEnabled,
+  setSoundEnabled,
 }: SettingsProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [setSize, setSetSize] = useState(4);
-  const [soundEnabled, setSoundEnabled] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [answerEnabled, setAnswerEnabled] = useState(false);
   const handleVolumeChange = async (value: number) => {
