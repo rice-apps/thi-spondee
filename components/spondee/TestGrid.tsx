@@ -9,8 +9,6 @@ export default function TestGrid({
   correctCard,
   attempts,
   setAttempts,
-  setTotalTrials,
-  setNumCorrect,
   callback,
 }: {
   numCards: number;
@@ -18,8 +16,6 @@ export default function TestGrid({
   correctCard: string;
   attempts: Trial[];
   setAttempts: (attempts: Trial[]) => void;
-  setTotalTrials: (update: (prev: number) => number) => void;
-  setNumCorrect: (update: (prev: number) => number) => void;
   callback: (item: { id: number; title: string }) => void;
 }) {
   const [selectedId, setSelectedId] = useState<number>();
