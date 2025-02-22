@@ -5,10 +5,11 @@ import { THIText } from "@/components/THIText";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import {supabase} from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { userData } from "../../app/currentProfile";
 
 export default function Home() {
+  const [testSessions, setTestSessions] = useState<{ id: any }[] | null>(null);
 
   async function fetchTestSessions(childId: string) {
     const { data, error } = await supabase
@@ -23,36 +24,60 @@ export default function Home() {
 
     return data; // Returns an array of sessions
   }
-const currentProfile =
+  const childId = userData.CURRENT_ID;
+  //const sessions =  await fetchTestSessions(childId);
 
+  async function fetchTestResults(sessionIds: readonly any[]) {
+    const { data, error } = await supabase
+      .from("test_trial")
+      .select("prompt, response, test_session_id")
+      .in('test_session_id', sessionIds);
 
-return (
-  <View style={styles.container}>
-    <TopBar emoji={userData.EMOJI} username={userData.USERNAME} />
-    <View>
-      <THIText
-        style={{
-          fontSize: 22,
-          textAlign: "left",
-          marginTop: 50,
-        }}
-      >
-        Recent Sessions
-      </THIText>
-    </View>
-    {/* rectangle that contains all the cards*/}
-    <View style={styles.cardsContainer}>
+    if (error) {
+      console.error('Error fetching test results:', error);
+      return null;
+    }
 
-      <Card testId="1" />
-      <Card testId="2" />
-      <Card testId="3" />
+    return data;
+  }
+  //const sessionIds = sessions.map(session => session.id);
+
+  // Only run once:
+  useEffect(() => {
+    const loadTestSessions = async () => {
+      const sessions = await fetchTestSessions(childId);
+      setTestSessions(sessions ?? []); // Ensure it's always an array
+    };
+
+    loadTestSessions();
+  }, [childId]);
+
+  return (
+    <View style={styles.container}>
+      <TopBar emoji={userData.EMOJI} username={userData.USERNAME} />
+      <View>
+        <THIText
+          style={{
+            fontSize: 22,
+            textAlign: "left",
+            marginTop: 50,
+          }}
+        >
+          Recent Sessions
+        </THIText>
+      </View>
+      {/* rectangle that contains all the cards*/}
+      <View style={styles.cardsContainer}>
+        {testSessions?.map(({ id }) => (
+          <Card key={id} testId={id} />
+        ))}
+      </View>
+      <View style={styles.footer}>
+        {/* need to add on click */}
+        <AntDesign name="plus" size={24} color="black" />
+        <THIText style={{ fontSize: 22 }}>New Test</THIText>
+      </View>
     </View>
-    <View style={styles.footer}>
-      {/* need to add on click */}
-      <AntDesign name="plus" size={24} color="black" />
-      <THIText style={{ fontSize: 22 }}>New Test</THIText>
-    </View>
-  </View>
   );
 }
 

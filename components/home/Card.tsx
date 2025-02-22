@@ -1,59 +1,45 @@
 import { StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { THIText } from "../THIText";
-import {supabase} from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import profilePicker from "@/app/profilePicker";
 import { userData } from "@/app/currentProfile"
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 type CardProps = {
-    testId: string;
+  testId: string;
 }
 
-export default function Card( {
+export default function Card({
   testId
-} : CardProps){
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-    console.log(testId);
+}: CardProps) {
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  //console.log(testId);
 
-  const [accuracy, setAccuracy] = useState(0);
+  const [accuracy, setAccuracy] = useState(0.0);
   const childId = userData.CURRENT_ID;
 
-  async function fetchTestSessions(childId: string) {
-    const { data, error } = await supabase
-      .from("test_session")
-      .select("id")
-      .eq('child_id', childId);
-
-    if (error) {
-      console.error('Error fetching test sessions:', error);
-      return null;
-    }
-
-    return data; // Returns an array of sessions
-  }
-
-  async function fetchTestResults(sessionIds: readonly any[]) {
+  async function fetchTestResults(sessionId: string) {
     const { data, error } = await supabase
       .from("test_trial")
       .select("prompt, response, test_session_id")
-      .in('test_session_id', sessionIds);
+      .eq('test_session_id', sessionId);
 
     if (error) {
-      console.error('Error fetching test results:', error);
+      console.error(`Error fetching test results for ${sessionId}:`, error);
       return null;
     }
 
     return data;
   }
 
-  function calculateAccuracy(results: { prompt: any; response: any; test_session_id: any; }[]) {
+  function calculateAccuracy(results: { prompt: string; response: string; test_session_id: string; }[]) {
     if (!results || results.length === 0) return 0;
 
     const correctCount = results.filter(
@@ -65,19 +51,11 @@ export default function Card( {
 
   async function fetchDataAndCalculateAccuracy(childId: string) {
     try {
-      const sessions = await fetchTestSessions(childId);
-
-      if (!sessions || sessions.length === 0) {
-        console.log('No test sessions found for this child.');
-        return;
-      }
-
-      const sessionIds = sessions.map(session => session.id);
-      const testResults = await fetchTestResults(sessionIds);
+      const testResults = await fetchTestResults(testId);
 
       if (testResults) {
         const accuracy = calculateAccuracy(testResults);
-        console.log(`Accuracy for child ${childId}: ${accuracy}%`);
+        console.log(`Accuracy for test ID ${testId}: ${accuracy}%`);
         return accuracy;
       } else {
         console.log('No test results found.');
@@ -87,15 +65,17 @@ export default function Card( {
     }
   }
 
-useEffect(() => {
-  fetchDataAndCalculateAccuracy(childId);
-}, []);
+  useEffect(() => {
+    fetchDataAndCalculateAccuracy(childId).then(result => {
+      setAccuracy(Number(result) || 0);
+    });
+  }, []);
 
-    return (
-            <View style={styles.box}>
-                <View style={styles.innerBox}>
-                    <View style={styles.textContainer}>
-                        <THIText style={styles.dateText}>{formattedDate}</THIText>
+  return (
+    <View style={styles.box}>
+      <View style={styles.innerBox}>
+        <View style={styles.textContainer}>
+          <THIText style={styles.dateText}>{formattedDate}</THIText>
           <THIText style={styles.textStyle}>Spondee Cards</THIText>
           <View style={styles.whiteBoxContainer}>
             <View style={styles.whiteBox}>
