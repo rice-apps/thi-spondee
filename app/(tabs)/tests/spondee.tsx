@@ -4,14 +4,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import {useEffect, useState} from "react";
 import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
-
 import TestGrid from "@/components/spondee/TestGrid";
 import {THIText} from "@/components/THIText";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
 import {userData} from "@/app/currentProfile";
-
-// let data: { id: string; title: string}[] = [];
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -31,6 +28,11 @@ function speakCorrectCard(correctCard: string) {
   });
 }
 
+export interface Trial {
+  prompt: string;
+  response: string;
+}
+
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
@@ -39,10 +41,13 @@ export default function TestScreen() {
   // Store selected cards in state
   const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
   const [correctCard, setCorrectCard] = useState("");
+  const [attempts, setAttempts] = useState<Trial[]>([]);
+  // const [pageNum, setPageNum] = useState(1);
+  // const [selectedId, setSelectedId] = useState();
+  const [numCards, setNumCards] = useState(4);
 
-  const numCards = 4;
 
-  /**
+    /**
    * Randomizes cards shown, updates state, and returns that list (not limited by set size)
    */
   function randomizeSelectedCards() {
@@ -106,14 +111,14 @@ export default function TestScreen() {
       />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect}/>
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={setNumCards} attempts={attempts}/>
       </View>
       <TestGrid
         numCards={numCards}
         data={data}
         correctCard={correctCard}
-        setTotalTrials={setTotalTrials}
-        setNumCorrect={setNumCorrect}
+        attempts={attempts}
+        setAttempts={setAttempts}
         callback={callback}
       />
       <TouchableOpacity
@@ -174,7 +179,7 @@ const styles = StyleSheet.create({
     bottom: 50,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    aspectRatio: 1 / 1,
+    aspectRatio: 1,
     backgroundColor: "#95D0E7",
     borderRadius: 30,
     justifyContent: "center",

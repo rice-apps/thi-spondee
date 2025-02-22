@@ -8,12 +8,12 @@ export const userData = {
   EMOJI: "placeholder",
 };
 
-export const setCurrentID = async (id) => {
+export const setCurrentID = async (id: string) => {
   userData.CURRENT_ID = id;
   await fetchUserData(id);
 };
 
-export const fetchUserData = async (id) => {
+export const fetchUserData = async (id: string) => {
   const { data, error } = await supabase
     .from("children")
     .select("first_name, last_name, username, emoji")
@@ -37,7 +37,7 @@ export const fetchUserData = async (id) => {
 export const fetchGuestData = async () => {
   const { data, error } = await supabase
     .from("children")
-    .select("first_name, last_name, username, emoji")
+    .select("id, first_name, last_name, username, emoji")
     .eq("emoji", "👤")
     .single();
 
@@ -47,6 +47,7 @@ export const fetchGuestData = async () => {
   }
 
   if (data) {
+    userData.CURRENT_ID = data.id;
     userData.FIRST_NAME = data.first_name;
     userData.LAST_NAME = data.last_name;
     userData.USERNAME = data.username;
