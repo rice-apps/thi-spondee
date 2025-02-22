@@ -22,6 +22,7 @@ export default function Home() {
   
     return data; // Returns an array of sessions
   }
+  const currentProfile = 
   
 
 return (
