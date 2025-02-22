@@ -4,9 +4,6 @@ import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 type CardProps = {
   text: string;
-  correct: string;
-  setTotalTrials: (update: (prev: number) => number) => void;
-  setNumCorrect: (update: (prev: number) => number) => void;
   button: boolean;
   backgroundColor: string;
   onPress: () => void;
@@ -16,34 +13,31 @@ type CardProps = {
 };
 
 export default function Card({
-  text,
-  correct,
-  setTotalTrials,
-  setNumCorrect,
-  button,
-  backgroundColor,
-  onPress,
-  onSubmit,
-  size,
-  numCards
-}: CardProps) {
+                               text,
+                               button,
+                               backgroundColor,
+                               onPress,
+                               onSubmit,
+                               size,
+                               numCards
+                             }: CardProps) {
 
 
   return (
-    <TouchableOpacity style={{ ...styles.item, height: 500/((numCards+size-1)/size), width: 700/size,backgroundColor: backgroundColor }} onPress={onPress}>
-      <THIText>{text}</THIText>
-      <Image
-        style={{ height: "100%", width: "100%", objectFit: "contain" }}
-        source={spondeeImageMap[text]}
-      ></Image>
-      {button ? (
-        <TouchableOpacity style={styles.submit} onPress={onSubmit}>
-          <THIText style={{ fontSize: 17 }}>Submit</THIText>
-        </TouchableOpacity>
-      ) : (
-        <></>
-      )}
-    </TouchableOpacity>
+      <TouchableOpacity style={{ ...styles.item, height: 500/((numCards+size-1)/size), width: 700/size,backgroundColor: backgroundColor }} onPress={onPress}>
+        <THIText>{text}</THIText>
+        <Image
+            style={{ height: "100%", width: "100%", objectFit: "contain" }}
+            source={spondeeImageMap[text]}
+        ></Image>
+        {button ? (
+            <TouchableOpacity style={styles.submit} onPress={onSubmit}>
+              <THIText style={{ fontSize: 17 }}>Submit</THIText>
+            </TouchableOpacity>
+        ) : (
+            <></>
+        )}
+      </TouchableOpacity>
   );
 }
 

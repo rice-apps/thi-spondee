@@ -1,13 +1,13 @@
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
-import {userData} from "../../app/currentProfile";
-export default function TopBar() {
+
+const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <View style={styles.image}>
-        <THIText style={styles.emoji}>{userData.EMOJI}</THIText>
+          <THIText style={styles.emoji}>{emoji}</THIText>
         </View>
       </View>
       <View style={styles.name}>
@@ -19,7 +19,7 @@ export default function TopBar() {
             textAlign: "left",
           }}
         >
-          {userData.USERNAME}
+          {username}
         </THIText>
       </View>
       <View
@@ -48,7 +48,7 @@ export default function TopBar() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   buttonStyle: {
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
   },
   emoji: {
     fontSize: 60,
-    
   },
 });
+
+export default TopBar;

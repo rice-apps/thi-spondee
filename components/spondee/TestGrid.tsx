@@ -1,7 +1,7 @@
 import Card from "@/components/spondee/Card";
 import { useState } from "react";
 import {Trial} from "@/app/(tabs)/tests/spondee";
-import { FlatList, StyleSheet, View } from "react-native";
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from "react-native";
 
 export default function TestGrid({
   numCards,
@@ -11,6 +11,7 @@ export default function TestGrid({
   setAttempts,
   setTotalTrials,
   setNumCorrect,
+  callback,
 }: {
   numCards: number;
   data: { id: number; title: string }[];
@@ -19,12 +20,13 @@ export default function TestGrid({
   setAttempts: (attempts: Trial[]) => void;
   setTotalTrials: (update: (prev: number) => number) => void;
   setNumCorrect: (update: (prev: number) => number) => void;
+  callback: (item: { id: number; title: string }) => void;
 }) {
   const [selectedId, setSelectedId] = useState<number>();
 
   let columns = Math.min(Math.trunc((numCards + 1) / 2), 4);
 
-  const renderCard = ({ item }: any) => {
+  const renderCard = ({ item }: ListRenderItemInfo<{ id: number; title: string }>) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
     const submitButton = item.id === selectedId;
 
@@ -39,26 +41,23 @@ export default function TestGrid({
         prompt: correctCard,
         response: item.title,
       });
-
-      if (correctCard === item.title) {
-        setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
-      }
-      setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
       setSelectedId(-1);
     };
 
     return (
       <Card
         text={item.title}
-        backgroundColor={backgroundColor}
         button={submitButton}
+        backgroundColor={backgroundColor}
         onPress={() => setSelectedId(item.id)}
-        onSubmit={handlePress}
-        correct={correctCard}
-        setTotalTrials={setTotalTrials}
-        setNumCorrect={setNumCorrect}
         size={columns}
         numCards={numCards}
+        onSubmit={() => {
+            // Call callback to spondee.tsx
+            callback(item);
+            // Handle press ourselves too
+            handlePress();
+        }}
       />
     );
   };
