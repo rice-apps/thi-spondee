@@ -2,6 +2,9 @@ import { StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { THIText } from "../THIText";
 import {supabase} from "@/lib/supabase";
+import profilePicker from "@/app/profilePicker";
+import { userData } from "@/app/currentProfile"
+
 import {useEffect, useState} from "react";
 
 type CardProps = {
@@ -20,7 +23,7 @@ export default function Card( {
     console.log(testId);
 
   const [accuracy, setAccuracy] = useState(0);
-  const childId = "0b188d2d-8db1-4dcc-ab93-998041adc66d";
+  const childId = userData.CURRENT_ID;
 
   async function fetchTestSessions(childId: string) {
     const { data, error } = await supabase
