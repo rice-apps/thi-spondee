@@ -8,7 +8,7 @@ import { userData } from "../../currentProfile";
 
 import TestGrid from "@/components/spondee/TestGrid";
 import { THIText } from "@/components/THIText";
-import { Text, StyleSheet, TouchableOpacity, View, Animated} from "react-native";
+import { StyleSheet, TouchableOpacity, View, Animated, Image} from "react-native";
 
 // let data: { id: string; title: string}[] = [];
 
@@ -61,24 +61,47 @@ export default function TestScreen() {
     id: i,
     title: card.word,
   }));
+
+  const scale = useRef(new Animated.Value(0)).current;
   
-  useEffect(() => {
-    if (selectedCorrect) {
+  const popIn = () => {
+    Animated.parallel([
+      Animated.timing(scale, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 500,
         useNativeDriver: true,
-      }).start(() => {
-        setTimeout(() => {
-          Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 500,
-            useNativeDriver: true,
-          }).start();
-        }, 1000);
-      });
+      }),
+    ]).start();
+  };
+
+  const popOut = () => {
+    Animated.parallel([
+      Animated.timing(scale, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setSelectedCorrect(false));
+  };
+  
+
+  useEffect(() => {
+    if (selectedCorrect) {
+      popIn();
+      const timeoutId = setTimeout(popOut, 1000); 
+      return () => clearTimeout(timeoutId);
     }
-  }, [selectedCorrect]); 
+  }, [selectedCorrect]);
 
   return (
     <View style={styles.page}>
@@ -93,12 +116,14 @@ export default function TestScreen() {
         setTotalTrials={setTotalTrials}
         setNumCorrect={setNumCorrect}
         setSelectedCorrect={setSelectedCorrect}
+        
       />
-      {/* {selectedCorrect && (
-        <Animated.View style={[styles.emojiContainer, {opacity: fadeAnim}]}>
-        <Text style={styles.emoji}>{userData.EMOJI}</Text>
-      </Animated.View>
-      )} */}
+      {selectedCorrect && (
+        <Animated.View style={[styles.rabbitContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
+          <Image style={styles.rabbitImage} source={require("../../../assets/images/rabbit.png")} />
+        </Animated.View>
+      )}
+
       <TouchableOpacity
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
@@ -143,18 +168,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingTop: "3%",
   },
-  emojiContainer: {
+  rabbitContainer: {
     position: "absolute",
-    top: "50%", 
-    left: 0,
-    right: 0,
-    alignItems: "center",
+    top: "45%", 
+    left: "41%",
+    width: 200, 
+    height: 200,
     justifyContent: "center",
-
-    zIndex: 10,
+    alignItems: "center",
+    zIndex: 10, 
   },
-  emoji: {
-    fontSize: 100,
+  rabbitImage: {
+    width: "100%",
+    height: "100%",
   },
   button: {
     backgroundColor: grayColor,

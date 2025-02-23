@@ -1,7 +1,7 @@
 import Card from "@/components/spondee/Card";
 import { useState, useRef} from "react";
 
-import { FlatList, StyleSheet, View, Animated} from "react-native";
+import { FlatList, StyleSheet, View} from "react-native";
 
 export default function TestGrid({
   numCards,
