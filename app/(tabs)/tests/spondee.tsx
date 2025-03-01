@@ -58,6 +58,7 @@ export default function TestScreen() {
    * Randomizes cards shown, updates state, and returns that list (not limited by set size)
    */
   function randomizeSelectedCards(numberOfCards: number) {
+    numberOfCards = numberOfCards ? numberOfCards : 4;
     const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numberOfCards);
     setSelectedCards(initialSelectedCards);
     return initialSelectedCards;
