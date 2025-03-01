@@ -121,7 +121,7 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
           selectedTextStyle={styles.dropdownSelectedText}
           itemTextStyle={styles.dropdownItemText}
           activeColor="#F6F6F6"
-          renderRightIcon={() => <THIText style={styles.threeDots}>...</THIText>}
+          renderRightIcon={() => <THIText style={styles.threeDots}>...   </THIText>}
           placeholder=""
         />
       </View>
