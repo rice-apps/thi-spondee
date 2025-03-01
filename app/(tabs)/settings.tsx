@@ -14,7 +14,7 @@ import {
 
 type SettingsProps = {
   numCards: number;
-  setNumCards: Dispatch<SetStateAction<number>>;
+  setNumCards: (num: number) => void;
   soundEnabled: boolean;
   setSoundEnabled: Dispatch<SetStateAction<boolean>>;
 };

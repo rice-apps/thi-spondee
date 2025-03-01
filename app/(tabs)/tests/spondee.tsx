@@ -46,19 +46,26 @@ export default function TestScreen() {
   // const [selectedId, setSelectedId] = useState();
   const [numCards, setNumCards] = useState(4);
 
+  function updateNumberOfCards(num: number) {
+    setNumCards(num);
+    // Generate new list
+    let list = randomizeSelectedCards(num);
+    generateNewCard(list);
+  }
+
 
     /**
    * Randomizes cards shown, updates state, and returns that list (not limited by set size)
    */
-  function randomizeSelectedCards() {
-    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numCards);
+  function randomizeSelectedCards(numberOfCards: number) {
+    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numberOfCards);
     setSelectedCards(initialSelectedCards);
     return initialSelectedCards;
   }
 
   // Initialize selected cards and first correct card
   useEffect(() => {
-    const initialSelectedCards = randomizeSelectedCards();
+    const initialSelectedCards = randomizeSelectedCards(numCards);
 
     const initialCorrectCard = initialSelectedCards[Math.floor(Math.random() * numCards)].word;
     setCorrectCard(initialCorrectCard);
@@ -104,14 +111,14 @@ export default function TestScreen() {
           // Callback when rain finishes
           console.log('Rain completed');
           // Generate new list
-          let list = randomizeSelectedCards();
+          let list = randomizeSelectedCards(numCards);
           generateNewCard(list);
           setRainTrigger(false);
         }}
       />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={setNumCards} attempts={attempts}/>
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts}/>
       </View>
       <TestGrid
         numCards={numCards}
