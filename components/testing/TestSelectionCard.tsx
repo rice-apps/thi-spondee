@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
     marginRight: 25,
+    shadowRadius: 15,
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    }
   },
   titleContainer: {
     flex: 1.1,

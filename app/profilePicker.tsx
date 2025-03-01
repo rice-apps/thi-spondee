@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { supabase } from "../lib/supabase";
-import {setCurrentID } from "./currentProfile";
+import { setCurrentID } from "./currentProfile";
 export default function profilePicker() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [children, setChildren] = React.useState<Child[] | null>(null);
@@ -23,7 +23,8 @@ export default function profilePicker() {
     const fetchChildren = async () => {
       const { data, error } = await supabase
         .from("children")
-        .select("id, first_name, last_name, username, emoji");
+        .select("id, first_name, last_name, username, emoji")
+        .order("created_at", { ascending: true });
       if (error) {
         console.error(error);
       } else if (data) {
@@ -58,12 +59,13 @@ export default function profilePicker() {
 
   const chooseProfile = async (id: string) => {
     setSelectedProfile(id);
-    {/* Currently calls network everytime a profile is click - can be bettered in future*/}
+    {
+      /* Currently calls network everytime a profile is click - can be bettered in future*/
+    }
     setCurrentID(id);
   };
 
   const handleButtonClick = () => {
-  
     if (selectedProfile) {
       console.log(`Selected UUID: ${selectedProfile}`);
       router.push("/(tabs)/home");
@@ -90,7 +92,10 @@ export default function profilePicker() {
       >
         <View style={styles.profileGrid}>
           <View style={styles.cardWrapper}>
-            <Pressable onPress={() => router.push("/addProfile")} style={styles.card}>
+            <Pressable
+              onPress={() => router.push("/addProfile")}
+              style={styles.card}
+            >
               <View style={styles.imageContainer}>
                 <THIText style={styles.emoji}>+</THIText>
               </View>

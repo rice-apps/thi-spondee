@@ -1,39 +1,26 @@
 import Card from "@/components/spondee/Card";
 import { useState, useRef} from "react";
 
-import { FlatList, StyleSheet, View} from "react-native";
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from "react-native";
 
 export default function TestGrid({
   numCards,
   data,
   correctCard,
-  setTotalTrials,
-  setNumCorrect,
-  setSelectedCorrect,
+  callback,
 }: {
   numCards: number;
   data: { id: number; title: string }[];
   correctCard: string;
   setTotalTrials: (update: (prev: number) => number) => void;
   setNumCorrect: (update: (prev: number) => number) => void;
-  setSelectedCorrect: (correct: boolean) => void;
+  callback: (item: { id: number; title: string }) => void;
 }) {
   const [selectedId, setSelectedId] = useState<number>();
 
-  const renderCard = ({ item }: any) => {
+  const renderCard = ({ item }: ListRenderItemInfo<{ id: number; title: string }>) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
     const submitButton = item.id === selectedId ? true : false;
-
-    const handlePress = () => {
-      console.log(item.title, correctCard);
-      if (correctCard === item.title) {
-        setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
-        setSelectedCorrect(true);
-      }
-      setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
-      setSelectedId(-1);
-
-    };
 
     return (
       <Card
@@ -41,10 +28,10 @@ export default function TestGrid({
         backgroundColor={backgroundColor}
         button={submitButton}
         onPress={() => setSelectedId(item.id)}
-        onSubmit={handlePress}
-        correct={correctCard}
-        setTotalTrials={setTotalTrials}
-        setNumCorrect={setNumCorrect}
+        onSubmit={() => {
+          // Call callback to spondee.tsx
+          callback(item);
+        }}
       />
     );
   };
