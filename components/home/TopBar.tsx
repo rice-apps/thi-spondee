@@ -42,7 +42,6 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
         return;
       }
   
-    
       const { data: sessions, error: fetchSessionsError } = await supabase
         .from("test_session")
         .select("id")
@@ -56,16 +55,26 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
   
       if (sessionIds.length > 0) {
         
+        const { error: deleteSettingsError } = await supabase
+          .from("test_session_settings")
+          .delete()
+          .in("id", sessionIds); 
+  
+        if (deleteSettingsError) {
+          throw deleteSettingsError;
+        }
+  
+       
         const { error: deleteTrialsError } = await supabase
           .from("test_trial")
           .delete()
-          .in("test_session_id", sessionIds); 
+          .in("test_session_id", sessionIds);
   
         if (deleteTrialsError) {
           throw deleteTrialsError;
         }
   
-        
+       
         const { error: deleteSessionsError } = await supabase
           .from("test_session")
           .delete()
@@ -76,6 +85,7 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
         }
       }
   
+     
       const { error: deleteProfileError } = await supabase
         .from("children")
         .delete()
@@ -85,15 +95,14 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
         throw deleteProfileError;
       }
   
-      console.log(`Profile with ID ${currentUserId}, related test sessions, and test trials deleted successfully.`);
+      console.log(`Profile with ID ${currentUserId}, related test sessions, test trials, and test session settings deleted successfully.`);
   
-      
+    
       router.replace("/profilePicker");
     } catch (error) {
       Alert.alert("Error", error.message);
     }
-  }; 
-  
+  };
   
   
 
