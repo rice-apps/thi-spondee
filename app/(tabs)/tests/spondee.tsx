@@ -11,8 +11,6 @@ import { THIText } from "@/components/THIText";
 import { StyleSheet, TouchableOpacity, View, Animated, Image} from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
 
-// let data: { id: string; title: string}[] = [];
-
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array]; // Create a copy to avoid mutating original array
@@ -31,6 +29,11 @@ function speakCorrectCard(correctCard: string) {
   });
 }
 
+export interface Trial {
+  prompt: string;
+  response: string;
+}
+
 export default function TestScreen() {
   const [totalTrials, setTotalTrials] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
@@ -39,23 +42,31 @@ export default function TestScreen() {
   // Store selected cards in state
   const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
   const [correctCard, setCorrectCard] = useState("");
+  const [attempts, setAttempts] = useState<Trial[]>([]);
   const [emojiPopupTrigger, setEmojiPopupTrigger] = useState(false)
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [numCards, setNumCards] = useState(4);
 
-  const numCards = 4;
+  function updateNumberOfCards(num: number) {
+    setNumCards(num);
+    // Generate new list
+    let list = randomizeSelectedCards(num);
+    generateNewCard(list);
+  }
 
-  /**
+
+    /**
    * Randomizes cards shown, updates state, and returns that list (not limited by set size)
    */
-  function randomizeSelectedCards() {
-    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numCards);
+  function randomizeSelectedCards(numberOfCards: number) {
+    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numberOfCards);
     setSelectedCards(initialSelectedCards);
     return initialSelectedCards;
   }
 
   // Initialize selected cards and first correct card
   useEffect(() => {
-    const initialSelectedCards = randomizeSelectedCards();
+    const initialSelectedCards = randomizeSelectedCards(numCards);
 
     const initialCorrectCard = initialSelectedCards[Math.floor(Math.random() * numCards)].word;
     setCorrectCard(initialCorrectCard);
@@ -123,7 +134,7 @@ export default function TestScreen() {
       }),
     ]).start(() => {
       // Generate new list
-      let list = randomizeSelectedCards();
+      let list = randomizeSelectedCards(numCards);
       generateNewCard(list);
       setEmojiPopupTrigger(false);
     });
@@ -148,21 +159,21 @@ export default function TestScreen() {
           // Callback when rain finishes
           console.log('Rain completed');
           // Generate new list
-          let list = randomizeSelectedCards();
+          let list = randomizeSelectedCards(numCards);
           generateNewCard(list);
           setRainTrigger(false);
         }}
       />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect}/>
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts}/>
       </View>
       <TestGrid
         numCards={numCards}
         data={data}
         correctCard={correctCard}
-        setTotalTrials={setTotalTrials}
-        setNumCorrect={setNumCorrect}
+        attempts={attempts}
+        setAttempts={setAttempts}
         callback={callback}
       />
       {emojiPopupTrigger && (
@@ -243,7 +254,7 @@ const styles = StyleSheet.create({
     bottom: 50,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    aspectRatio: 1 / 1,
+    aspectRatio: 1,
     backgroundColor: "#95D0E7",
     borderRadius: 30,
     justifyContent: "center",

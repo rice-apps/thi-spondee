@@ -1,6 +1,6 @@
 import { THIText } from "@/components/THIText";
 import Slider from "@react-native-community/slider";
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import {
   Image,
   Modal,
@@ -12,10 +12,20 @@ import {
 // TODO: Uncomment this when we can try it on a real device!
 // import { VolumeManager } from 'react-native-volume-manager';
 
-export default function Settings() {
+type SettingsProps = {
+  numCards: number;
+  setNumCards: (num: number) => void;
+  soundEnabled: boolean;
+  setSoundEnabled: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function Settings({
+  numCards,
+  setNumCards,
+  soundEnabled,
+  setSoundEnabled,
+}: SettingsProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [setSize, setSetSize] = useState(4);
-  const [soundEnabled, setSoundEnabled] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [answerEnabled, setAnswerEnabled] = useState(false);
   const handleVolumeChange = async (value: number) => {
@@ -82,8 +92,8 @@ export default function Settings() {
                   maximumTrackTintColor="#6D88B480"
                   thumbTintColor="#95D0E7"
                   step={2}
-                  value={setSize}
-                  onValueChange={(newValue) => setSetSize(newValue)}
+                  value={numCards}
+                  onValueChange={(newValue) => setNumCards(newValue)}
                 />
                 {/* Slider label "4 -- 8 -- 12" */}
                 <View
