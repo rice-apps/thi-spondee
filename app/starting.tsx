@@ -24,6 +24,7 @@ export default function StartingPointPage() {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => {
+
               fetchGuestData();
               router.push("/selection");
             }}
