@@ -39,6 +39,7 @@ export default function TestScreen() {
   // Store selected cards in state
   const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
   const [correctCard, setCorrectCard] = useState("");
+  const [emojiPopupTrigger, setEmojiPopupTrigger] = useState(false)
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const numCards = 4;
@@ -119,17 +120,22 @@ export default function TestScreen() {
         duration: 500,
         useNativeDriver: true,
       }),
-    ]).start(() => setSelectedCorrect(false));
+    ]).start(() => {
+      // Generate new list
+      let list = randomizeSelectedCards();
+      generateNewCard(list);
+      setEmojiPopupTrigger(false);
+    });
   };
 
 
   useEffect(() => {
-    if (selectedCorrect) {
+    if (emojiPopupTrigger) {
       popIn();
       const timeoutId = setTimeout(popOut, 1000);
       return () => clearTimeout(timeoutId);
     }
-  }, [selectedCorrect]);
+  }, [emojiPopupTrigger]);
 
   return (
     <View style={styles.page}>
@@ -158,7 +164,7 @@ export default function TestScreen() {
         setNumCorrect={setNumCorrect}
         callback={callback}
       />
-      {selectedCorrect && (
+      {emojiPopupTrigger && (
         <Animated.View style={[styles.rabbitContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
           <Image style={styles.rabbitImage} source={require("../../../assets/images/rabbit.png")} />
         </Animated.View>
