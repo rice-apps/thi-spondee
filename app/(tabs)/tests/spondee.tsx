@@ -78,8 +78,9 @@ export default function TestScreen() {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
     }
     setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
-
+    setEmojiPopupTrigger(true);
     setRainTrigger(true);
+
   };
 
   useEffect(() => {
