@@ -8,7 +8,7 @@ import { userData } from "../../currentProfile";
 
 import TestGrid from "@/components/spondee/TestGrid";
 import { THIText } from "@/components/THIText";
-import { StyleSheet, TouchableOpacity, View, Animated, Image} from "react-native";
+import { StyleSheet, TouchableOpacity, View, Animated, Image, Text } from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
 
 // Fisher-Yates Shuffle Algorithm
@@ -46,6 +46,7 @@ export default function TestScreen() {
   const [emojiPopupTrigger, setEmojiPopupTrigger] = useState(false)
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [numCards, setNumCards] = useState(4);
+  const [answerEnabled, setAnswerEnabled] = useState(false);
 
   function updateNumberOfCards(num: number) {
     setNumCards(num);
@@ -89,9 +90,12 @@ export default function TestScreen() {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
     }
     setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
-    setEmojiPopupTrigger(true);
-    setRainTrigger(true);
 
+    if (answerEnabled) {
+      setEmojiPopupTrigger(true);
+    } else {
+      setRainTrigger(true);
+    }
   };
 
   useEffect(() => {
@@ -166,7 +170,7 @@ export default function TestScreen() {
       />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts}/>
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts} answerEnabled={answerEnabled} setAnswerEnabled={setAnswerEnabled}/>
       </View>
       <TestGrid
         numCards={numCards}
@@ -177,8 +181,12 @@ export default function TestScreen() {
         callback={callback}
       />
       {emojiPopupTrigger && (
-        <Animated.View style={[styles.rabbitContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
-          <Image style={styles.rabbitImage} source={require("../../../assets/images/rabbit.png")} />
+        <Animated.View style={[styles.emojiContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
+
+          <Text style={styles.emoji}>
+            {userData.EMOJI}
+          </Text>
+          {/*<Image style={styles.rabbitImage} source={require("../../../assets/images/rabbit.png")} />*/}
         </Animated.View>
       )}
 
@@ -226,19 +234,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingTop: "3%",
   },
-  rabbitContainer: {
+  emojiContainer: {
     position: "absolute",
-    top: "45%",
-    left: "41%",
-    width: 200,
-    height: 200,
+    flex: 1,
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
     zIndex: 10,
   },
-  rabbitImage: {
-    width: "100%",
-    height: "100%",
+  emoji: {
+    fontSize: 200,
   },
   button: {
     backgroundColor: grayColor,

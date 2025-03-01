@@ -17,6 +17,8 @@ type SettingsProps = {
   setNumCards: (num: number) => void;
   soundEnabled: boolean;
   setSoundEnabled: Dispatch<SetStateAction<boolean>>;
+  answerEnabled: boolean;
+  setAnswerEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Settings({
@@ -24,10 +26,12 @@ export default function Settings({
   setNumCards,
   soundEnabled,
   setSoundEnabled,
+  answerEnabled,
+  setAnswerEnabled,
 }: SettingsProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [volume, setVolume] = useState(0.5);
-  const [answerEnabled, setAnswerEnabled] = useState(false);
+
   const handleVolumeChange = async (value: number) => {
     setVolume(value);
     // TODO: Uncomment this when we can try it on a real device!

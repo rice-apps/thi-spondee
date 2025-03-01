@@ -2,7 +2,7 @@ import Settings from "@/app/(tabs)/settings";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
-import React, {useState} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import {Trial} from "@/app/(tabs)/tests/spondee";
 
 type SessionControlProps = {
@@ -11,6 +11,8 @@ type SessionControlProps = {
   attempts: Trial[];
   numCards: number;
   setNumCards: (num: number) => void;
+  answerEnabled: boolean;
+  setAnswerEnabled: Dispatch<SetStateAction<boolean>>;
 };
 
 export interface SessionData {
@@ -24,7 +26,9 @@ export function SessionControls({
   numCorrect,
   numCards,
   setNumCards,
-  attempts
+  attempts,
+  answerEnabled,
+  setAnswerEnabled
 }: SessionControlProps) {
 
     const [soundEnabled, setSoundEnabled] = useState(true);
@@ -50,7 +54,7 @@ export function SessionControls({
       >
         <THIText style={styles.buttonText}>End Session</THIText>
       </TouchableOpacity>
-      <Settings numCards={numCards} setNumCards={setNumCards} soundEnabled={soundEnabled} setSoundEnabled={setSoundEnabled} />
+      <Settings numCards={numCards} setNumCards={setNumCards} soundEnabled={soundEnabled} setSoundEnabled={setSoundEnabled} answerEnabled={answerEnabled} setAnswerEnabled={setAnswerEnabled}/>
     </View>
   );
 }
