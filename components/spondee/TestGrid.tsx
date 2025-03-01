@@ -1,4 +1,4 @@
-import { Trial } from "@/app/(tabs)/tests/spondee";
+import { Trial } from "@/app/spondee";
 import Card from "@/components/spondee/Card";
 import { useEffect, useState } from "react";
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from "react-native";
@@ -28,7 +28,6 @@ export default function TestGrid({
   }: ListRenderItemInfo<{ id: number; title: string }>) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
     const submitButton = item.id === selectedId;
-    console.log("card thing");
 
     const addItem = (newItem: Trial) => {
       setAttempts([...attempts, newItem]);

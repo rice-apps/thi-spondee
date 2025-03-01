@@ -1,7 +1,7 @@
-import {THIText} from "@/components/THIText";
-import {TestTypeGroup} from "@/components/testing/TestTypeGroup";
-import {TestType} from "@/components/testing/TestingTypeDef";
-import {ScrollView, StyleSheet, View} from "react-native";
+import { THIText } from "@/components/THIText";
+import { TestTypeGroup } from "@/components/testing/TestTypeGroup";
+import { TestType } from "@/components/testing/TestingTypeDef";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function TestSelection() {
   const testTypes: TestType[] = [
@@ -36,7 +36,7 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/tests/spondee",
+          route: "/spondee",
         },
         {
           title: "LHM-10/Ling Card",
@@ -66,7 +66,7 @@ export default function TestSelection() {
       <View style={styles.testTypeGroupList}>
         {testTypes.map((test, i) => (
           <View key={i} style={styles.testTypeGroup}>
-            <TestTypeGroup testType={test}/>
+            <TestTypeGroup testType={test} />
           </View>
         ))}
       </View>

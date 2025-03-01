@@ -1,14 +1,14 @@
-import { userData } from "@/app/currentProfile";
+import { THIText } from "@/components/THIText";
 import { SessionControls } from "@/components/spondee/SessionControls";
 import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import TestGrid from "@/components/spondee/TestGrid";
 import { EmojiRain } from "@/components/testing/EmojiRain";
-import { THIText } from "@/components/THIText";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
+import SpondeeCards from "../components/spondee/SpondeeCardDefinitions";
+import { userData } from "./currentProfile";
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -58,6 +58,7 @@ export default function TestScreen() {
 
   // Initialize selected cards and first correct card
   useEffect(() => {
+    console.log("should only be called once");
     const initialSelectedCards = randomizeSelectedCards();
 
     const initialCorrectCard =
@@ -86,6 +87,7 @@ export default function TestScreen() {
   };
 
   useEffect(() => {
+    console.log("triggered");
     speakCorrectCard(correctCard);
   }, [correctCard]);
 
@@ -98,6 +100,7 @@ export default function TestScreen() {
   }, [selectedCards]);
 
   useEffect(() => {
+    console.log("hello i'm in heree");
     const list = randomizeSelectedCards();
     generateNewCard(list);
   }, [numCards]);

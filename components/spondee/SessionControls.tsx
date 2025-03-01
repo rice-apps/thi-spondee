@@ -1,5 +1,5 @@
 import Settings from "@/app/(tabs)/settings";
-import { Trial } from "@/app/(tabs)/tests/spondee";
+import { Trial } from "@/app/spondee";
 import { router } from "expo-router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
