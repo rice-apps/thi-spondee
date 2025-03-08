@@ -32,8 +32,8 @@ export const fetchUserData = async (id) => {
 
 export const fetchGuestData = async () => {
   const { data, error } = await supabase
-    .from("children")
-    .select("first_name, last_name, username, emoji")
+    .from("anonymized_children")
+    .select("username, emoji")
     .eq("emoji", "👤")
     .single();
 
