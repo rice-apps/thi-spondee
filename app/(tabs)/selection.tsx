@@ -11,7 +11,7 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/tests/audiology/spondee",
+          route: "/spondee_code",
         },
         {
           title: "LHM-10/Ling Card",

@@ -15,6 +15,7 @@ export default function RootLayout() {
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="profilePicker" options={{ headerShown: false }} />
         <Stack.Screen name="addProfile" options={{ headerShown: false }} />
+        <Stack.Screen name="spondee_code" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
