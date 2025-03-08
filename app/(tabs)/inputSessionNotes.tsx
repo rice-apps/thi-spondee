@@ -1,7 +1,7 @@
 import { THIText } from "@/components/THIText";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import {useLocalSearchParams} from "expo-router";
-import {Trial} from "@/app/(tabs)/tests/spondee";
+import {Trial} from "@/app/(tabs)/tests/speech_therapy/spondee";
 import uuid from 'react-native-uuid';
 import {supabase} from "@/lib/supabase";
 import {useState, useEffect} from "react";

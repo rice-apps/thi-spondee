@@ -11,7 +11,7 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/tests/spondee",
+          route: "/tests/audiology/spondee",
         },
         {
           title: "LHM-10/Ling Card",
@@ -36,7 +36,7 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/tests/spondee",
+          route: "/tests/speech_therapy/spondee",
         },
         {
           title: "LHM-10/Ling Card",

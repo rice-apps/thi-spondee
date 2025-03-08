@@ -114,7 +114,15 @@ export default function TabLayout() {
 
         {/* Test screen (hidden) */}
         <Tabs.Screen
-          name="tests/spondee"
+          name="tests/speech_therapy/spondee"
+          options={{
+            tabBarButton: () => null, // Hide the tab
+          }}
+        />
+
+        {/* Test screen (hidden) */}
+        <Tabs.Screen
+          name="tests/audiology/spondee"
           options={{
             tabBarButton: () => null, // Hide the tab
           }}

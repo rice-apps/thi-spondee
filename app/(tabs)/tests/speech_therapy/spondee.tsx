@@ -3,8 +3,8 @@ import {SpondeeCard} from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import { useEffect, useRef, useState } from "react";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
-import { userData } from "../../currentProfile";
+import SpondeeCards from "@/components/spondee/SpondeeCardDefinitions";
+import { userData } from "@/app/currentProfile";
 
 import TestGrid from "@/components/spondee/TestGrid";
 import { THIText } from "@/components/THIText";

@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
 import React, {Dispatch, SetStateAction, useState} from "react";
-import {Trial} from "@/app/(tabs)/tests/spondee";
+import {Trial} from "@/app/(tabs)/tests/speech_therapy/spondee";
 
 type SessionControlProps = {
   totalTrials: number;
