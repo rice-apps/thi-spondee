@@ -1,7 +1,7 @@
-import { userData } from "@/app/currentProfile";
 import { Trial } from "@/app/spondee";
 import { SessionData } from "@/components/spondee/SessionControls";
 import { THIText } from "@/components/THIText";
+import { userData } from "@/lib/currentProfile";
 import { supabase } from "@/lib/supabase";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";

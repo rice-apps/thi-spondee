@@ -3,7 +3,7 @@ import TopBar from "@/components/home/TopBar";
 import { THIText } from "@/components/THIText";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { StyleSheet, View } from "react-native";
-import { userData } from "../../app/currentProfile";
+import { userData } from "../../lib/currentProfile";
 
 export default function Home() {
   return (
