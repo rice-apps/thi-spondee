@@ -6,13 +6,37 @@ import { StyleSheet, View, TouchableOpacity, Image} from "react-native";
 import { userData } from "../../app/currentProfile";
 import { router } from "expo-router";
 import React, { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 
 export default function Profiles() {
-  const [selectedValue, setSelectedValue] = useState('');
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: 'Last 7 Days', value: 'Last 7 Days' },
+    { label: 'Last Month', value: 'Last Month' },
+    { label: 'Last 3 Months', value: 'Last 3 Months' },
+  ]);
+  const [dropdownWidth, setDropdownWidth] = useState(100);
 
-  return (
+  const [open2, setOpen2] = useState(false);
+  const [value2, setValue2] = useState(null);
+  const [items2, setItems2] = useState([
+    { label: 'Spondee Cards', value: 'Spondee Cards' },
+    { label: 'LHM-10/Ling Cards', value: 'LHM-10/Ling Cards' },
+    { label: 'Syllable Differentiation', value: 'Syllable Differentiation' },
+  ]);
+  const [dropdownWidth2, setDropdownWidth2] = useState(100);
+
+  // Function to dynamically adjust width based on text size
+  const onTextLayout = (event: { nativeEvent: { layout: { width: any; }; }; }) => {
+    const textWidth = event.nativeEvent.layout.width;
+    setDropdownWidth(Math.min(Math.max(textWidth + 40, 100), 250)); // Min 100, Max 250
+  };
+
+      return (
     <View style={styles.container}>
       <View style={styles.container2}>
       <View style={styles.imageContainer}>
@@ -65,7 +89,46 @@ export default function Profiles() {
           Past Sessions
         </THIText>
       </View>
-      <View style={{flexDirection: "row"}}>
+
+      <View style={{flexDirection: "row", marginLeft: 20}}>
+
+      <View style={[styles.dropDownButtonStyle, {width: dropdownWidth}]}>
+        {/* Hidden text component to measure width dynamically */}
+        {/*<THIText style={styles.hiddenText} onLayout={onTextLayout}> */}
+        <THIText style={styles.hiddenText} >
+          {value || "Date"}
+        </THIText>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        placeholder="Date"
+        style={[styles.dropdown, {width: dropdownWidth, shadowColor: "#E0F7FF" }]}
+        dropDownContainerStyle = {[styles.dropdownContainer, {width: dropdownWidth}]}
+      />
+    </View>
+
+    <View style={[styles.dropDownButtonStyle, {width: dropdownWidth}]}>
+        {/* Hidden text component to measure width dynamically */}
+        {/*<THIText style={styles.hiddenText} onLayout={onTextLayout}> */}
+        <THIText style={styles.hiddenText} >
+          {value || "Test type"}
+        </THIText>
+      <DropDownPicker
+        open={open2}
+        value={value2}
+        items={items2}
+        setOpen={setOpen2}
+        setValue={setValue2}
+        setItems={setItems2}
+        placeholder="Test type"
+        style={[styles.dropdown, {width: dropdownWidth, shadowColor: "#E0F7FF" }]}
+        dropDownContainerStyle = {[styles.dropdownContainer, {width: dropdownWidth}]}
+      />
+    </View>
       
       </View>
       {/* rectangle that contains all the cards*/}
@@ -97,12 +160,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
   },
   dropDownButtonStyle: {
-    width: 52,
+    width: 85,
     height: 52,
-    paddingHorizontal: 15,
-    justifyContent: "center",
-    borderRadius: 30,
+    paddingTop: 15,
     backgroundColor: "#F6F6F6",
+    borderRadius: 10,
+    alignSelf: "flex-start"
+  },
+  dropdown: {
+    minWidth: 85, // Minimum width to prevent collapse
+    maxWidth: 200, // Maximum width to keep it reasonable
+    paddingHorizontal: 10,
+  },
+  dropdownContainer: {
+    minWidth: 100, // Ensure dropdown expands dynamically
+    maxWidth: 250,
+  },
+  hiddenText: {
+    position: "absolute",
+    opacity: 0,
+    fontSize: 16,
   },
   cardsContainer: {
     display: "flex",
