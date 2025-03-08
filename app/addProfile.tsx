@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { router } from "expo-router";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {
   Image,
   StyleSheet,
@@ -35,23 +35,48 @@ const animals: string[] = [
   "Jellyfish", "Magpie", "Kangaroo", "Koala", "Komodo", "Kouprey", "Kudu", "Lark", "Lemur", "Leopard", "Lion", "Unicorn", "Yak"
 ];
 
-function generateRandomUsername(animals: string[], vehicles: string[]): string {
-  // Select a random animal
-  const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-
-  // Select a random vehicle
-  const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
-
-  // Combine all parts and return
-  return `${randomAnimal}${randomVehicle}`;
-}
-
 
 export default function AddProfile() {
-  const [username, setUsername] = useState(generateRandomUsername(transportationMethods, animals));
-
-  // State to store only the currently selected emoji
+  const [username, setUsername] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState("🐶");
+
+  function generateRandomUsername(animals: string[], vehicles: string[]): string {
+    // Select a random animal
+    const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+
+    // Select a random vehicle
+    const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
+
+    // Combine all parts and return
+    return `${randomAnimal}${randomVehicle}`;
+  }
+
+  const checkAndGenerateUsername = async () => {
+    let isUnique = false;
+    let newUsername = "";
+
+    while (!isUnique) {
+      newUsername = generateRandomUsername(transportationMethods, animals);
+
+      // Check if username exists in the database
+      const { data, error } = await supabase
+          .from("anonymized_children")
+          .select("username")
+          .eq("username", newUsername)
+          .single();
+
+      if (error || !data) {
+        // Unique username
+        isUnique = true;
+      }
+    }
+    setUsername(newUsername);
+  };
+
+  // Call this function when component mounts
+  useEffect(() => {
+    checkAndGenerateUsername();
+  }, []);
 
   // Function to update the selected emoji (only one at a time)
   const handlePress = (emoji:string) => {
