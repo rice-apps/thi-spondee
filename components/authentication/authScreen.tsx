@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { supabase } from "../../lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { THIText } from "../THIText";
 
 export default function AuthScreen() {
@@ -33,7 +33,7 @@ export default function AuthScreen() {
     }
 
     if (!validateEmail(email)) {
-      Alert.alert("Validation error", "Email must be a THI email.")
+      Alert.alert("Invalid email", "Please use an email ending in '@texashearing.org' to log in.")
       return;
     }
 
@@ -60,7 +60,7 @@ export default function AuthScreen() {
     }
 
     if (!validateEmail(email)) {
-      Alert.alert("Validation error", "Email must be a THI email.")
+      Alert.alert("Invalid email", "Please use an email ending in '@texashearing.org' to log in.")
       return;
     }
 

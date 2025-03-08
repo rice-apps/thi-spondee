@@ -6,12 +6,12 @@ export const userData = {
   EMOJI: "placeholder",
 };
 
-export const setCurrentID = async (id) => {
+export const setCurrentID = async (id: string) => {
   userData.CURRENT_ID = id;
   await fetchUserData(id);
 };
 
-export const fetchUserData = async (id) => {
+export const fetchUserData = async (id: string) => {
   const { data, error } = await supabase
     .from("anonymized_children")
     .select("username, emoji")
