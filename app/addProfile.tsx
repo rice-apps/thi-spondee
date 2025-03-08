@@ -5,27 +5,62 @@ import {
   Image,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
+const transportationMethods: string[] = [
+  "Bicycle", "Coach", "Tuk-Tuk", "Cablecar", "Skateboard", "Aeroplane", "Dunebuggy",
+  "Rig", "Buggy", "Yacht", "Ferry", "Tram", "Gondola", "Cruiseship",
+  "Train", "Airboat", "Car", "Hovercraft", "Sleigh",
+  "Helicopter", "Submarine", "Sled", "Truck", "Unicycle", "Parachute",
+  "Sailboat", "Canoe", "Snowmobile", "Segway",
+  "Rickshaw", "Scooter", "Taxi", "Tractor", "Jetski",
+  "Blimp", "Hotairballoon", "Paraglider", "Kayak", "Rowboat", "Trolley", "Bus", "Minivan", "Convertible",
+  "Sedan", "Pickuptruck", "Streetcar", "Glider", "Spaceship", "Spaceshuttle", "Spacestation",
+  "Limousine", "Doubledeckerbus", "Ambulance", "Firetruck",
+  "Snowcoach", "Barge", "Ship", "Ferry", "Riverboat", "Locomotive", "Jeep", "Jet"
+];
+
+const animals: string[] = [
+  "Aardvark", "Albatross", "Alligator", "Alpaca", "Ant", "Anteater", "Antelope", "Ape", "Armadillo", "Baboon",
+  "Badger", "Barracuda", "Bat", "Bear", "Beaver", "Bee", "Bison", "Boar", "Buffalo", "Butterfly",
+  "Camel", "Capybara", "Caribou", "Cassowary", "Cat", "Caterpillar", "Cattle", "Cheetah", "Chicken", "Chimpanzee",
+  "Chinchilla", "Clam", "Cobra", "Cockroach", "Cod", "Coyote", "Crab", "Crane", "Crocodile", "Crow",
+  "Deer", "Dinosaur", "Dog", "Dogfish", "Dolphin", "Donkey", "Dove", "Dragonfly", "Duck", "Dugong",
+  "Eagle", "Echidna", "Eel", "Elephant", "Elk", "Emu", "Falcon", "Ferret", "Finch", "Fish",
+  "Flamingo", "Fly", "Fox", "Frog", "Gazelle", "Gerbil", "Giraffe", "Goat", "Goldfish", "Goose",
+  "Gorilla", "Grasshopper", "Grouse", "Guanaco", "Gull", "Hamster", "Hare", "Hawk", "Hedgehog", "Heron",
+  "Herring", "Hippopotamus", "Hornet", "Horse", "Hummingbird", "Hyena", "Ibex", "Ibis", "Jackal", "Jaguar",
+  "Jellyfish", "Magpie", "Kangaroo", "Koala", "Komodo", "Kouprey", "Kudu", "Lark", "Lemur", "Leopard", "Lion", "Unicorn", "Yak"
+];
+
+function generateRandomUsername(animals: string[], vehicles: string[]): string {
+  // Select a random animal
+  const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+
+  // Select a random vehicle
+  const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
+
+  // Combine all parts and return
+  return `${randomAnimal}${randomVehicle}`;
+}
+
+
 export default function AddProfile() {
-  const [text, setText] = useState("");
-  const [text2, setText2] = useState("");
+  const [username, setUsername] = useState(generateRandomUsername(transportationMethods, animals));
 
   // State to store only the currently selected emoji
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [selectedEmoji, setSelectedEmoji] = useState("🐶");
 
   // Function to update the selected emoji (only one at a time)
-  const handlePress = (emoji) => {
+  const handlePress = (emoji:string) => {
     setSelectedEmoji(emoji); // Update state to only store the last pressed emoji
   };
 
   const fetchChildren = async () => {
-    const { data, error } = await supabase.from("children").insert({
-      first_name: text.split(" ")[0],
-      last_name: text.split(" ")[1],
-      username: text2,
+    const { data, error } = await supabase.from("anonymized_children").insert({
+      username: username,
       emoji: selectedEmoji,
     });
     if (error) {
@@ -59,18 +94,15 @@ export default function AddProfile() {
               )}
             </View>
           </View>
-          <Text style={styles.textStyle}>Name</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setText}
-            value={text}
-          ></TextInput>
           <Text style={styles.textStyle}>Username</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setText2}
-            value={text2}
-          ></TextInput>
+          <Text
+              style={styles.input}
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.5}
+          >
+            {username}
+          </Text>
         </View>
         {/*----EMOJIS---- i'm not gonna comment on this below 
         but we should probably make this not hard coded at some point*/}
@@ -347,7 +379,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 180,
     height: 180,
-    aspectRatio: 1 / 1,
+    aspectRatio: 1,
     marginTop: 80,
   },
   imageContainer: {
@@ -363,7 +395,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 500,
     fontFamily: "Inter",
     fontStyle: "normal",
@@ -371,6 +403,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   input: {
+    minWidth: 0,
     borderWidth: 1,
     borderColor: "#D9D9D9",
     borderRadius: 10,
@@ -379,6 +412,9 @@ const styles = StyleSheet.create({
     height: 50,
     width: 300,
     alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 20,
   },
   buttonStyle: {
     width: 326,
