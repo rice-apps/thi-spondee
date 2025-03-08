@@ -2,13 +2,14 @@ import {SessionControls} from "@/components/spondee/SessionControls";
 import {SpondeeCard} from "@/components/spondee/SpondeeCardDefinitions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
-import {useEffect, useState} from "react";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
+import { useEffect, useRef, useState } from "react";
+import SpondeeCards from "@/components/spondee/SpondeeCardDefinitions";
+import { userData } from "@/app/currentProfile";
+
 import TestGrid from "@/components/spondee/TestGrid";
-import {THIText} from "@/components/THIText";
-import {StyleSheet, TouchableOpacity, View} from "react-native";
+import { THIText } from "@/components/THIText";
+import { StyleSheet, TouchableOpacity, View, Animated, Image, Text } from "react-native";
 import {EmojiRain} from "@/components/testing/EmojiRain";
-import {userData} from "@/app/currentProfile";
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -42,9 +43,10 @@ export default function TestScreen() {
   const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
   const [correctCard, setCorrectCard] = useState("");
   const [attempts, setAttempts] = useState<Trial[]>([]);
-  // const [pageNum, setPageNum] = useState(1);
-  // const [selectedId, setSelectedId] = useState();
+  const [emojiPopupTrigger, setEmojiPopupTrigger] = useState(false)
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const [numCards, setNumCards] = useState(4);
+  const [answerEnabled, setAnswerEnabled] = useState(false);
 
   function updateNumberOfCards(num: number) {
     setNumCards(num);
@@ -90,7 +92,11 @@ export default function TestScreen() {
     }
     setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
 
-    setRainTrigger(true);
+    if (answerEnabled) {
+      setEmojiPopupTrigger(true);
+    } else {
+      setRainTrigger(true);
+    }
   };
 
   useEffect(() => {
@@ -101,6 +107,52 @@ export default function TestScreen() {
     id: i,
     title: card.word,
   }));
+
+  const scale = useRef(new Animated.Value(0)).current;
+
+  const popIn = () => {
+    Animated.parallel([
+      Animated.timing(scale, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const popOut = () => {
+    Animated.parallel([
+      Animated.timing(scale, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // Generate new list
+      let list = randomizeSelectedCards(numCards);
+      generateNewCard(list);
+      setEmojiPopupTrigger(false);
+    });
+  };
+
+
+  useEffect(() => {
+    if (emojiPopupTrigger) {
+      popIn();
+      const timeoutId = setTimeout(popOut, 1000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [emojiPopupTrigger]);
 
   return (
     <View style={styles.page}>
@@ -119,7 +171,7 @@ export default function TestScreen() {
       />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts}/>
+        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts} answerEnabled={answerEnabled} setAnswerEnabled={setAnswerEnabled}/>
       </View>
       <TestGrid
         numCards={numCards}
@@ -129,6 +181,16 @@ export default function TestScreen() {
         setAttempts={setAttempts}
         callback={callback}
       />
+      {emojiPopupTrigger && (
+        <Animated.View style={[styles.emojiContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
+
+          <Text style={styles.emoji}>
+            {userData.EMOJI}
+          </Text>
+          {/*<Image style={styles.rabbitImage} source={require("../../../assets/images/rabbit.png")} />*/}
+        </Animated.View>
+      )}
+
       <TouchableOpacity
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
@@ -172,6 +234,18 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
     paddingTop: "3%",
+  },
+  emojiContainer: {
+    position: "absolute",
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
+  emoji: {
+    fontSize: 200,
   },
   button: {
     backgroundColor: grayColor,

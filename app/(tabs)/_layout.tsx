@@ -112,14 +112,6 @@ export default function TabLayout() {
           }}
         />
 
-        {/* Test screen (hidden) */}
-        <Tabs.Screen
-          name="tests/spondee"
-          options={{
-            tabBarButton: () => null, // Hide the tab
-          }}
-        />
-
         {/* Input session notes screen (hidden) */}
         <Tabs.Screen
           name="inputSessionNotes"

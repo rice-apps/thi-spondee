@@ -1,6 +1,6 @@
 import Card from "@/components/spondee/Card";
 import { useState } from "react";
-import {Trial} from "@/app/(tabs)/tests/spondee";
+import {Trial} from "@/app/(tabs)/tests/speech_therapy/spondee";
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from "react-native";
 
 export default function TestGrid({
