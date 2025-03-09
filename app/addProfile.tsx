@@ -1,69 +1,26 @@
 import { supabase } from "@/lib/supabase";
+import { generateRandomUsername } from "@/lib/usernames";
 import { router } from "expo-router";
-import {useEffect, useState} from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-const transportationMethods: string[] = [
-  "Bicycle", "Coach", "Tuk-Tuk", "Cablecar", "Skateboard", "Aeroplane", "Dunebuggy",
-  "Rig", "Buggy", "Yacht", "Ferry", "Tram", "Gondola", "Cruiseship",
-  "Train", "Airboat", "Car", "Hovercraft", "Sleigh",
-  "Helicopter", "Submarine", "Sled", "Truck", "Unicycle", "Parachute",
-  "Sailboat", "Canoe", "Snowmobile", "Segway",
-  "Rickshaw", "Scooter", "Taxi", "Tractor", "Jetski",
-  "Blimp", "Hotairballoon", "Paraglider", "Kayak", "Rowboat", "Trolley", "Bus", "Minivan", "Convertible",
-  "Sedan", "Pickuptruck", "Streetcar", "Glider", "Spaceship", "Spaceshuttle", "Spacestation",
-  "Limousine", "Doubledeckerbus", "Ambulance", "Firetruck",
-  "Snowcoach", "Barge", "Ship", "Ferry", "Riverboat", "Locomotive", "Jeep", "Jet"
-];
-
-const animals: string[] = [
-  "Aardvark", "Albatross", "Alligator", "Alpaca", "Ant", "Anteater", "Antelope", "Ape", "Armadillo", "Baboon",
-  "Badger", "Barracuda", "Bat", "Bear", "Beaver", "Bee", "Bison", "Boar", "Buffalo", "Butterfly",
-  "Camel", "Capybara", "Caribou", "Cassowary", "Cat", "Caterpillar", "Cattle", "Cheetah", "Chicken", "Chimpanzee",
-  "Chinchilla", "Clam", "Cobra", "Cockroach", "Cod", "Coyote", "Crab", "Crane", "Crocodile", "Crow",
-  "Deer", "Dinosaur", "Dog", "Dogfish", "Dolphin", "Donkey", "Dove", "Dragonfly", "Duck", "Dugong",
-  "Eagle", "Echidna", "Eel", "Elephant", "Elk", "Emu", "Falcon", "Ferret", "Finch", "Fish",
-  "Flamingo", "Fly", "Fox", "Frog", "Gazelle", "Gerbil", "Giraffe", "Goat", "Goldfish", "Goose",
-  "Gorilla", "Grasshopper", "Grouse", "Guanaco", "Gull", "Hamster", "Hare", "Hawk", "Hedgehog", "Heron",
-  "Herring", "Hippopotamus", "Hornet", "Horse", "Hummingbird", "Hyena", "Ibex", "Ibis", "Jackal", "Jaguar",
-  "Jellyfish", "Magpie", "Kangaroo", "Koala", "Komodo", "Kouprey", "Kudu", "Lark", "Lemur", "Leopard", "Lion", "Unicorn", "Yak"
-];
-
+import { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function AddProfile() {
   const [username, setUsername] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState("🐶");
-
-  function generateRandomUsername(animals: string[], vehicles: string[]): string {
-    // Select a random animal
-    const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-
-    // Select a random vehicle
-    const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
-
-    // Combine all parts and return
-    return `${randomAnimal}${randomVehicle}`;
-  }
 
   const checkAndGenerateUsername = async () => {
     let isUnique = false;
     let newUsername = "";
 
     while (!isUnique) {
-      newUsername = generateRandomUsername(transportationMethods, animals);
+      newUsername = generateRandomUsername();
 
       // Check if username exists in the database
       const { data, error } = await supabase
-          .from("anonymized_children")
-          .select("username")
-          .eq("username", newUsername)
-          .single();
+        .from("anonymized_children")
+        .select("username")
+        .eq("username", newUsername)
+        .single();
 
       if (error || !data) {
         // Unique username
@@ -79,7 +36,7 @@ export default function AddProfile() {
   }, []);
 
   // Function to update the selected emoji (only one at a time)
-  const handlePress = (emoji:string) => {
+  const handlePress = (emoji: string) => {
     setSelectedEmoji(emoji); // Update state to only store the last pressed emoji
   };
 
@@ -121,10 +78,10 @@ export default function AddProfile() {
           </View>
           <Text style={styles.textStyle}>Username</Text>
           <Text
-              style={styles.input}
-              numberOfLines={1}
-              adjustsFontSizeToFit={true}
-              minimumFontScale={0.5}
+            style={styles.input}
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}
+            minimumFontScale={0.5}
           >
             {username}
           </Text>
