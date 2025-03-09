@@ -1,12 +1,12 @@
+import { Trial } from "@/app/spondee";
+import { SessionData } from "@/components/spondee/SessionControls";
 import { THIText } from "@/components/THIText";
+import { userData } from "@/lib/currentProfile";
+import { supabase } from "@/lib/supabase";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import {useLocalSearchParams} from "expo-router";
-import {Trial} from "@/app/(tabs)/tests/spondee";
-import uuid from 'react-native-uuid';
-import {supabase} from "@/lib/supabase";
-import {useState, useEffect} from "react";
-import {userData} from "@/app/currentProfile";
-import {SessionData} from "@/components/spondee/SessionControls";
+import uuid from "react-native-uuid";
 
 export default function InputSessionNotes() {
   const [formattedDate, setFormattedDate] = useState<string>("");
@@ -16,7 +16,7 @@ export default function InputSessionNotes() {
   const [maximumThresholdLevel, setMaximumThresholdLevel] = useState(0);
   const [sessionNotes, setSessionNotes] = useState<string>("");
 
-  const {sessionData} = useLocalSearchParams<{sessionData?: string}>();
+  const { sessionData } = useLocalSearchParams<{ sessionData?: string }>();
 
   const generateUUID = () => {
     const newUUID = uuid.v4();
@@ -47,28 +47,25 @@ export default function InputSessionNotes() {
     }
   }, [sessionData]);
 
-
-
   async function createTestSession(sessionUUID: string, childId: string) {
     try {
       const { data, error } = await supabase
-          .from('test_session')
-          .insert({ id: sessionUUID, child_id: childId })
-          .select()
-          .single();
+        .from("test_session")
+        .insert({ id: sessionUUID, child_id: childId })
+        .select()
+        .single();
 
       if (error) {
         console.log("Error fetching test session:", error.message);
         return null;
       }
-      console.log('Test session created:', data);
+      console.log("Test session created:", data);
       return data;
     } catch (error) {
-      console.error('Error creating test session:', (error as Error).message);
+      console.error("Error creating test session:", (error as Error).message);
       return null;
     }
   }
-
 
   async function insertAttempts(sessionUUID: string) {
     const trials = parsedAttempts.map((trial) => ({
@@ -77,7 +74,7 @@ export default function InputSessionNotes() {
       test_session_id: sessionUUID,
     }));
 
-    const {data, error} = await supabase.from("test_trial").insert(trials);
+    const { data, error } = await supabase.from("test_trial").insert(trials);
 
     if (error) {
       console.log("Error fetching test trial:", error.message);
@@ -88,25 +85,24 @@ export default function InputSessionNotes() {
 
   async function insertSettingsData(sessionUUID: string) {
     try {
-      const {data, error} = await supabase
-          .from("test_session_settings")
-          .insert({
-                id: sessionUUID,
-                set_size: numCards,
-                sound_enabled: soundEnabled,
-                max_thresh_level: maximumThresholdLevel,
-                session_notes: sessionNotes,
-              }
-          ).select()
-          .single();
+      const { data, error } = await supabase
+        .from("test_session_settings")
+        .insert({
+          id: sessionUUID,
+          set_size: numCards,
+          sound_enabled: soundEnabled,
+          max_thresh_level: maximumThresholdLevel,
+          session_notes: sessionNotes,
+        })
+        .select()
+        .single();
       if (error) {
         console.log("Error creating settings data:", error.message);
       }
-      console.log('Test session created:', data);
+      console.log("Test session created:", data);
       return data;
-    }
-    catch(error) {
-      console.error('Error creating test session:', (error as Error).message);
+    } catch (error) {
+      console.error("Error creating test session:", (error as Error).message);
       return null;
     }
   }
@@ -131,7 +127,6 @@ export default function InputSessionNotes() {
     }
   }
 
-
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -144,7 +139,9 @@ export default function InputSessionNotes() {
             style={styles.input}
             keyboardType="numeric"
             placeholderTextColor="#C4C4C4"
-            value={maximumThresholdLevel ? maximumThresholdLevel.toString() : ""}
+            value={
+              maximumThresholdLevel ? maximumThresholdLevel.toString() : ""
+            }
             onChangeText={(text) => {
               // Convert entered text to a number.
               const numericValue = Number(text);

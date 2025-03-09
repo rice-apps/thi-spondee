@@ -1,14 +1,14 @@
-import {SessionControls} from "@/components/spondee/SessionControls";
-import {SpondeeCard} from "@/components/spondee/SpondeeCardDefinitions";
+import { THIText } from "@/components/THIText";
+import { SessionControls } from "@/components/spondee/SessionControls";
+import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
+import TestGrid from "@/components/spondee/TestGrid";
+import { EmojiRain } from "@/components/testing/EmojiRain";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
-import {useEffect, useState} from "react";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
-import TestGrid from "@/components/spondee/TestGrid";
-import {THIText} from "@/components/THIText";
-import {StyleSheet, TouchableOpacity, View} from "react-native";
-import {EmojiRain} from "@/components/testing/EmojiRain";
-import {userData} from "@/app/currentProfile";
+import { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import SpondeeCards from "../components/spondee/SpondeeCardDefinitions";
+import { userData } from "../lib/currentProfile";
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -45,21 +45,17 @@ export default function TestScreen() {
   // const [pageNum, setPageNum] = useState(1);
   // const [selectedId, setSelectedId] = useState();
   const [numCards, setNumCards] = useState(4);
+  const [data, setData] = useState<any>();
 
-  function updateNumberOfCards(num: number) {
-    setNumCards(num);
-    // Generate new list
-    let list = randomizeSelectedCards(num);
-    generateNewCard(list);
-  }
-
-
-    /**
+  /**
    * Randomizes cards shown, updates state, and returns that list (not limited by set size)
    */
   function randomizeSelectedCards(numberOfCards: number) {
     numberOfCards = numberOfCards ? numberOfCards : 4;
-    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numberOfCards);
+    const initialSelectedCards = shuffleArray(SpondeeCards).slice(
+      0,
+      numberOfCards
+    );
     setSelectedCards(initialSelectedCards);
     return initialSelectedCards;
   }
@@ -68,7 +64,8 @@ export default function TestScreen() {
   useEffect(() => {
     const initialSelectedCards = randomizeSelectedCards(numCards);
 
-    const initialCorrectCard = initialSelectedCards[Math.floor(Math.random() * numCards)].word;
+    const initialCorrectCard =
+      initialSelectedCards[Math.floor(Math.random() * numCards)].word;
     setCorrectCard(initialCorrectCard);
   }, []); // Empty dependency array means this only runs once on mount
 
@@ -78,12 +75,11 @@ export default function TestScreen() {
     setCorrectCard(list[randomIdx].word);
   };
 
-
   console.log("correct: ", correctCard);
   console.log("total ", totalTrials, " numCorrect: ", numCorrect);
 
   // Callback after a card is tapped
-  const callback = (item: { id: number; title: string; }) => {
+  const callback = (item: { id: number; title: string }) => {
     console.log(item.title, correctCard);
     if (correctCard === item.title) {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
@@ -94,13 +90,23 @@ export default function TestScreen() {
   };
 
   useEffect(() => {
+    console.log("triggered");
     speakCorrectCard(correctCard);
   }, [correctCard]);
 
-  const data = selectedCards.map((card, i) => ({
-    id: i,
-    title: card.word,
-  }));
+  useEffect(() => {
+    const newData = selectedCards.map((card, i) => ({
+      id: i,
+      title: card.word,
+    }));
+    setData(newData);
+  }, [selectedCards]);
+
+  useEffect(() => {
+    console.log("hello i'm in heree");
+    const list = randomizeSelectedCards(numCards);
+    generateNewCard(list);
+  }, [numCards]);
 
   return (
     <View style={styles.page}>
@@ -110,7 +116,7 @@ export default function TestScreen() {
         trigger={rainTrigger}
         onRainComplete={() => {
           // Callback when rain finishes
-          console.log('Rain completed');
+          console.log("Rain completed");
           // Generate new list
           let list = randomizeSelectedCards(numCards);
           generateNewCard(list);
@@ -119,7 +125,13 @@ export default function TestScreen() {
       />
       <View style={styles.titleContainer}>
         <THIText style={styles.title}>Spondee Cards</THIText>
-        <SessionControls totalTrials={totalTrials} numCorrect={numCorrect} numCards={numCards} setNumCards={updateNumberOfCards} attempts={attempts}/>
+        <SessionControls
+          totalTrials={totalTrials}
+          numCorrect={numCorrect}
+          numCards={numCards}
+          setNumCards={setNumCards}
+          attempts={attempts}
+        />
       </View>
       <TestGrid
         numCards={numCards}
@@ -133,7 +145,7 @@ export default function TestScreen() {
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
       >
-        <FontAwesome name="volume-up" size={36}/>
+        <FontAwesome name="volume-up" size={36} />
       </TouchableOpacity>
     </View>
   );

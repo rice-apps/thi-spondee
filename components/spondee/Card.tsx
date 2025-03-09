@@ -9,35 +9,41 @@ type CardProps = {
   onPress: () => void;
   onSubmit: () => void;
   size: number;
-  numCards:number;
+  numCards: number;
 };
 
 export default function Card({
-                               text,
-                               button,
-                               backgroundColor,
-                               onPress,
-                               onSubmit,
-                               size,
-                               numCards
-                             }: CardProps) {
-
-
+  text,
+  button,
+  backgroundColor,
+  onPress,
+  onSubmit,
+  size,
+  numCards,
+}: CardProps) {
   return (
-      <TouchableOpacity style={{ ...styles.item, height: 500/((numCards+size-1)/size), width: 700/size,backgroundColor: backgroundColor }} onPress={onPress}>
-        <THIText>{text}</THIText>
-        <Image
-            style={{ height: "100%", width: "100%", objectFit: "contain" }}
-            source={spondeeImageMap[text]}
-        ></Image>
-        {button ? (
-            <TouchableOpacity style={styles.submit} onPress={onSubmit}>
-              <THIText style={{ fontSize: 17 }}>Submit</THIText>
-            </TouchableOpacity>
-        ) : (
-            <></>
-        )}
-      </TouchableOpacity>
+    <TouchableOpacity
+      style={{
+        ...styles.item,
+        height: 600 / ((numCards + size - 1) / size),
+        width: 750 / size,
+        backgroundColor: backgroundColor,
+      }}
+      onPress={onPress}
+    >
+      <THIText>{text}</THIText>
+      <Image
+        style={{ height: "100%", width: "100%", objectFit: "contain" }}
+        source={spondeeImageMap[text]}
+      ></Image>
+      {button ? (
+        <TouchableOpacity style={styles.submit} onPress={onSubmit}>
+          <THIText style={{ fontSize: 17 }}>Submit</THIText>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
+    </TouchableOpacity>
   );
 }
 
@@ -54,7 +60,6 @@ const styles = StyleSheet.create({
     borderColor: "#7B9CCF",
     borderStyle: "solid",
     borderWidth: 3,
-    // width: "auto",
   },
   name: {
     fontSize: 32,

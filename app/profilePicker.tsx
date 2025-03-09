@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { setCurrentID } from "../lib/currentProfile";
 import { supabase } from "../lib/supabase";
-import { setCurrentID } from "./currentProfile";
 export default function profilePicker() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [children, setChildren] = React.useState<Child[] | null>(null);
