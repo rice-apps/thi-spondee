@@ -1,12 +1,12 @@
+import { LogOutModal } from "@/components/navigation/LogOutModal";
 import { SideTabBar } from "@/components/navigation/SideTabBar";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { supabase } from "@/lib/supabase";
 import { router, Tabs } from "expo-router";
-import {React, useState} from "react";
+import { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
-import { LogOutModal } from "@/components/navigation/LogOutModal";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -15,7 +15,6 @@ export default function TabLayout() {
   // Handle the logout after clicking log out tab button
   const handleLogout = () => {
     setShowLogoutModal(true);
-   
   };
 
   return (
@@ -112,14 +111,6 @@ export default function TabLayout() {
           }}
         />
 
-        {/* Test screen (hidden) */}
-        <Tabs.Screen
-          name="tests/spondee"
-          options={{
-            tabBarButton: () => null, // Hide the tab
-          }}
-        />
-
         {/* Input session notes screen (hidden) */}
         <Tabs.Screen
           name="inputSessionNotes"
@@ -127,11 +118,10 @@ export default function TabLayout() {
             tabBarButton: () => null, // Hide the tab
           }}
         />
-        
       </Tabs>
-      <LogOutModal 
-        visible={showLogoutModal} 
-        onClose={() => setShowLogoutModal(false)} 
+      <LogOutModal
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
         onLogout={async () => {
           const { error } = await supabase.auth.signOut();
           if (error) {

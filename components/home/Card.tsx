@@ -1,19 +1,16 @@
+import { userData } from "@/lib/currentProfile";
+import { supabase } from "@/lib/supabase";
 import { StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { THIText } from "../THIText";
-import { supabase } from "@/lib/supabase";
-import profilePicker from "@/app/profilePicker";
-import { userData } from "@/app/currentProfile"
 
 import { useEffect, useState } from "react";
 
 type CardProps = {
   testId: string;
-}
+};
 
-export default function Card({
-  testId
-}: CardProps) {
+export default function Card({ testId }: CardProps) {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     year: "numeric",
@@ -29,7 +26,7 @@ export default function Card({
     const { data, error } = await supabase
       .from("test_trial")
       .select("prompt, response, test_session_id")
-      .eq('test_session_id', sessionId);
+      .eq("test_session_id", sessionId);
 
     if (error) {
       console.error(`Error fetching test results for ${sessionId}:`, error);
@@ -39,14 +36,16 @@ export default function Card({
     return data;
   }
 
-  function calculateAccuracy(results: { prompt: string; response: string; test_session_id: string; }[]) {
+  function calculateAccuracy(
+    results: { prompt: string; response: string; test_session_id: string }[]
+  ) {
     if (!results || results.length === 0) return 0;
 
     const correctCount = results.filter(
       (item) => item.prompt.trim() === item.response.trim()
     ).length;
 
-    return ((correctCount / results.length)).toFixed(2);
+    return (correctCount / results.length).toFixed(2);
   }
 
   async function fetchDataAndCalculateAccuracy(childId: string) {
@@ -58,15 +57,15 @@ export default function Card({
         console.log(`Accuracy for test ID ${testId}: ${accuracy}%`);
         return accuracy;
       } else {
-        console.log('No test results found.');
+        console.log("No test results found.");
       }
     } catch (error) {
-      console.error('Unexpected error:', error);
+      console.error("Unexpected error:", error);
     }
   }
 
   useEffect(() => {
-    fetchDataAndCalculateAccuracy(childId).then(result => {
+    fetchDataAndCalculateAccuracy(childId).then((result) => {
       setAccuracy(Number(result) || 0);
     });
   }, []);
