@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { generateRandomUsername } from "@/lib/usernames";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -77,14 +78,22 @@ export default function AddProfile() {
             </View>
           </View>
           <Text style={styles.textStyle}>Username</Text>
-          <Text
-            style={styles.input}
-            numberOfLines={1}
-            adjustsFontSizeToFit={true}
-            minimumFontScale={0.5}
-          >
-            {username}
-          </Text>
+          <View style={styles.username}>
+            <Text
+              style={styles.input}
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.5}
+            >
+              {username}
+            </Text>
+            <TouchableOpacity
+              style={styles.undoButton}
+              onPress={checkAndGenerateUsername}
+            >
+              <FontAwesome name="undo" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
         {/*----EMOJIS---- i'm not gonna comment on this below 
         but we should probably make this not hard coded at some point*/}
@@ -355,6 +364,15 @@ export default function AddProfile() {
 const styles = StyleSheet.create({
   container: {
     margin: 100,
+  },
+  username: {
+    flexDirection: "row",
+    display: "flex",
+    gap: 5,
+  },
+  undoButton: {
+    marginTop: 20,
+    padding: 10,
   },
   image: {
     backgroundColor: "#F6F6F6",
