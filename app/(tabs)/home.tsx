@@ -15,27 +15,11 @@ export default function Home() {
       .from("test_session")
       .select("id")
       .eq("child_id", childId)
-      .order("created_at", { ascending: false }) // order by most recent first
+      .order("created_at", { ascending: false })
       .limit(3);
 
     if (error) {
       console.error("Error fetching test sessions:", error);
-      return null;
-    }
-
-    return data; // Returns an array of sessions
-  }
-  const childId = userData.CURRENT_ID;
-  //const sessions =  await fetchTestSessions(childId);
-
-  async function fetchTestResults(sessionIds: readonly any[]) {
-    const { data, error } = await supabase
-      .from("test_trial")
-      .select("prompt, response, test_session_id")
-      .in("test_session_id", sessionIds);
-
-    if (error) {
-      console.error("Error fetching test results:", error);
       return null;
     }
 
@@ -44,12 +28,13 @@ export default function Home() {
 
   useEffect(() => {
     const loadTestSessions = async () => {
+      const childId = userData.CURRENT_ID;
       const sessions = await fetchTestSessions(childId);
       setTestSessions(sessions ?? []); // Ensure it's always an array
     };
 
     loadTestSessions();
-  }, [childId]);
+  }, []);
 
   return (
     <View style={styles.container}>
