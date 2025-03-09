@@ -50,16 +50,19 @@ export default function TestScreen() {
   /**
    * Randomizes cards shown, updates state, and returns that list (not limited by set size)
    */
-  function randomizeSelectedCards() {
-    const initialSelectedCards = shuffleArray(SpondeeCards).slice(0, numCards);
+  function randomizeSelectedCards(numberOfCards: number) {
+    numberOfCards = numberOfCards ? numberOfCards : 4;
+    const initialSelectedCards = shuffleArray(SpondeeCards).slice(
+      0,
+      numberOfCards
+    );
     setSelectedCards(initialSelectedCards);
     return initialSelectedCards;
   }
 
   // Initialize selected cards and first correct card
   useEffect(() => {
-    console.log("should only be called once");
-    const initialSelectedCards = randomizeSelectedCards();
+    const initialSelectedCards = randomizeSelectedCards(numCards);
 
     const initialCorrectCard =
       initialSelectedCards[Math.floor(Math.random() * numCards)].word;
@@ -101,7 +104,7 @@ export default function TestScreen() {
 
   useEffect(() => {
     console.log("hello i'm in heree");
-    const list = randomizeSelectedCards();
+    const list = randomizeSelectedCards(numCards);
     generateNewCard(list);
   }, [numCards]);
 
@@ -115,7 +118,7 @@ export default function TestScreen() {
           // Callback when rain finishes
           console.log("Rain completed");
           // Generate new list
-          let list = randomizeSelectedCards();
+          let list = randomizeSelectedCards(numCards);
           generateNewCard(list);
           setRainTrigger(false);
         }}

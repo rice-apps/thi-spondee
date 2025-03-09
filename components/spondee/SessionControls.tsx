@@ -1,7 +1,7 @@
 import Settings from "@/app/(tabs)/settings";
 import { Trial } from "@/app/spondee";
 import { router } from "expo-router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
 
@@ -10,7 +10,7 @@ type SessionControlProps = {
   numCorrect: number;
   attempts: Trial[];
   numCards: number;
-  setNumCards: Dispatch<SetStateAction<number>>;
+  setNumCards: (num: number) => void;
 };
 
 export interface SessionData {
