@@ -1,14 +1,75 @@
+import { userData } from "@/lib/currentProfile";
+import { supabase } from "@/lib/supabase";
 import { StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
 import { THIText } from "../THIText";
 
-export default function Card() {
+import { useEffect, useState } from "react";
+
+type CardProps = {
+  testId: string;
+};
+
+export default function Card({ testId }: CardProps) {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
+  //console.log(testId);
+
+  const [accuracy, setAccuracy] = useState(0.0);
+  const childId = userData.CURRENT_ID;
+
+  async function fetchTestResults(sessionId: string) {
+    const { data, error } = await supabase
+      .from("test_trial")
+      .select("prompt, response, test_session_id")
+      .eq("test_session_id", sessionId);
+
+    if (error) {
+      console.error(`Error fetching test results for ${sessionId}:`, error);
+      return null;
+    }
+
+    return data;
+  }
+
+  function calculateAccuracy(
+    results: { prompt: string; response: string; test_session_id: string }[]
+  ) {
+    if (!results || results.length === 0) return 0;
+
+    const correctCount = results.filter(
+      (item) => item.prompt.trim() === item.response.trim()
+    ).length;
+
+    return (correctCount / results.length).toFixed(2);
+  }
+
+  async function fetchDataAndCalculateAccuracy(childId: string) {
+    try {
+      const testResults = await fetchTestResults(testId);
+
+      if (testResults) {
+        const accuracy = calculateAccuracy(testResults);
+        console.log(`Accuracy for test ID ${testId}: ${accuracy}%`);
+        return accuracy;
+      } else {
+        console.log("No test results found.");
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchDataAndCalculateAccuracy(childId).then((result) => {
+      setAccuracy(Number(result) || 0);
+    });
+  }, []);
+
   return (
     <View style={styles.box}>
       <View style={styles.innerBox}>
@@ -35,7 +96,7 @@ export default function Card() {
           <Progress.Circle
             indeterminate={false}
             animated={false}
-            progress={0.5}
+            progress={accuracy}
             showsText={true}
             size={60}
             textStyle={{ fontSize: 18, color: "black", fontWeight: 500 }}

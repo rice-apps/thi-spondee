@@ -33,7 +33,7 @@ export const fetchUserData = async (id: string) => {
 export const fetchGuestData = async () => {
   const { data, error } = await supabase
     .from("anonymized_children")
-    .select("username, emoji")
+    .select("username, emoji, id")
     .eq("emoji", "👤")
     .single();
 
@@ -43,6 +43,7 @@ export const fetchGuestData = async () => {
   }
 
   if (data) {
+    userData.CURRENT_ID = data.id;
     userData.USERNAME = data.username;
     userData.EMOJI = data.emoji;
     console.log("User data updated:", userData);
