@@ -8,6 +8,8 @@ type CardProps = {
   backgroundColor: string;
   onPress: () => void;
   onSubmit: () => void;
+  size: number;
+  numCards: number;
 };
 
 export default function Card({
@@ -16,11 +18,19 @@ export default function Card({
   backgroundColor,
   onPress,
   onSubmit,
+  size,
+  numCards,
 }: CardProps) {
-  const style = { ...styles.item, backgroundColor: backgroundColor };
-
   return (
-    <TouchableOpacity style={style} onPress={onPress}>
+    <TouchableOpacity
+      style={{
+        ...styles.item,
+        height: 600 / ((numCards + size - 1) / size),
+        width: 750 / size,
+        backgroundColor: backgroundColor,
+      }}
+      onPress={onPress}
+    >
       <THIText>{text}</THIText>
       <Image
         style={{ height: "100%", width: "100%", objectFit: "contain" }}
@@ -46,13 +56,10 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 20,
     marginHorizontal: 25,
-    width: 350,
-    height: 250,
     borderRadius: 10,
     borderColor: "#7B9CCF",
     borderStyle: "solid",
     borderWidth: 3,
-    // width: "auto",
   },
   name: {
     fontSize: 32,

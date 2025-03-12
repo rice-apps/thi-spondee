@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { fetchGuestData } from "./currentProfile";
+import { fetchGuestData } from "../lib/currentProfile";
 
 export default function StartingPointPage() {
   return (
