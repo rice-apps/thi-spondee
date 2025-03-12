@@ -1,110 +1,31 @@
-import { router } from "expo-router";
-import { StyleSheet, View, Alert } from "react-native";
-import { THIText } from "../THIText";
-import { Dropdown } from 'react-native-element-dropdown';
+import { userData } from "@/lib/currentProfile";
 import { supabase } from "@/lib/supabase";
-import { userData } from "@/app/currentProfile";
+import Entypo from "@expo/vector-icons/Entypo";
+import { router } from "expo-router";
+import { Alert, StyleSheet, View } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
+import { THIText } from "../THIText";
 
 const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
-  const data = [
-    { label: 'Switch Profile', value: 'switch' },
-    { label: 'Delete Profile', value: 'delete' },
-  ];
+  // can't delete guest profile
+  const data =
+    userData.USERNAME !== "GuestProfile"
+      ? [
+          { label: "Switch Profile", value: "switch" },
+          { label: "Edit Profile", value: "edit" },
+        ]
+      : [{ label: "Switch Profile", value: "switch" }];
 
   const handleOptionSelect = async (item: { value: string }) => {
     switch (item.value) {
-      case 'switch':
+      case "switch":
         router.push("/profilePicker");
         break;
-      case 'delete':
-        confirmDeleteProfile();
+      case "edit":
+        router.push("/editProfile");
         break;
     }
   };
-
-  const confirmDeleteProfile = () => {
-    Alert.alert(
-      "Delete Profile",
-      "Are you sure you want to delete this profile? This action cannot be undone.",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Delete", style: "destructive", onPress: () => deleteProfile() },
-      ]
-    );
-  };
-
-  const deleteProfile = async () => {
-    try {
-      const currentUserId = userData.CURRENT_ID;
-  
-      if (!currentUserId) {
-        Alert.alert("Error", "No user ID found. Unable to delete profile.");
-        return;
-      }
-  
-      const { data: sessions, error: fetchSessionsError } = await supabase
-        .from("test_session")
-        .select("id")
-        .eq("child_id", currentUserId);
-  
-      if (fetchSessionsError) {
-        throw fetchSessionsError;
-      }
-  
-      const sessionIds = sessions.map(session => session.id);
-  
-      if (sessionIds.length > 0) {
-        
-        const { error: deleteSettingsError } = await supabase
-          .from("test_session_settings")
-          .delete()
-          .in("id", sessionIds); 
-  
-        if (deleteSettingsError) {
-          throw deleteSettingsError;
-        }
-  
-       
-        const { error: deleteTrialsError } = await supabase
-          .from("test_trial")
-          .delete()
-          .in("test_session_id", sessionIds);
-  
-        if (deleteTrialsError) {
-          throw deleteTrialsError;
-        }
-  
-       
-        const { error: deleteSessionsError } = await supabase
-          .from("test_session")
-          .delete()
-          .eq("child_id", currentUserId);
-  
-        if (deleteSessionsError) {
-          throw deleteSessionsError;
-        }
-      }
-  
-     
-      const { error: deleteProfileError } = await supabase
-        .from("children")
-        .delete()
-        .eq("id", currentUserId);
-  
-      if (deleteProfileError) {
-        throw deleteProfileError;
-      }
-  
-      console.log(`Profile with ID ${currentUserId}, related test sessions, test trials, and test session settings deleted successfully.`);
-  
-    
-      router.replace("/profilePicker");
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    }
-  };
-  
-  
 
   return (
     <View style={styles.container}>
@@ -114,7 +35,14 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
         </View>
       </View>
       <View style={styles.name}>
-        <THIText style={{ color: "black", fontSize: 28, fontWeight: "600", textAlign: "left" }}>
+        <THIText
+          style={{
+            color: "black",
+            fontSize: 28,
+            fontWeight: "600",
+            textAlign: "left",
+          }}
+        >
           {username}
         </THIText>
       </View>
@@ -130,7 +58,9 @@ const TopBar = ({ emoji, username }: { emoji: string; username: string }) => {
           selectedTextStyle={styles.dropdownSelectedText}
           itemTextStyle={styles.dropdownItemText}
           activeColor="#F6F6F6"
-          renderRightIcon={() => <THIText style={styles.threeDots}>...   </THIText>}
+          renderRightIcon={() => (
+            <Entypo name="dots-three-horizontal" size={24} color="black" />
+          )}
           placeholder=""
         />
       </View>
@@ -178,11 +108,12 @@ const styles = StyleSheet.create({
   dropdownList: {
     backgroundColor: "#FFFFFF",
     borderRadius: 12,
-    marginTop: '10%', 
+    marginTop: "15%",
     width: 180,
-    alignSelf: "flex-end", 
-    position: "absolute", 
-    left: '84%',
+    alignSelf: "flex-end",
+    position: "absolute",
+    left: "81%",
+    right: "5%",
     paddingVertical: 8,
     elevation: 4,
     shadowColor: "#000",
@@ -190,8 +121,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 8,
     borderWidth: 1,
-    borderColor: '#F0F0F0',
-    zIndex: 999, 
+    borderColor: "#F0F0F0",
+    zIndex: 999,
   },
   dropdownPlaceholder: {
     fontSize: 0,
@@ -204,12 +135,12 @@ const styles = StyleSheet.create({
     color: "#000000",
     paddingVertical: 12,
     paddingHorizontal: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   threeDots: {
     fontSize: 28,
     color: "#000000",
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
 

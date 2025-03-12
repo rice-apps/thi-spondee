@@ -48,10 +48,7 @@ export default function AddProfile() {
     });
     if (error) {
       console.error(error);
-    } else if (data) {
-      // setChildren(data);
-      // setFilteredChildren(data);
-    }
+    } 
   };
 
   return (
