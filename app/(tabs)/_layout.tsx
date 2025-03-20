@@ -4,7 +4,7 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { supabase } from "@/lib/supabase";
 import { router, Tabs } from "expo-router";
-import React from "react";
+
 import { Alert, StyleSheet, View } from "react-native";
 
 export default function TabLayout() {
