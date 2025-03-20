@@ -3,7 +3,7 @@ import { SessionData } from "@/components/spondee/SessionControls";
 import { THIText } from "@/components/THIText";
 import { userData } from "@/lib/currentProfile";
 import { supabase } from "@/lib/supabase";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import uuid from "react-native-uuid";
@@ -166,6 +166,7 @@ export default function InputSessionNotes() {
             style={styles.button}
             onPress={async () => {
               await handleSubmission();
+              router.push("/(tabs)/sessionResults");
             }}
           >
             <THIText style={styles.buttonText}>Submit</THIText>
