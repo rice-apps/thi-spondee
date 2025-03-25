@@ -8,6 +8,11 @@ import { useEffect, useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import uuid from "react-native-uuid";
 
+export interface SessionDetails {
+  notes: string;
+  thresholdLevel: number;
+}
+
 export default function InputSessionNotes() {
   const [formattedDate, setFormattedDate] = useState<string>("");
   const [parsedAttempts, setParsedAttempts] = useState<Trial[]>([]);
@@ -37,6 +42,9 @@ export default function InputSessionNotes() {
     if (sessionData) {
       try {
         const parsedData: SessionData = JSON.parse(sessionData);
+        parsedData.attempts.map((trial) => {
+          console.log(trial.prompt, trial.response);
+        });
         setParsedAttempts(parsedData.attempts);
         setSoundEnabled(parsedData.soundEnabled);
         setNumCards(parsedData.numCards);
@@ -166,7 +174,20 @@ export default function InputSessionNotes() {
             style={styles.button}
             onPress={async () => {
               await handleSubmission();
-              router.push("/(tabs)/sessionResults");
+              router.push({
+                pathname: "/(tabs)/sessionResults",
+                params: {
+                  sessionData: JSON.stringify({
+                    attempts: parsedAttempts,
+                    soundEnabled: soundEnabled,
+                    numCards: numCards,
+                  }),
+                  sessionNotes: JSON.stringify({
+                    notes: sessionNotes,
+                    thresholdLevel: maximumThresholdLevel,
+                  }),
+                },
+              });
             }}
           >
             <THIText style={styles.buttonText}>Submit</THIText>

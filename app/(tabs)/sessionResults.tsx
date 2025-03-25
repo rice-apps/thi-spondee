@@ -1,8 +1,9 @@
+import { SessionData } from "@/components/spondee/SessionControls";
 import { THIText } from "@/components/THIText";
-import { useState } from "react";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Image,
-  LogBox,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,25 +12,52 @@ import {
 } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Row, Table } from "react-native-reanimated-table";
-
+import { Trial } from "../spondee";
+import { SessionDetails } from "./inputSessionNotes";
 export default function SessionResults() {
-  LogBox.ignoreLogs(["Invalid prop textStyle of type array supplied to Cell"]);
-  const tableData = {
-    tableHead: ["Word", "Response", "Result"],
-    tableData: [
-      ["Outside", "Outside", true],
-      ["Outside", "Outside", false],
-      ["Outside", "Outside", true],
-      ["Outside", "Outside", true],
-      ["Outside", "Outside", false],
-      ["Outside", "Outside", true],
-      ["Outside", "Outside", false],
-      ["Outside", "Outside", false],
-      ["Outside", "Outside", true],
-    ],
-  };
-  const [data, setData] = useState(tableData);
+  const { sessionData } = useLocalSearchParams<{ sessionData?: string }>();
+  const { sessionNotes } = useLocalSearchParams<{ sessionNotes?: string }>();
+  const [tableData, setTableData] = useState<Trial[]>([]);
+  const [numCorrect, setNumCorrect] = useState(0);
+  const [setsize, setSetsize] = useState(0);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [notes, setNotes] = useState("");
+  const [thresholdLevel, setThresholdLevel] = useState(0);
+  const tableHeaders = ["Word", "Response", "Result"];
+  const today = new Date();
 
+  useEffect(() => {
+    if (sessionData) {
+      try {
+        const parsedData: SessionData = JSON.parse(sessionData);
+        setTableData(parsedData.attempts);
+        let correct = 0;
+        parsedData.attempts.map((trial) => {
+          if (trial.prompt === trial.response) {
+            correct += 1;
+          }
+        });
+        setNumCorrect(correct);
+        setSetsize(parsedData.numCards);
+        setSoundEnabled(parsedData.soundEnabled);
+      } catch {
+        console.error("unable to parse sessionData");
+      }
+    }
+  }, [sessionData]);
+
+  useEffect(() => {
+    if (sessionNotes) {
+      try {
+        console.log(sessionNotes);
+        const parsedNotes: SessionDetails = JSON.parse(sessionNotes);
+        setNotes(parsedNotes.notes);
+        setThresholdLevel(parsedNotes.thresholdLevel);
+      } catch {
+        console.error("unable to parse sessionNotes");
+      }
+    }
+  }, [sessionNotes]);
   return (
     <View style={styles.container}>
       {/*----SESSION RESULTS HEADER----*/}
@@ -76,7 +104,13 @@ export default function SessionResults() {
               marginHorizontal: 10,
             }}
           />
-          <Text style={styles.grayTextStyle}>November 1, 2024</Text>
+          <Text style={styles.grayTextStyle}>
+            {today.toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </Text>
         </View>
       </View>
 
@@ -112,8 +146,12 @@ export default function SessionResults() {
                 justifyContent: "space-between",
               }}
             >
-              <THIText style={styles.blackTextStyle}>Set Size: 4 </THIText>
-              <THIText style={styles.blackTextStyle}>Sound: On</THIText>
+              <THIText style={styles.blackTextStyle}>
+                Set Size: {setsize}{" "}
+              </THIText>
+              <THIText style={styles.blackTextStyle}>
+                Sound: {soundEnabled ? "On" : "Off"}
+              </THIText>
             </View>
           </View>
           <View
@@ -154,7 +192,9 @@ export default function SessionResults() {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.blackTextStyle}>Threshold Level: XX dB</Text>
+            <Text style={styles.blackTextStyle}>
+              Threshold Level: {thresholdLevel} dB
+            </Text>
             <Text
               style={{
                 color: "#17262B",
@@ -163,8 +203,7 @@ export default function SessionResults() {
                 fontWeight: "400",
               }}
             >
-              Any additional notes that the therapist wants to document will be
-              displayed in this section
+              {notes}
             </Text>
           </View>
         </View>
@@ -200,7 +239,7 @@ export default function SessionResults() {
               }}
             >
               <CircularProgress
-                value={80}
+                value={Math.round((numCorrect / tableData.length) * 100)}
                 radius={50}
                 duration={500}
                 valueSuffix={"%"}
@@ -214,9 +253,11 @@ export default function SessionResults() {
                 <Text
                   style={{ color: "black", fontSize: 19, fontWeight: "normal" }}
                 >
-                  16 Correct
+                  {numCorrect} Correct
                 </Text>
-                <Text style={styles.blackTextStyle}>4 Incorrect</Text>
+                <Text style={styles.blackTextStyle}>
+                  {tableData.length - numCorrect} Incorrect
+                </Text>
               </View>
             </View>
           </View>
@@ -225,7 +266,7 @@ export default function SessionResults() {
             <View>
               <Table borderStyle={{ borderWidth: 1, borderColor: "#7B9CCF" }}>
                 <Row
-                  data={tableData.tableHead}
+                  data={tableHeaders}
                   style={styles.head}
                   textStyle={styles.headText}
                 />
@@ -233,13 +274,13 @@ export default function SessionResults() {
             </View>
             <ScrollView showsVerticalScrollIndicator={true} style={{ flex: 1 }}>
               <Table borderStyle={{ borderWidth: 1, borderColor: "#7B9CCF" }}>
-                {data.tableData.map((col, colIndex) => (
+                {tableData?.map((trial, colIndex) => (
                   <Row
                     key={colIndex}
                     data={[
-                      col[0],
-                      col[1],
-                      col[2] ? (
+                      trial.prompt,
+                      trial.response,
+                      trial.prompt === trial.response ? (
                         <Image
                           source={require("../../assets/images/correct_mark.png")}
                           style={styles.tableImage}
