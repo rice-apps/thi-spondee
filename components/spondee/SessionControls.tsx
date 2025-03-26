@@ -1,5 +1,5 @@
 import Settings from "@/app/(tabs)/settings";
-import { Trial } from "@/app/spondee";
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

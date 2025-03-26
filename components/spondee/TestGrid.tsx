@@ -1,4 +1,4 @@
-import { Trial } from "@/app/spondee";
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import Card from "@/components/spondee/Card";
 import { useEffect, useState } from "react";
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from "react-native";

@@ -7,8 +7,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import SpondeeCards from "../components/spondee/SpondeeCardDefinitions";
-import { userData } from "../lib/currentProfile";
+import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
+import { userData } from "../../../lib/currentProfile";
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
