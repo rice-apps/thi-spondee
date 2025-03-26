@@ -41,7 +41,7 @@ export default function TestSelection() {
         {
           title: "LHM-10/Ling Card",
           img: require("../../assets/images/test-images/MM.png"),
-          route: "/tests/lhm10",
+          route: "/quizGenerationTest",
         },
         {
           title: "Syllable Differentiation",
