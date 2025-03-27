@@ -1,4 +1,10 @@
+import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import { spondeeWords } from "./words";
+
+export interface QuizQuestion {
+  choices: SpondeeCard[];
+  correctAnswer: string;
+}
 
 // Simple hash function for creating a seed
 function simpleHash(str: string): number {
@@ -39,29 +45,28 @@ export function generateQuiz(
   const numQuestions = 20;
 
   // Create a copy of words to avoid modifying original
-  const quiz = [];
+  const quiz: QuizQuestion[] = [];
   console.log("===");
   console.log(seed);
 
   for (let i = 0; i < numQuestions; i++) {
     let words = [...spondeeWords];
-    let choices: string[] = [];
+    let choices: SpondeeCard[] = [];
 
     // get wrong choices
     for (let j = 0; j < setSize - 1; j++) {
       const idx = Math.floor(rand() * words.length);
-      choices.push(words.splice(idx, 1)[0]);
+      choices.push({ word: words.splice(idx, 1)[0] });
     }
 
     const correctWordIdx = Math.floor(rand() * words.length);
     const correctWord = words.splice(correctWordIdx, 1)[0];
-    choices.push(correctWord);
+    choices.push({ word: correctWord });
     console.log(
       "correctWord " + correctWord + " choices: " + choices.toString()
     );
 
     quiz.push({
-      word: correctWord,
       choices: choices,
       correctAnswer: correctWord,
     });
