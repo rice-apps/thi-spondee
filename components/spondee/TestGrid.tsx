@@ -1,4 +1,4 @@
-import { Trial } from "@/app/spondee";
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import Card from "@/components/spondee/Card";
 import { useEffect, useState } from "react";
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from "react-native";
@@ -18,7 +18,9 @@ export default function TestGrid({
   setAttempts: (attempts: Trial[]) => void;
   callback: (item: { id: number; title: string }) => void;
 }) {
-  useEffect(() => {}, [numCards]);
+  useEffect(() => {
+    console.log(numCards);
+  }, [numCards]);
   const [selectedId, setSelectedId] = useState<number>();
 
   let columns = Math.min(Math.trunc((numCards + 1) / 2), 4);

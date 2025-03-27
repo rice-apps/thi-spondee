@@ -1,3 +1,4 @@
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import { SessionData } from "@/components/spondee/SessionControls";
 import { THIText } from "@/components/THIText";
 import { useLocalSearchParams } from "expo-router";
@@ -12,7 +13,6 @@ import {
 } from "react-native";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { Row, Table } from "react-native-reanimated-table";
-import { Trial } from "../spondee";
 import { SessionDetails } from "./inputSessionNotes";
 export default function SessionResults() {
   const { sessionData } = useLocalSearchParams<{ sessionData?: string }>();

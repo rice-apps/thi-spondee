@@ -1,4 +1,4 @@
-import { Trial } from "@/app/spondee";
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import { SessionData } from "@/components/spondee/SessionControls";
 import { THIText } from "@/components/THIText";
 import { userData } from "@/lib/currentProfile";

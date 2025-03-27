@@ -11,7 +11,7 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/tests/spondee",
+          route: "/AudiologySettings",
         },
         {
           title: "LHM-10/Ling Card",
@@ -36,12 +36,12 @@ export default function TestSelection() {
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/spondee",
+          route: "/tests/speech_therapy/spondee",
         },
         {
           title: "LHM-10/Ling Card",
           img: require("../../assets/images/test-images/MM.png"),
-          route: "/tests/lhm10",
+          route: "/quizGenerationTest",
         },
         {
           title: "Syllable Differentiation",

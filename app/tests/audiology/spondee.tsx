@@ -3,30 +3,11 @@ import { SessionControls } from "@/components/spondee/SessionControls";
 import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import TestGrid from "@/components/spondee/TestGrid";
 import { EmojiRain } from "@/components/testing/EmojiRain";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import * as Speech from "expo-speech";
+import { generateQuiz, QuizQuestion } from "@/lib/quizGeneration";
+import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import SpondeeCards from "../components/spondee/SpondeeCardDefinitions";
-import { userData } from "../lib/currentProfile";
-
-// Fisher-Yates Shuffle Algorithm
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array]; // Create a copy to avoid mutating original array
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function speakCorrectCard(correctCard: string) {
-  Speech.speak(correctCard, {
-    language: "en", // Language code (e.g., 'en' for English)
-    pitch: 1.0, // Pitch of the voice (1.0 is normal)
-    rate: 1.0, // Speed of the speech (1.0 is normal)
-  });
-}
+import { StyleSheet, View } from "react-native";
+import { userData } from "../../../lib/currentProfile";
 
 export interface Trial {
   prompt: string;
@@ -42,38 +23,43 @@ export default function TestScreen() {
   const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
   const [correctCard, setCorrectCard] = useState("");
   const [attempts, setAttempts] = useState<Trial[]>([]);
-  // const [pageNum, setPageNum] = useState(1);
-  // const [selectedId, setSelectedId] = useState();
   const [numCards, setNumCards] = useState(4);
   const [data, setData] = useState<any>();
+  const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
+  const [idx, setIdx] = useState(0);
 
-  /**
-   * Randomizes cards shown, updates state, and returns that list (not limited by set size)
-   */
-  function randomizeSelectedCards(numberOfCards: number) {
-    numberOfCards = numberOfCards ? numberOfCards : 4;
-    const initialSelectedCards = shuffleArray(SpondeeCards).slice(
-      0,
-      numberOfCards
-    );
-    setSelectedCards(initialSelectedCards);
-    return initialSelectedCards;
-  }
+  const { code } = useLocalSearchParams<{ code?: string }>();
 
-  // Initialize selected cards and first correct card
   useEffect(() => {
-    const initialSelectedCards = randomizeSelectedCards(numCards);
+    if (code) {
+      try {
+        const parsedData: { testCode: string } = JSON.parse(code);
+        const testCode = parsedData.testCode;
+        // setSize is 2 digits
+        let setSize;
+        let maintainCards;
+        let randomSeed;
+        if (testCode.length === 7) {
+          setSize = Number(testCode.slice(0, 2));
+          maintainCards = testCode[2] === "1" ? true : false;
+          randomSeed = testCode.slice(3);
+        } else {
+          setSize = Number(testCode[0]);
+          maintainCards = testCode[2] === "1" ? true : false;
+          randomSeed = testCode.slice(2);
+        }
 
-    const initialCorrectCard =
-      initialSelectedCards[Math.floor(Math.random() * numCards)].word;
-    setCorrectCard(initialCorrectCard);
-  }, []); // Empty dependency array means this only runs once on mount
-
-  // Generate a new random card and updates state from the specified list of selected cards
-  const generateNewCard = (list: SpondeeCard[]) => {
-    const randomIdx = Math.floor(Math.random() * list.length);
-    setCorrectCard(list[randomIdx].word);
-  };
+        const generatedQuiz = generateQuiz(setSize, randomSeed);
+        setNumCards(setSize);
+        setQuiz(generatedQuiz);
+        setCorrectCard(generatedQuiz[0].correctAnswer);
+        setSelectedCards(generatedQuiz[0].choices);
+        setIdx(1);
+      } catch (e) {
+        console.error("Error parsing parsedData: " + e);
+      }
+    }
+  }, []);
 
   console.log("correct: ", correctCard);
   console.log("total ", totalTrials, " numCorrect: ", numCorrect);
@@ -90,23 +76,12 @@ export default function TestScreen() {
   };
 
   useEffect(() => {
-    console.log("triggered");
-    speakCorrectCard(correctCard);
-  }, [correctCard]);
-
-  useEffect(() => {
     const newData = selectedCards.map((card, i) => ({
       id: i,
       title: card.word,
     }));
     setData(newData);
   }, [selectedCards]);
-
-  useEffect(() => {
-    console.log("hello i'm in heree");
-    const list = randomizeSelectedCards(numCards);
-    generateNewCard(list);
-  }, [numCards]);
 
   return (
     <View style={styles.page}>
@@ -116,10 +91,10 @@ export default function TestScreen() {
         trigger={rainTrigger}
         onRainComplete={() => {
           // Callback when rain finishes
-          console.log("Rain completed");
-          // Generate new list
-          let list = randomizeSelectedCards(numCards);
-          generateNewCard(list);
+          // move to next set of cards
+          setCorrectCard(quiz[idx].correctAnswer);
+          setSelectedCards(quiz[idx].choices);
+          setIdx(idx + 1);
           setRainTrigger(false);
         }}
       />
@@ -131,6 +106,7 @@ export default function TestScreen() {
           numCards={numCards}
           setNumCards={setNumCards}
           attempts={attempts}
+          audiology={true}
         />
       </View>
       <TestGrid
@@ -141,12 +117,6 @@ export default function TestScreen() {
         setAttempts={setAttempts}
         callback={callback}
       />
-      <TouchableOpacity
-        style={styles.footer}
-        onPress={() => speakCorrectCard(correctCard)}
-      >
-        <FontAwesome name="volume-up" size={36} />
-      </TouchableOpacity>
     </View>
   );
 }

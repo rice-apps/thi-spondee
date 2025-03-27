@@ -1,5 +1,5 @@
 import Settings from "@/app/(tabs)/settings";
-import { Trial } from "@/app/spondee";
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -11,6 +11,7 @@ type SessionControlProps = {
   attempts: Trial[];
   numCards: number;
   setNumCards: (num: number) => void;
+  audiology?: boolean;
 };
 
 export interface SessionData {
@@ -25,6 +26,7 @@ export function SessionControls({
   numCards,
   setNumCards,
   attempts,
+  audiology = false,
 }: SessionControlProps) {
   const [soundEnabled, setSoundEnabled] = useState(true);
 
@@ -49,12 +51,16 @@ export function SessionControls({
       >
         <THIText style={styles.buttonText}>End Session</THIText>
       </TouchableOpacity>
-      <Settings
-        numCards={numCards}
-        setNumCards={setNumCards}
-        soundEnabled={soundEnabled}
-        setSoundEnabled={setSoundEnabled}
-      />
+      {audiology ? (
+        <></>
+      ) : (
+        <Settings
+          numCards={numCards}
+          setNumCards={setNumCards}
+          soundEnabled={soundEnabled}
+          setSoundEnabled={setSoundEnabled}
+        />
+      )}
     </View>
   );
 }
