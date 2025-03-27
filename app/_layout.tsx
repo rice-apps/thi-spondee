@@ -12,7 +12,14 @@ export default function RootLayout() {
         <Stack.Screen name="profilePicker" options={{ headerShown: false }} />
         <Stack.Screen name="addProfile" options={{ headerShown: false }} />
         <Stack.Screen name="editProfile" options={{ headerShown: false }} />
-        <Stack.Screen name="spondee" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="tests/audiology/spondee"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="tests/speech_therapy/spondee"
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="AudiologySettings"
           options={{ headerShown: false }}

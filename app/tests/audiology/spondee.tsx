@@ -4,20 +4,10 @@ import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import TestGrid from "@/components/spondee/TestGrid";
 import { EmojiRain } from "@/components/testing/EmojiRain";
 import { generateQuiz, QuizQuestion } from "@/lib/quizGeneration";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useLocalSearchParams } from "expo-router";
-import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { userData } from "../../../lib/currentProfile";
-
-function speakCorrectCard(correctCard: string) {
-  Speech.speak(correctCard, {
-    language: "en", // Language code (e.g., 'en' for English)
-    pitch: 1.0, // Pitch of the voice (1.0 is normal)
-    rate: 1.0, // Speed of the speech (1.0 is normal)
-  });
-}
 
 export interface Trial {
   prompt: string;
@@ -85,10 +75,6 @@ export default function TestScreen() {
   };
 
   useEffect(() => {
-    speakCorrectCard(correctCard);
-  }, [correctCard]);
-
-  useEffect(() => {
     const newData = selectedCards.map((card, i) => ({
       id: i,
       title: card.word,
@@ -129,12 +115,6 @@ export default function TestScreen() {
         setAttempts={setAttempts}
         callback={callback}
       />
-      <TouchableOpacity
-        style={styles.footer}
-        onPress={() => speakCorrectCard(correctCard)}
-      >
-        <FontAwesome name="volume-up" size={36} />
-      </TouchableOpacity>
     </View>
   );
 }
