@@ -11,6 +11,7 @@ type SessionControlProps = {
   attempts: Trial[];
   numCards: number;
   setNumCards: (num: number) => void;
+  audiology?: boolean;
 };
 
 export interface SessionData {
@@ -25,6 +26,7 @@ export function SessionControls({
   numCards,
   setNumCards,
   attempts,
+  audiology = false,
 }: SessionControlProps) {
   const [soundEnabled, setSoundEnabled] = useState(true);
 
@@ -49,12 +51,16 @@ export function SessionControls({
       >
         <THIText style={styles.buttonText}>End Session</THIText>
       </TouchableOpacity>
-      <Settings
-        numCards={numCards}
-        setNumCards={setNumCards}
-        soundEnabled={soundEnabled}
-        setSoundEnabled={setSoundEnabled}
-      />
+      {audiology ? (
+        <></>
+      ) : (
+        <Settings
+          numCards={numCards}
+          setNumCards={setNumCards}
+          soundEnabled={soundEnabled}
+          setSoundEnabled={setSoundEnabled}
+        />
+      )}
     </View>
   );
 }

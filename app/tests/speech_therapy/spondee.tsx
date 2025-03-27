@@ -42,8 +42,6 @@ export default function TestScreen() {
   const [selectedCards, setSelectedCards] = useState<SpondeeCard[]>([]);
   const [correctCard, setCorrectCard] = useState("");
   const [attempts, setAttempts] = useState<Trial[]>([]);
-  // const [pageNum, setPageNum] = useState(1);
-  // const [selectedId, setSelectedId] = useState();
   const [numCards, setNumCards] = useState(4);
   const [data, setData] = useState<any>();
 

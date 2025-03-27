@@ -50,6 +50,7 @@ export default function TestScreen() {
         }
 
         const generatedQuiz = generateQuiz(setSize, randomSeed);
+        setNumCards(setSize);
         setQuiz(generatedQuiz);
         setCorrectCard(generatedQuiz[0].correctAnswer);
         setSelectedCards(generatedQuiz[0].choices);
@@ -105,6 +106,7 @@ export default function TestScreen() {
           numCards={numCards}
           setNumCards={setNumCards}
           attempts={attempts}
+          audiology={true}
         />
       </View>
       <TestGrid
