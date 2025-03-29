@@ -1,14 +1,16 @@
-import { THIText } from "@/components/THIText";
-import { SessionControls } from "@/components/spondee/SessionControls";
-import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
+import {THIText} from "@/components/THIText";
+import {SessionControls} from "@/components/spondee/SessionControls";
+import {SpondeeCard} from "@/components/spondee/SpondeeCardDefinitions";
 import TestGrid from "@/components/spondee/TestGrid";
-import { EmojiRain } from "@/components/testing/EmojiRain";
+import {EmojiRain} from "@/components/testing/EmojiRain";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
-import { useEffect, useRef, useState } from "react";
-import {Animated, StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import {useEffect, useRef, useState} from "react";
+import {Animated, StyleSheet, TouchableOpacity, View, Text} from "react-native";
 import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
-import { userData } from "../../../lib/currentProfile";
+import {userData} from "../../../lib/currentProfile";
+import {rewardSets} from "@/constants/RewardSets.tsx";
+import {useFonts} from "expo-font";
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -47,6 +49,11 @@ export default function TestScreen() {
   const [numCards, setNumCards] = useState(4);
   const [data, setData] = useState<any>();
   const [answerEnabled, setAnswerEnabled] = useState(false);
+  const [lastAnswerCorrect, setlastAnswerCorrect] = useState(false);
+
+  useFonts({
+    'Fredoka': require('@/assets/fonts/fredoka.ttf'),
+  });
 
   function updateNumberOfCards(num: number) {
     setNumCards(num);
@@ -84,6 +91,47 @@ export default function TestScreen() {
     setCorrectCard(list[randomIdx].word);
   };
 
+  const buildRandomCorrectText = () => {
+    const correctRandomIdx = Math.floor(Math.random() * rewardSets.correct.length);
+
+    return <View>
+      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowColor: rewardSets.correct[correctRandomIdx].fg
+      }]}>
+        {rewardSets.correct[correctRandomIdx].phrase}
+      </Text>;
+      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: -2, height: -2},
+        textShadowColor: rewardSets.correct[correctRandomIdx].fg
+      }]}>
+        {rewardSets.correct[correctRandomIdx].phrase}
+      </Text>;
+      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: -2, height: 2},
+        textShadowColor: rewardSets.correct[correctRandomIdx].fg
+      }]}>
+        {rewardSets.correct[correctRandomIdx].phrase}
+      </Text>;
+      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: 2, height: -2},
+        textShadowColor: rewardSets.correct[correctRandomIdx].fg
+      }]}>
+        {rewardSets.correct[correctRandomIdx].phrase}
+      </Text>;
+    </View>
+  }
+
+  const buildRandomIncorrectText = () => {
+    const incorrectRandomIdx = Math.floor(Math.random() * rewardSets.incorrect.length);
+
+    // TODO: Full outline for incorrect (copy from above)
+
+    return <Text style={[styles.emojiText, {
+      paddingLeft: 50,
+      transform: [{rotate: '10deg'}],
+      color: rewardSets.incorrect[incorrectRandomIdx].bg,
+      textShadowColor: rewardSets.incorrect[incorrectRandomIdx].fg
+    }]}>
+      {rewardSets.incorrect[incorrectRandomIdx].phrase}
+    </Text>;
+  }
+
   console.log("correct: ", correctCard);
   console.log("total ", totalTrials, " numCorrect: ", numCorrect);
 
@@ -92,6 +140,9 @@ export default function TestScreen() {
     console.log(item.title, correctCard);
     if (correctCard === item.title) {
       setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
+      setlastAnswerCorrect(true);
+    } else {
+      setlastAnswerCorrect(false);
     }
     setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
 
@@ -202,11 +253,12 @@ export default function TestScreen() {
         callback={callback}
       />
       {emojiPopupTrigger && (
-        <Animated.View style={[styles.emojiContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
-
-          <Text style={styles.emojiText}>
-            Great job!
-          </Text>
+        <Animated.View style={[styles.emojiContainer, {opacity: fadeAnim, transform: [{scale}]}]}>
+          {lastAnswerCorrect ? (
+            buildRandomCorrectText()
+          ) : (
+            buildRandomIncorrectText()
+          )}
           <Text style={styles.emoji}>
             {userData.EMOJI}
           </Text>
@@ -217,7 +269,7 @@ export default function TestScreen() {
         style={styles.footer}
         onPress={() => speakCorrectCard(correctCard)}
       >
-        <FontAwesome name="volume-up" size={36} />
+        <FontAwesome name="volume-up" size={36}/>
       </TouchableOpacity>
     </View>
   );
@@ -267,12 +319,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   emojiText: {
-    fontSize: 30,
+    fontFamily: "Fredoka",
+    fontWeight: "bold",
+    fontSize: 40,
     position: "absolute",
     zIndex: 3,
     paddingBottom: 150,
-    paddingRight: 50,
-    transform: [{ rotate: '-10deg'}]
+    textShadowRadius: 0,
+    textShadowOffset: { width: 2, height: 2 },
   },
   emoji: {
     fontSize: 200,
