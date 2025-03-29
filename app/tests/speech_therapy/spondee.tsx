@@ -204,6 +204,9 @@ export default function TestScreen() {
       {emojiPopupTrigger && (
         <Animated.View style={[styles.emojiContainer, { opacity: fadeAnim, transform: [{ scale }] }]}>
 
+          <Text style={styles.emojiText}>
+            Great job!
+          </Text>
           <Text style={styles.emoji}>
             {userData.EMOJI}
           </Text>
@@ -261,10 +264,20 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 10,
+    zIndex: 1,
+  },
+  emojiText: {
+    fontSize: 30,
+    position: "absolute",
+    zIndex: 3,
+    paddingBottom: 150,
+    paddingRight: 50,
+    transform: [{ rotate: '-10deg'}]
   },
   emoji: {
     fontSize: 200,
+    position: "absolute",
+    zIndex: 2,
   },
   button: {
     backgroundColor: grayColor,
