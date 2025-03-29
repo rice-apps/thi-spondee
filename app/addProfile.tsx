@@ -48,319 +48,343 @@ export default function AddProfile() {
     });
     if (error) {
       console.error(error);
-    } 
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingStyle}>Add Profile</Text>
-      <View style={{ flexDirection: "row", display: "flex", gap: 80 }}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <View style={styles.image}>
-            <View
-              style={{
-                margin: "auto",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {selectedEmoji ? (
-                <Text style={styles.profileEmojiStyle}>{selectedEmoji}</Text>
-              ) : (
-                <Image
-                  source={require("../assets/images/blackadd.png")}
-                  style={{ width: 60, height: 60 }}
-                />
-              )}
-            </View>
-          </View>
-          <Text style={styles.textStyle}>Username</Text>
-          <View style={styles.username}>
-            <Text
-              style={styles.input}
-              numberOfLines={1}
-              adjustsFontSizeToFit={true}
-              minimumFontScale={0.5}
-            >
-              {username}
-            </Text>
-            <TouchableOpacity
-              style={styles.undoButton}
-              onPress={checkAndGenerateUsername}
-            >
-              <FontAwesome name="undo" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/*----EMOJIS---- i'm not gonna comment on this below 
-        but we should probably make this not hard coded at some point*/}
-        <View
-          style={{
-            marginTop: 60,
-            justifyContent: "center",
-            alignItems: "flex-end",
-            flexDirection: "column",
-            marginLeft: "auto",
-          }}
-        >
-          <View style={{ flexDirection: "row", gap: 25 }}>
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐶"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐶")}
-            >
-              <Text style={styles.emojiStyle}>🐶</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐱"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐱")}
-            >
-              <Text style={styles.emojiStyle}>🐱</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐰"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐰")}
-            >
-              <Text style={styles.emojiStyle}>🐰</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐻"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐻")}
-            >
-              <Text style={styles.emojiStyle}>🐻</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐼"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐼")}
-            >
-              <Text style={styles.emojiStyle}>🐼</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ flexDirection: "row", marginTop: 25, gap: 25 }}>
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🦁"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🦁")}
-            >
-              <Text style={styles.emojiStyle}>🦁</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐸"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐸")}
-            >
-              <Text style={styles.emojiStyle}>🐸</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🐢"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🐢")}
-            >
-              <Text style={styles.emojiStyle}>🐢</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🦈"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🦈")}
-            >
-              <Text style={styles.emojiStyle}>🦈</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🦄"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🦄")}
-            >
-              <Text style={styles.emojiStyle}>🦄</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ flexDirection: "row", marginTop: 25, gap: 25 }}>
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🦖"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🦖")}
-            >
-              <Text style={styles.emojiStyle}>🦖</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🤖"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🤖")}
-            >
-              <Text style={styles.emojiStyle}>🤖</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "💩"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("💩")}
-            >
-              <Text style={styles.emojiStyle}>💩</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🍕"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🍕")}
-            >
-              <Text style={styles.emojiStyle}>🍕</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🎵"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🎵")}
-            >
-              <Text style={styles.emojiStyle}>🎵</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ flexDirection: "row", marginTop: 25, gap: 25 }}>
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🌱"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🌱")}
-            >
-              <Text style={styles.emojiStyle}>🌱</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🌸"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🌸")}
-            >
-              <Text style={styles.emojiStyle}>🌸</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🌈"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🌈")}
-            >
-              <Text style={styles.emojiStyle}>🌈</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🏎️"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🏎️")}
-            >
-              <Text style={styles.emojiStyle}>🏎️</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                selectedEmoji === "🚀"
-                  ? styles.blueSmallCircle
-                  : styles.smallCircle
-              }
-              onPress={() => handlePress("🚀")}
-            >
-              <Text style={styles.emojiStyle}>🚀</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      {/*----Save Button----*/}
-      <View style={{ alignItems: "flex-end" }}>
+    <>
+    <View style={styles.headerContainer}>
+      <View style={{display: "flex", flexDirection: "row"}}>
         <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={async () => {
-            await fetchChildren();
-            router.push("/profilePicker");
-          }}
+          style={styles.backButton}
+          onPress={() => router.back()}
         >
-          <Text
-            style={{
-              color: "#17262B",
-              fontSize: 20,
-              fontWeight: "500",
-              textAlign: "center",
-              fontFamily: "Inter",
-            }}
-          >
-            Save
-          </Text>
+          <FontAwesome name="arrow-left" size={26} color="black" />
         </TouchableOpacity>
+        
+        <Text style={styles.headingStyle}>Add Profile</Text>
       </View>
     </View>
+      <View style={styles.container}>
+        <View style={{ flexDirection: "row", display: "flex", gap: 80 }}>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.image}>
+              <View
+                style={{
+                  margin: "auto",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {selectedEmoji ? (
+                  <Text style={styles.profileEmojiStyle}>{selectedEmoji}</Text>
+                ) : (
+                  <Image
+                    source={require("../assets/images/blackadd.png")}
+                    style={{ width: 60, height: 60 }}
+                  />
+                )}
+              </View>
+            </View>
+            <Text style={styles.textStyle}>Username</Text>
+            <View style={styles.username}>
+              <Text
+                style={styles.input}
+                numberOfLines={1}
+                adjustsFontSizeToFit={true}
+                minimumFontScale={0.5}
+              >
+                {username}
+              </Text>
+              <TouchableOpacity
+                style={styles.undoButton}
+                onPress={checkAndGenerateUsername}
+              >
+                <FontAwesome name="undo" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/*----EMOJIS---- i'm not gonna comment on this below 
+        but we should probably make this not hard coded at some point*/}
+          <View
+            style={{
+              marginTop: 60,
+              justifyContent: "center",
+              alignItems: "flex-end",
+              flexDirection: "column",
+              marginLeft: "auto",
+            }}
+          >
+            <View style={{ flexDirection: "row", gap: 25 }}>
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐶"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐶")}
+              >
+                <Text style={styles.emojiStyle}>🐶</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐱"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐱")}
+              >
+                <Text style={styles.emojiStyle}>🐱</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐰"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐰")}
+              >
+                <Text style={styles.emojiStyle}>🐰</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐻"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐻")}
+              >
+                <Text style={styles.emojiStyle}>🐻</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐼"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐼")}
+              >
+                <Text style={styles.emojiStyle}>🐼</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ flexDirection: "row", marginTop: 25, gap: 25 }}>
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🦁"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🦁")}
+              >
+                <Text style={styles.emojiStyle}>🦁</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐸"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐸")}
+              >
+                <Text style={styles.emojiStyle}>🐸</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🐢"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🐢")}
+              >
+                <Text style={styles.emojiStyle}>🐢</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🦈"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🦈")}
+              >
+                <Text style={styles.emojiStyle}>🦈</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🦄"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🦄")}
+              >
+                <Text style={styles.emojiStyle}>🦄</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ flexDirection: "row", marginTop: 25, gap: 25 }}>
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🦖"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🦖")}
+              >
+                <Text style={styles.emojiStyle}>🦖</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🤖"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🤖")}
+              >
+                <Text style={styles.emojiStyle}>🤖</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "💩"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("💩")}
+              >
+                <Text style={styles.emojiStyle}>💩</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🍕"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🍕")}
+              >
+                <Text style={styles.emojiStyle}>🍕</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🎵"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🎵")}
+              >
+                <Text style={styles.emojiStyle}>🎵</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ flexDirection: "row", marginTop: 25, gap: 25 }}>
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🌱"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🌱")}
+              >
+                <Text style={styles.emojiStyle}>🌱</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🌸"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🌸")}
+              >
+                <Text style={styles.emojiStyle}>🌸</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🌈"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🌈")}
+              >
+                <Text style={styles.emojiStyle}>🌈</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🏎️"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🏎️")}
+              >
+                <Text style={styles.emojiStyle}>🏎️</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={
+                  selectedEmoji === "🚀"
+                    ? styles.blueSmallCircle
+                    : styles.smallCircle
+                }
+                onPress={() => handlePress("🚀")}
+              >
+                <Text style={styles.emojiStyle}>🚀</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        {/*----Save Button----*/}
+        <View style={{ alignItems: "flex-end" }}>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={async () => {
+              await fetchChildren();
+              router.push("/profilePicker");
+            }}
+          >
+            <Text
+              style={{
+                color: "#17262B",
+                fontSize: 20,
+                fontWeight: "500",
+                textAlign: "center",
+                fontFamily: "Inter",
+              }}
+            >
+              Save
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      </>
   );
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    marginTop: 100,
+    marginLeft: 60,
+    alignContent: "center"
+  },
   container: {
-    margin: 100,
+    // margin: 100,
+    marginLeft: 100,
+    marginRight: 100
+  },
+  backButton: {
+    marginRight: 15,
+    marginTop: 2
   },
   username: {
     flexDirection: "row",
