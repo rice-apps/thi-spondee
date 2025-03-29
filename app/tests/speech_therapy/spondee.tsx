@@ -6,7 +6,7 @@ import { EmojiRain } from "@/components/testing/EmojiRain";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import { useEffect, useRef, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {Animated, StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
 import { userData } from "../../../lib/currentProfile";
 
@@ -207,7 +207,6 @@ export default function TestScreen() {
           <Text style={styles.emoji}>
             {userData.EMOJI}
           </Text>
-          {/*<Image style={styles.rabbitImage} source={require("../../../assets/images/rabbit.png")} />*/}
         </Animated.View>
       )}
 
