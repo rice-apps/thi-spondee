@@ -31,7 +31,6 @@ export default function Card({
       }}
       onPress={onPress}
     >
-      <THIText>{text}</THIText>
       <Image
         style={{ height: "100%", width: "100%", objectFit: "contain" }}
         source={spondeeImageMap[text]}
