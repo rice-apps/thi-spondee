@@ -1,46 +1,64 @@
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import Card from "@/components/spondee/Card";
-import { useState } from "react";
-
-import { FlatList, StyleSheet, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, ListRenderItemInfo, StyleSheet, View } from "react-native";
 
 export default function TestGrid({
   numCards,
   data,
   correctCard,
-  setTotalTrials,
-  setNumCorrect,
+  attempts,
+  setAttempts,
+  callback,
 }: {
   numCards: number;
   data: { id: number; title: string }[];
   correctCard: string;
-  setTotalTrials: (update: (prev: number) => number) => void;
-  setNumCorrect: (update: (prev: number) => number) => void;
+  attempts: Trial[];
+  setAttempts: (attempts: Trial[]) => void;
+  callback: (item: { id: number; title: string }) => void;
 }) {
+  useEffect(() => {
+    console.log(numCards);
+  }, [numCards]);
   const [selectedId, setSelectedId] = useState<number>();
 
-  const renderCard = ({ item }: any) => {
+  let columns = Math.min(Math.trunc((numCards + 1) / 2), 4);
+
+  const renderCard = ({
+    item,
+  }: ListRenderItemInfo<{ id: number; title: string }>) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
-    const submitButton = item.id === selectedId ? true : false;
+    const submitButton = item.id === selectedId;
+
+    const addItem = (newItem: Trial) => {
+      setAttempts([...attempts, newItem]);
+    };
 
     const handlePress = () => {
       console.log(item.title, correctCard);
-      if (correctCard === item.title) {
-        setNumCorrect((prevNumCorrect) => prevNumCorrect + 1);
-      }
-      setTotalTrials((prevTotalTrials) => prevTotalTrials + 1);
+
+      addItem({
+        prompt: correctCard,
+        response: item.title,
+      });
       setSelectedId(-1);
     };
 
     return (
       <Card
         text={item.title}
-        backgroundColor={backgroundColor}
         button={submitButton}
+        backgroundColor={backgroundColor}
         onPress={() => setSelectedId(item.id)}
-        onSubmit={handlePress}
-        correct={correctCard}
-        setTotalTrials={setTotalTrials}
-        setNumCorrect={setNumCorrect}
+        size={columns}
+        numCards={numCards}
+        onSubmit={() => {
+          // Call callback to spondee.tsx
+          callback(item);
+          // Handle press ourselves too
+          handlePress();
+        }}
       />
     );
   };
@@ -50,10 +68,11 @@ export default function TestGrid({
       <FlatList
         contentContainerStyle={styles.flatlist}
         data={data}
+        numColumns={columns}
         renderItem={renderCard}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={Math.min(Math.trunc((numCards + 1) / 2), 4)}
         horizontal={false}
+        key={numCards}
       />
     </View>
   );

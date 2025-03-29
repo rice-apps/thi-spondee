@@ -6,23 +6,18 @@ import { ScrollView, StyleSheet, View } from "react-native";
 export default function TestSelection() {
   const testTypes: TestType[] = [
     {
-      title: "Speech Recognition",
+      title: "Audiology",
       tests: [
         {
           title: "Spondee Cards",
           img: require("../../assets/images/test-images/AH.png"),
-          route: "/tests/spondee",
+          route: "/AudiologySettings",
         },
         {
           title: "LHM-10/Ling Card",
           img: require("../../assets/images/test-images/MM.png"),
           route: "/tests/lhm10",
         },
-      ],
-    },
-    {
-      title: "Word Recognition Testing",
-      tests: [
         {
           title: "WIPI",
           img: require("../../assets/images/test-images/SH.png"),
@@ -36,8 +31,18 @@ export default function TestSelection() {
       ],
     },
     {
-      title: "ESP Test",
+      title: "Therapy",
       tests: [
+        {
+          title: "Spondee Cards",
+          img: require("../../assets/images/test-images/AH.png"),
+          route: "/tests/speech_therapy/spondee",
+        },
+        {
+          title: "LHM-10/Ling Card",
+          img: require("../../assets/images/test-images/MM.png"),
+          route: "/quizGenerationTest",
+        },
         {
           title: "Syllable Differentiation",
           img: require("../../assets/images/test-images/EE.png"),

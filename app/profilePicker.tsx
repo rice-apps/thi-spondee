@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { setCurrentID } from "../lib/currentProfile";
 import { supabase } from "../lib/supabase";
 export default function profilePicker() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
@@ -21,8 +22,9 @@ export default function profilePicker() {
   React.useEffect(() => {
     const fetchChildren = async () => {
       const { data, error } = await supabase
-        .from("children")
-        .select("id, first_name, last_name, username, emoji");
+        .from("anonymized_children")
+        .select("id, username, emoji")
+        .order("created_at", { ascending: true });
       if (error) {
         console.error(error);
       } else if (data) {
@@ -44,10 +46,8 @@ export default function profilePicker() {
         return;
       }
       const filtered = children.filter((child) => {
-        const fullName = `${child.first_name} ${child.last_name}`.toLowerCase();
         const username = `${child.username.toLowerCase().replace(/\s+/g, " ")}`;
         return (
-          fullName.startsWith(lowerCaseQuery) ||
           username.startsWith(lowerCaseQuery)
         );
       });
@@ -57,6 +57,10 @@ export default function profilePicker() {
 
   const chooseProfile = async (id: string) => {
     setSelectedProfile(id);
+    {
+      /* Currently calls network everytime a profile is click - can be bettered in future*/
+    }
+    setCurrentID(id);
   };
 
   const handleButtonClick = () => {
@@ -85,13 +89,22 @@ export default function profilePicker() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.profileGrid}>
+          <View style={styles.cardWrapper}>
+            <Pressable
+              onPress={() => router.push("/addProfile")}
+              style={styles.card}
+            >
+              <View style={styles.imageContainer}>
+                <THIText style={styles.emoji}>+</THIText>
+              </View>
+            </Pressable>
+            <THIText style={styles.title}>Add Profile</THIText>
+          </View>
           {filteredChildren ? (
             filteredChildren.map((child) => (
               <ProfileCard
                 key={child.id}
                 id={child.id}
-                first_name={child.first_name}
-                last_name={child.last_name}
                 username={child.username}
                 emoji={child.emoji}
                 isSelected={selectedProfile === child.id}
@@ -112,8 +125,6 @@ export default function profilePicker() {
 
 type Child = {
   id: string;
-  first_name: string;
-  last_name: string;
   username: string;
   emoji: string;
 };
@@ -125,8 +136,6 @@ type AuthTextEntryProps = {
 };
 
 type ProfileCardProps = {
-  first_name: string;
-  last_name: string;
   username: string;
   id: string;
   emoji: string;
@@ -162,15 +171,12 @@ function SelectButton({ handleButtonClick }: SelectButtonProps) {
 }
 
 export function ProfileCard({
-  first_name,
-  last_name,
   username,
   id,
   emoji,
   isSelected,
   chooseProfile,
 }: ProfileCardProps) {
-  const firstNameWithLastInitial = `${first_name} ${last_name.charAt(0)}.`;
   return (
     <View style={styles.cardWrapper}>
       <Pressable
@@ -186,7 +192,6 @@ export function ProfileCard({
         </View>
       </Pressable>
       <THIText style={styles.title}>{username}</THIText>
-      <THIText style={styles.name}>{firstNameWithLastInitial}</THIText>
     </View>
   );
 }
