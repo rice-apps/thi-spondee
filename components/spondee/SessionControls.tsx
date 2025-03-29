@@ -1,11 +1,9 @@
 import Settings from "@/app/(tabs)/settings";
 import { Trial } from "@/app/tests/speech_therapy/spondee";
 import { router } from "expo-router";
-import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
 import React, {Dispatch, SetStateAction, useState} from "react";
-import {Trial} from "@/app/(tabs)/tests/spondee";
 
 type SessionControlProps = {
   totalTrials: number;
