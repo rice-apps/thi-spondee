@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';
+import DropDown from "@/components/profiles/DropDown";
 
 
 
@@ -129,6 +130,7 @@ export default function Profiles() {
         dropDownContainerStyle = {[styles.dropdownContainer, {width: dropdownWidth}]}
       />
     </View>
+    <DropDown name="Date" values={["Last 7 Days", "Last Month", "Last 3 Months"]}  />
       
       </View>
       {/* rectangle that contains all the cards*/}
