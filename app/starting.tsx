@@ -27,7 +27,7 @@ export default function StartingPointPage() {
             }}
             style={styles.button}
           >
-            <THIText style={styles.buttonText}>Start new test</THIText>
+          
           </TouchableOpacity>
 
           <View style={styles.dividerContainer}>
