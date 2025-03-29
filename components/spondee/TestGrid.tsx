@@ -1,5 +1,6 @@
+import { Trial } from "@/app/tests/speech_therapy/spondee";
 import Card from "@/components/spondee/Card";
-import { useState, useRef} from "react";
+import { useEffect, useState, useRef} from "react";
 import {Trial} from "@/app/(tabs)/tests/spondee";
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from "react-native";
 
@@ -18,17 +19,22 @@ export default function TestGrid({
   setAttempts: (attempts: Trial[]) => void;
   callback: (item: { id: number; title: string }) => void;
 }) {
+  useEffect(() => {
+    console.log(numCards);
+  }, [numCards]);
   const [selectedId, setSelectedId] = useState<number>();
 
   let columns = Math.min(Math.trunc((numCards + 1) / 2), 4);
 
-  const renderCard = ({ item }: ListRenderItemInfo<{ id: number; title: string }>) => {
+  const renderCard = ({
+    item,
+  }: ListRenderItemInfo<{ id: number; title: string }>) => {
     const backgroundColor = item.id === selectedId ? "#6D88B433" : "#FFFFFF";
     const submitButton = item.id === selectedId;
 
     const addItem = (newItem: Trial) => {
       setAttempts([...attempts, newItem]);
-    }
+    };
 
     const handlePress = () => {
       console.log(item.title, correctCard);
@@ -49,10 +55,10 @@ export default function TestGrid({
         size={columns}
         numCards={numCards}
         onSubmit={() => {
-            // Call callback to spondee.tsx
-            callback(item);
-            // Handle press ourselves too
-            handlePress();
+          // Call callback to spondee.tsx
+          callback(item);
+          // Handle press ourselves too
+          handlePress();
         }}
       />
     );

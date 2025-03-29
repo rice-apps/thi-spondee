@@ -1,22 +1,24 @@
 import { Test } from "@/components/testing/TestingTypeDef";
-import { Href, Link } from "expo-router";
+import { Href, router } from "expo-router";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { THIText } from "../THIText";
 
 export function TestSelectionCard({ test }: { test: Test }) {
   return (
-    <Link href={test.route as Href} asChild>
-      <Pressable>
-        <View style={styles.card}>
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} source={test.img} />
-          </View>
-          <View style={styles.titleContainer}>
-            <THIText style={styles.title}>{test.title}</THIText>
-          </View>
+    <Pressable
+      onPress={() => {
+        router.push(test.route as Href);
+      }}
+    >
+      <View style={styles.card}>
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={test.img} />
         </View>
-      </Pressable>
-    </Link>
+        <View style={styles.titleContainer}>
+          <THIText style={styles.title}>{test.title}</THIText>
+        </View>
+      </View>
+    </Pressable>
   );
 }
 
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 5,
-    }
+    },
   },
   titleContainer: {
     flex: 1.1,

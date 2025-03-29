@@ -1,9 +1,7 @@
-import { supabase } from "../lib/supabase";
+import { supabase } from "./supabase";
 
 export const userData = {
   CURRENT_ID: "placeholder",
-  FIRST_NAME: "placeholder",
-  LAST_NAME: "placeholder",
   USERNAME: "placeholder",
   EMOJI: "placeholder",
 };
@@ -15,8 +13,8 @@ export const setCurrentID = async (id: string) => {
 
 export const fetchUserData = async (id: string) => {
   const { data, error } = await supabase
-    .from("children")
-    .select("first_name, last_name, username, emoji")
+    .from("anonymized_children")
+    .select("username, emoji")
     .eq("id", id)
     .single();
 
@@ -26,8 +24,6 @@ export const fetchUserData = async (id: string) => {
   }
 
   if (data) {
-    userData.FIRST_NAME = data.first_name;
-    userData.LAST_NAME = data.last_name;
     userData.USERNAME = data.username;
     userData.EMOJI = data.emoji;
     console.log("User data updated:", userData);
@@ -36,8 +32,8 @@ export const fetchUserData = async (id: string) => {
 
 export const fetchGuestData = async () => {
   const { data, error } = await supabase
-    .from("children")
-    .select("id, first_name, last_name, username, emoji")
+    .from("anonymized_children")
+    .select("username, emoji, id")
     .eq("emoji", "👤")
     .single();
 
@@ -48,8 +44,6 @@ export const fetchGuestData = async () => {
 
   if (data) {
     userData.CURRENT_ID = data.id;
-    userData.FIRST_NAME = data.first_name;
-    userData.LAST_NAME = data.last_name;
     userData.USERNAME = data.username;
     userData.EMOJI = data.emoji;
     console.log("User data updated:", userData);

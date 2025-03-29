@@ -1,33 +1,28 @@
 type SpondeeCard = {
-    word: string;
+  word: string;
 };
 
 const SpondeeCards: SpondeeCard[] = [
-    {word: "outside"},
-    {word: "playground"},
-    {word: "hotdog"},
-    {word: "icecream"},
-    {word: "railroad"},
-    {word: "snowman"},
-    {word: "bathtub"},
-    {word: "cowboy"},
-    {word: "toothbrush"},
-    {word: "pancake"},
-    {word: "mailman"},
-    {word: "bluebird"},
-    {word: "popcorn"},
-    {word: "bedroom"},
-    {word: "football"},
-    {word: "suitcase"},
-    {word: "starfish"},
-    {word: "doghouse"},
-    {word: "airplane"},
-    {word: "sunshine"},
-    {word: "doorbell"},
-    {word: "cupcake"},
-    {word: "firetruck"},
-    {word: "sidewalk"}
+  { word: "airplane" },
+  { word: "bathtub" },
+  { word: "birthday" },
+  { word: "cowboy" },
+  { word: "cupcake" },
+  { word: "donut" },
+  { word: "flashlight" },
+  { word: "football" },
+  { word: "frenchfries" },
+  { word: "hotdog" },
+  { word: "icecream" },
+  { word: "mushroom" },
+  { word: "outside" },
+  { word: "playground" },
+  { word: "popcorn" },
+  { word: "rainbow" },
+  { word: "snowman" },
+  { word: "sunshine" },
+  { word: "toothbrush" },
 ];
 
 export default SpondeeCards;
-export {SpondeeCard}
+export { SpondeeCard };

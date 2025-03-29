@@ -2,10 +2,6 @@ import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-// TODO: Franklin why?? It never hides the splash screen lol
-// SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
   return (
     <ThemeProvider value={OurTheme}>
@@ -15,6 +11,19 @@ export default function RootLayout() {
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="profilePicker" options={{ headerShown: false }} />
         <Stack.Screen name="addProfile" options={{ headerShown: false }} />
+        <Stack.Screen name="editProfile" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="tests/audiology/spondee"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="tests/speech_therapy/spondee"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AudiologySettings"
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
