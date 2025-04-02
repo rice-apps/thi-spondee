@@ -1,9 +1,9 @@
 import Settings from "@/app/(tabs)/settings";
 import { Trial } from "@/app/tests/speech_therapy/spondee";
 import { router } from "expo-router";
-import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { THIText } from "../THIText";
+import React, {Dispatch, SetStateAction, useState} from "react";
 
 type SessionControlProps = {
   totalTrials: number;
@@ -11,6 +11,8 @@ type SessionControlProps = {
   attempts: Trial[];
   numCards: number;
   setNumCards: (num: number) => void;
+  answerEnabled: boolean;
+  setAnswerEnabled: Dispatch<SetStateAction<boolean>>;
   audiology?: boolean;
 };
 
@@ -26,6 +28,8 @@ export function SessionControls({
   numCards,
   setNumCards,
   attempts,
+  answerEnabled,
+  setAnswerEnabled,
   audiology = false,
 }: SessionControlProps) {
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -59,6 +63,8 @@ export function SessionControls({
           setNumCards={setNumCards}
           soundEnabled={soundEnabled}
           setSoundEnabled={setSoundEnabled}
+          answerEnabled={answerEnabled}
+          setAnswerEnabled={setAnswerEnabled}
         />
       )}
     </View>

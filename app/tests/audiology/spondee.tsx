@@ -31,6 +31,7 @@ export default function TestScreen() {
   const [data, setData] = useState<any>();
   const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
   const [idx, setIdx] = useState(0);
+  const [answerEnabled, setAnswerEnabled] = useState(false);
 
   const { code } = useLocalSearchParams<{ code?: string }>();
 
@@ -116,6 +117,8 @@ export default function TestScreen() {
           setNumCards={setNumCards}
           attempts={attempts}
           audiology={true}
+          answerEnabled={answerEnabled}
+          setAnswerEnabled={setAnswerEnabled}
         />
       </View>
       <TestGrid
