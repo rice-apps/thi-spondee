@@ -7,8 +7,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Speech from "expo-speech";
 import {useEffect, useRef, useState} from "react";
 import {Animated, StyleSheet, TouchableOpacity, View, Text} from "react-native";
-import SpondeeCards from "../../../components/spondee/SpondeeCardDefinitions";
-import {userData} from "../../../lib/currentProfile";
+import SpondeeCards from "@/components/spondee/SpondeeCardDefinitions";
+import {userData} from "@/lib/currentProfile.ts";
 import {rewardSets} from "@/constants/RewardSets.tsx";
 import {useFonts} from "expo-font";
 
@@ -94,22 +94,31 @@ export default function TestScreen() {
   const buildRandomCorrectText = () => {
     const correctRandomIdx = Math.floor(Math.random() * rewardSets.correct.length);
 
-    return <View>
-      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowColor: rewardSets.correct[correctRandomIdx].fg
-      }]}>
-        {rewardSets.correct[correctRandomIdx].phrase}
-      </Text>
-      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: -2, height: -2},
+    return <View style={{zIndex: 3, paddingRight: 300, paddingBottom: 200, transform: [{rotate: '-10deg'}]}}>
+      <Text style={[styles.emojiText, {
+        color: rewardSets.correct[correctRandomIdx].bg,
+        textShadowOffset: {width: 2, height: 2},
         textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
       </Text>
-      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: -2, height: 2},
+      <Text style={[styles.emojiText, {
+        color: rewardSets.correct[correctRandomIdx].bg,
+        textShadowOffset: {width: -2, height: -2},
         textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
       </Text>
-      <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: 2, height: -2},
+      <Text style={[styles.emojiText, {
+        color: rewardSets.correct[correctRandomIdx].bg,
+        textShadowOffset: {width: -2, height: 2},
+        textShadowColor: rewardSets.correct[correctRandomIdx].fg
+      }]}>
+        {rewardSets.correct[correctRandomIdx].phrase}
+      </Text>
+      <Text style={[styles.emojiText, {
+        color: rewardSets.correct[correctRandomIdx].bg,
+        textShadowOffset: {width: 2, height: -2},
         textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
@@ -122,14 +131,36 @@ export default function TestScreen() {
 
     // TODO: Full outline for incorrect (copy from above)
 
-    return <Text style={[styles.emojiText, {
-      paddingLeft: 50,
-      transform: [{rotate: '10deg'}],
-      color: rewardSets.incorrect[incorrectRandomIdx].bg,
-      textShadowColor: rewardSets.incorrect[incorrectRandomIdx].fg
-    }]}>
-      {rewardSets.incorrect[incorrectRandomIdx].phrase}
-    </Text>;
+    return <View style={{zIndex: 3, paddingLeft: 50, paddingBottom: 200, transform: [{rotate: '10deg'}]}}>
+      <Text style={[styles.emojiText, {
+        color: rewardSets.incorrect[incorrectRandomIdx].bg,
+        textShadowOffset: {width: 2, height: 2},
+        textShadowColor: rewardSets.incorrect[incorrectRandomIdx].fg
+      }]}>
+        {rewardSets.incorrect[incorrectRandomIdx].phrase}
+      </Text>
+      <Text style={[styles.emojiText, {
+        color: rewardSets.incorrect[incorrectRandomIdx].bg,
+        textShadowOffset: {width: -2, height: -2},
+        textShadowColor: rewardSets.incorrect[incorrectRandomIdx].fg
+      }]}>
+        {rewardSets.incorrect[incorrectRandomIdx].phrase}
+      </Text>
+      <Text style={[styles.emojiText, {
+        color: rewardSets.incorrect[incorrectRandomIdx].bg,
+        textShadowOffset: {width: -2, height: 2},
+        textShadowColor: rewardSets.incorrect[incorrectRandomIdx].fg
+      }]}>
+        {rewardSets.incorrect[incorrectRandomIdx].phrase}
+      </Text>
+      <Text style={[styles.emojiText, {
+        color: rewardSets.incorrect[incorrectRandomIdx].bg,
+        textShadowOffset: {width: 2, height: -2},
+        textShadowColor: rewardSets.incorrect[incorrectRandomIdx].fg
+      }]}>
+        {rewardSets.incorrect[incorrectRandomIdx].phrase}
+      </Text>
+    </View>;
   }
 
   console.log("correct: ", correctCard);
@@ -323,10 +354,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 40,
     position: "absolute",
-    zIndex: 3,
-    paddingBottom: 150,
     textShadowRadius: 0,
-    textShadowOffset: { width: 2, height: 2 },
   },
   emoji: {
     fontSize: 200,
