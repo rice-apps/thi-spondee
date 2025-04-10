@@ -98,22 +98,22 @@ export default function TestScreen() {
       <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
-      </Text>;
+      </Text>
       <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: -2, height: -2},
         textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
-      </Text>;
+      </Text>
       <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: -2, height: 2},
         textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
-      </Text>;
+      </Text>
       <Text style={[styles.emojiText, {paddingRight: 50, transform: [{rotate: '-10deg'}], color: rewardSets.correct[correctRandomIdx].bg, textShadowOffset: {width: 2, height: -2},
         textShadowColor: rewardSets.correct[correctRandomIdx].fg
       }]}>
         {rewardSets.correct[correctRandomIdx].phrase}
-      </Text>;
+      </Text>
     </View>
   }
 
