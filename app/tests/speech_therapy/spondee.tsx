@@ -4,13 +4,14 @@ import {SpondeeCard} from "@/components/spondee/SpondeeCardDefinitions";
 import TestGrid from "@/components/spondee/TestGrid";
 import {EmojiRain} from "@/components/testing/EmojiRain";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import * as Speech from "expo-speech";
 import {useEffect, useRef, useState} from "react";
-import {Animated, StyleSheet, TouchableOpacity, View, Text} from "react-native";
+import {Animated, StyleSheet, TouchableOpacity, View, Text, Platform} from "react-native";
 import SpondeeCards from "@/components/spondee/SpondeeCardDefinitions";
 import {userData} from "@/lib/currentProfile.ts";
 import {rewardSets} from "@/constants/RewardSets.tsx";
 import {useFonts} from "expo-font";
+import {Audio} from 'expo-av';
+import * as Speech from 'expo-speech';
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -23,11 +24,31 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 function speakCorrectCard(correctCard: string) {
-  Speech.speak(correctCard, {
-    language: "en", // Language code (e.g., 'en' for English)
-    pitch: 1.0, // Pitch of the voice (1.0 is normal)
-    rate: 1.0, // Speed of the speech (1.0 is normal)
-  });
+  // Play an empty sound so that TTS can bypass silent mode
+  if (Platform.OS === "ios") {
+    Audio.Sound.createAsync(require("@/assets/audio/empty_sound.mp3"))
+      .then(async (result) => {
+        // console.log(`Playing ${audioMap[correctCard]} 2`)
+        await Audio.setAudioModeAsync({
+          playsInSilentModeIOS: true,
+        });
+        await result.sound.playAsync();
+        Speech.speak(correctCard, {
+          language: "en", // Language code (e.g., 'en' for English)
+          pitch: 0.8, // Pitch of the voice (1.0 is normal)
+          rate: 0.8, // Speed of the speech (1.0 is normal)
+        });
+      })
+      .catch((error) => {
+        console.error('Error playing sound:', error);
+      });
+  } else {
+    Speech.speak(correctCard, {
+      language: "en", // Language code (e.g., 'en' for English)
+      pitch: 0.8, // Pitch of the voice (1.0 is normal)
+      rate: 0.8, // Speed of the speech (1.0 is normal)
+    });
+  }
 }
 
 export interface Trial {
