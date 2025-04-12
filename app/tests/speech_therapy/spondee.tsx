@@ -24,7 +24,7 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 function speakCorrectCard(correctCard: string) {
-  // Play an empty sound so that TTS can bypass silent mode
+  // Play an empty sound so that TTS can bypass silent mode on iOS
   if (Platform.OS === "ios") {
     Audio.Sound.createAsync(require("@/assets/audio/empty_sound.mp3"))
       .then(async (result) => {
@@ -70,6 +70,7 @@ export default function TestScreen() {
   const [numCards, setNumCards] = useState(4);
   const [data, setData] = useState<any>();
   const [answerEnabled, setAnswerEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [lastAnswerCorrect, setlastAnswerCorrect] = useState(false);
 
   useFonts({
@@ -207,7 +208,9 @@ export default function TestScreen() {
 
   useEffect(() => {
     console.log("triggered");
-    speakCorrectCard(correctCard);
+    if (soundEnabled) {
+      speakCorrectCard(correctCard);
+    }
   }, [correctCard]);
 
   useEffect(() => {
@@ -269,6 +272,8 @@ export default function TestScreen() {
     }
   }, [emojiPopupTrigger]);
 
+  console.log(soundEnabled);
+
   return (
     <View style={styles.page}>
       <EmojiRain
@@ -293,6 +298,8 @@ export default function TestScreen() {
           setNumCards={setNumCards}
           attempts={attempts}
           answerEnabled={answerEnabled}
+          soundEnabled={soundEnabled}
+          setSoundEnabled={setSoundEnabled}
           setAnswerEnabled={setAnswerEnabled}
         />
       </View>
@@ -317,12 +324,17 @@ export default function TestScreen() {
         </Animated.View>
       )}
 
-      <TouchableOpacity
-        style={styles.footer}
-        onPress={() => speakCorrectCard(correctCard)}
-      >
-        <FontAwesome name="volume-up" size={36}/>
-      </TouchableOpacity>
+      {soundEnabled &&
+          <TouchableOpacity
+              style={styles.footer}
+              onPress={() => {
+                if (soundEnabled) {
+                  speakCorrectCard(correctCard);
+                }
+              }}
+          >
+              <FontAwesome name="volume-up" size={36}/>
+          </TouchableOpacity>}
     </View>
   );
 }
