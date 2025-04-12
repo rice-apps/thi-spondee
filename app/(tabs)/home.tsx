@@ -4,8 +4,9 @@ import { THIText } from "@/components/THIText";
 import { userData } from "@/lib/currentProfile";
 import { supabase } from "@/lib/supabase";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export default function Home() {
   const [testSessions, setTestSessions] = useState<{ id: any }[] | null>(null);
@@ -56,11 +57,14 @@ export default function Home() {
           <Card key={id} testId={id} />
         ))}
       </View>
-      <View style={styles.footer}>
+      <TouchableOpacity
+        style={styles.footer}
+        onPress={() => router.push("/(tabs)/selection")}
+      >
         {/* need to add on click */}
         <AntDesign name="plus" size={24} color="black" />
         <THIText style={{ fontSize: 22 }}>New Test</THIText>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

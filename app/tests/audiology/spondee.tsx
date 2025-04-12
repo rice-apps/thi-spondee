@@ -3,7 +3,11 @@ import { SessionControls } from "@/components/spondee/SessionControls";
 import { SpondeeCard } from "@/components/spondee/SpondeeCardDefinitions";
 import TestGrid from "@/components/spondee/TestGrid";
 import { EmojiRain } from "@/components/testing/EmojiRain";
-import { generateQuiz, QuizQuestion } from "@/lib/quizGeneration";
+import {
+  generateMaintainedQuiz,
+  generateQuiz,
+  QuizQuestion,
+} from "@/lib/quizGeneration";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -27,6 +31,7 @@ export default function TestScreen() {
   const [data, setData] = useState<any>();
   const [quiz, setQuiz] = useState<QuizQuestion[]>([]);
   const [idx, setIdx] = useState(0);
+  const [answerEnabled, setAnswerEnabled] = useState(false);
 
   const { code } = useLocalSearchParams<{ code?: string }>();
 
@@ -41,15 +46,20 @@ export default function TestScreen() {
         let randomSeed;
         if (testCode.length === 7) {
           setSize = Number(testCode.slice(0, 2));
-          maintainCards = testCode[2] === "1" ? true : false;
+          maintainCards = testCode[2] === "1";
           randomSeed = testCode.slice(3);
         } else {
           setSize = Number(testCode[0]);
-          maintainCards = testCode[2] === "1" ? true : false;
+          maintainCards = testCode[1] === "1";
           randomSeed = testCode.slice(2);
         }
+        let generatedQuiz;
+        if (maintainCards) {
+          generatedQuiz = generateMaintainedQuiz(setSize, randomSeed);
+        } else {
+          generatedQuiz = generateQuiz(setSize, randomSeed);
+        }
 
-        const generatedQuiz = generateQuiz(setSize, randomSeed);
         setNumCards(setSize);
         setQuiz(generatedQuiz);
         setCorrectCard(generatedQuiz[0].correctAnswer);
@@ -107,6 +117,8 @@ export default function TestScreen() {
           setNumCards={setNumCards}
           attempts={attempts}
           audiology={true}
+          answerEnabled={answerEnabled}
+          setAnswerEnabled={setAnswerEnabled}
         />
       </View>
       <TestGrid

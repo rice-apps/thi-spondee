@@ -44,6 +44,8 @@ export default function AuthScreen() {
 
     if (error) {
       Alert.alert(error.message);
+      console.log(error.cause);
+      console.log(error.stack);
       return;
     }
 
