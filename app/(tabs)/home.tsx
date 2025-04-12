@@ -1,11 +1,42 @@
 import Card from "@/components/home/Card";
 import TopBar from "@/components/home/TopBar";
 import { THIText } from "@/components/THIText";
+import { userData } from "@/lib/currentProfile";
+import { supabase } from "@/lib/supabase";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { StyleSheet, View } from "react-native";
-import { userData } from "../../app/currentProfile";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export default function Home() {
+  const [testSessions, setTestSessions] = useState<{ id: any }[] | null>(null);
+
+  async function fetchTestSessions(childId: string) {
+    const { data, error } = await supabase
+      .from("test_session")
+      .select("id")
+      .eq("child_id", childId)
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    if (error) {
+      console.error("Error fetching test sessions:", error);
+      return null;
+    }
+
+    return data;
+  }
+
+  useEffect(() => {
+    const loadTestSessions = async () => {
+      const childId = userData.CURRENT_ID;
+      const sessions = await fetchTestSessions(childId);
+      setTestSessions(sessions ?? []); // Ensure it's always an array
+    };
+
+    loadTestSessions();
+  }, []);
+
   return (
     <View style={styles.container}>
       <TopBar emoji={userData.EMOJI} username={userData.USERNAME} />
@@ -22,15 +53,18 @@ export default function Home() {
       </View>
       {/* rectangle that contains all the cards*/}
       <View style={styles.cardsContainer}>
-        <Card />
-        <Card />
-        <Card />
+        {testSessions?.map(({ id }) => (
+          <Card key={id} testId={id} />
+        ))}
       </View>
-      <View style={styles.footer}>
+      <TouchableOpacity
+        style={styles.footer}
+        onPress={() => router.push("/(tabs)/selection")}
+      >
         {/* need to add on click */}
         <AntDesign name="plus" size={24} color="black" />
         <THIText style={{ fontSize: 22 }}>New Test</THIText>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

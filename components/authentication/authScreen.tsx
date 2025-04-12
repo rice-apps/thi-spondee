@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { supabase } from "../../lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { THIText } from "../THIText";
 
 export default function AuthScreen() {
@@ -18,12 +18,22 @@ export default function AuthScreen() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isSigningUp, setIsSigningUp] = React.useState(false);
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@texashearing\.org$/;
+    return emailRegex.test(email);
+  };
+
   const handleLoginPress = async () => {
     if (!email || !password) {
       Alert.alert(
         "Validation Error",
         "Both email and password fields must be filled."
       );
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      Alert.alert("Invalid email", "Please use an email ending in '@texashearing.org' to log in.")
       return;
     }
 
@@ -34,6 +44,8 @@ export default function AuthScreen() {
 
     if (error) {
       Alert.alert(error.message);
+      console.log(error.cause);
+      console.log(error.stack);
       return;
     }
 
@@ -46,6 +58,11 @@ export default function AuthScreen() {
         "Validation Error",
         "Both email and password fields must be filled."
       );
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      Alert.alert("Invalid email", "Please use an email ending in '@texashearing.org' to log in.")
       return;
     }
 
