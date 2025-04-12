@@ -59,7 +59,7 @@ export default function AddProfile() {
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          <FontAwesome name="arrow-left" size={26} color="black" />
+          <FontAwesome name="angle-left" size={24} color="black" />
         </TouchableOpacity>
         
         <Text style={styles.headingStyle}>Add Profile</Text>
@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 15,
-    marginTop: 2
+    marginTop: 5,
   },
   username: {
     flexDirection: "row",

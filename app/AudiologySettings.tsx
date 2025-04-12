@@ -10,6 +10,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
+
 export default function AudiologySettings() {
   const [size, setSize] = useState(4);
   const [maintainSameCards, setMaintainSameCards] = useState(false);
@@ -34,6 +35,12 @@ export default function AudiologySettings() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <FontAwesome name="angle-left" size={24} color="black" />
+        </TouchableOpacity>
       <View style={styles.card}>
         <Text style={styles.heading}>Set Size</Text>
 
@@ -239,5 +246,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     gap: 5,
+  },
+  backButton: {
+    marginRight: 15,
+    marginTop: 5,
   },
 });
