@@ -15,10 +15,10 @@ const DropDown = ({
 
   useEffect(() => {
     // do something whenever x changes
-    if(selectedFilter === "Reset Filter") {
-        setSelectedFilter(name)
+    if (selectedFilter === "Reset Filter") {
+      setSelectedFilter(name);
     }
-  }, [selectedFilter])
+  }, [selectedFilter]);
   return (
     <View style={styles.container}>
       <View>
@@ -50,6 +50,7 @@ const DropDown = ({
                   setSelectedFilter(value);
                   setShowDropdown(!showDropdown);
                 }}
+                key={value}
               >
                 <THIText style={styles.textstyle}>{value}</THIText>
               </TouchableOpacity>

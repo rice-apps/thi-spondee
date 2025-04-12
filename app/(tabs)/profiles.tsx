@@ -1,8 +1,8 @@
 import DropDown from "@/components/profiles/DropDown";
 import { THIText } from "@/components/THIText";
+import { userData } from "@/lib/currentProfile";
 import { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { userData } from "../../app/currentProfile";
 
 export default function Profiles() {
   const [open, setOpen] = useState(false);
