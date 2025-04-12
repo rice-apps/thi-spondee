@@ -11,6 +11,7 @@ import SpondeeCards from "@/components/spondee/SpondeeCardDefinitions";
 import {userData} from "@/lib/currentProfile.ts";
 import {rewardSets} from "@/constants/RewardSets.tsx";
 import {useFonts} from "expo-font";
+import { handleSubmission } from "@/lib/saveSession";
 
 // Fisher-Yates Shuffle Algorithm
 function shuffleArray<T>(array: T[]): T[] {
@@ -51,11 +52,14 @@ export default function TestScreen() {
   const [answerEnabled, setAnswerEnabled] = useState(false);
   const [lastAnswerCorrect, setlastAnswerCorrect] = useState(false);
 
+  let oldNumCards = 0;
+
   useFonts({
     'Fredoka': require('@/assets/fonts/fredoka.ttf'),
   });
 
   function updateNumberOfCards(num: number) {
+    oldNumCards = numCards;
     setNumCards(num);
     // Generate new list
     let list = randomizeSelectedCards(num);
@@ -198,6 +202,12 @@ export default function TestScreen() {
   }, [selectedCards]);
 
   useEffect(() => {
+    if(totalTrials>3){
+      handleSubmission(attempts,oldNumCards,true,0,"");
+    }
+    setAttempts([]);
+    setTotalTrials(0);
+    setNumCorrect(0);
     const list = randomizeSelectedCards(numCards);
     generateNewCard(list);
   }, [numCards]);
@@ -269,7 +279,7 @@ export default function TestScreen() {
           totalTrials={totalTrials}
           numCorrect={numCorrect}
           numCards={numCards}
-          setNumCards={setNumCards}
+          setNumCards={updateNumberOfCards}
           attempts={attempts}
           answerEnabled={answerEnabled}
           setAnswerEnabled={setAnswerEnabled}
