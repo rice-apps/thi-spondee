@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 export default function EditProfile() {
   const [selectedEmoji, setSelectedEmoji] = useState(userData.EMOJI);
@@ -100,17 +101,20 @@ export default function EditProfile() {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.top}>
-          <Text style={styles.headingStyle}>Add Profile</Text>
-          <TouchableOpacity
-            style={styles.delete}
-            onPress={() =>
-              setDisplayConfirmationModal(!displayConfirmationModal)
-            }
-          >
-            <THIText style={{ color: "white" }}>Delete Profile</THIText>
+      <View style={styles.top}>
+        <View style={styles.leftGroup}>
+          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+            <FontAwesome name="angle-left" size={24} color="black" />
           </TouchableOpacity>
+          <Text style={styles.headingStyle}>Edit Profile</Text>
         </View>
+        <TouchableOpacity
+          style={styles.delete}
+          onPress={() => setDisplayConfirmationModal(!displayConfirmationModal)}
+        >
+          <THIText style={{ color: "white" }}>Delete Profile</THIText>
+        </TouchableOpacity>
+      </View>
         <View style={{ flexDirection: "row", display: "flex", gap: 80 }}>
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <View style={styles.image}>
@@ -411,9 +415,9 @@ const styles = StyleSheet.create({
     margin: 100,
   },
   top: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   username: {
     flexDirection: "row",
@@ -503,5 +507,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#DC4731",
     borderRadius: 100,
     padding: 15,
+  },
+  leftGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8, // adjust spacing here if needed
+  },
+  backButton: {
+    marginTop: 2,
   },
 });
