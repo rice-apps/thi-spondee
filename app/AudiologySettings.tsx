@@ -95,6 +95,10 @@ export default function AudiologySettings() {
           Save the settings to generate the code
         </Text>
 
+        <Text>
+          Please enter the code on the audiologist's computer at the following address: https://thi-spondee.riceapps.org/
+        </Text>
+
         <View style={styles.codeBoxesContainer}>
           {code.map((box, i) => (
             <View key={i} style={styles.codeBox}>
