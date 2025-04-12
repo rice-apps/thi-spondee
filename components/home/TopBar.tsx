@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   dropdownPlaceholder: {
-    fontSize: 0,
+    fontSize: 12,
   },
   dropdownSelectedText: {
-    fontSize: 0,
+    fontSize: 12,
   },
   dropdownItemText: {
     fontSize: 16,
