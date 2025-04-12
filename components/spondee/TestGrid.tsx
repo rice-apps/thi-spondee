@@ -1,7 +1,7 @@
 import { Trial } from "@/app/tests/speech_therapy/spondee";
 import Card from "@/components/spondee/Card";
-import { useEffect, useState } from "react";
-import { FlatList, ListRenderItemInfo, StyleSheet, View } from "react-native";
+import { useEffect, useState, useRef} from "react";
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from "react-native";
 
 export default function TestGrid({
   numCards,
