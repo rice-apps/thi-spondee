@@ -24,10 +24,21 @@ export default function profilePicker() {
       const { data, error } = await supabase
         .from("anonymized_children")
         .select("id, username, emoji")
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: false });
       if (error) {
         console.error(error);
       } else if (data) {
+        for (let i = 0; i < data.length; i++) {
+          // Move guest profile to always be first
+          if (data[i].username === "GuestProfile") {
+            // Remove the guest profile and store it in a variable
+            const guestProfile = data.splice(i, 1)[0];
+            // Insert the item at the beginning of the array
+            data.unshift(guestProfile);
+            // Stop the loop since we found it
+            break;
+          }
+        }
         setChildren(data);
         setFilteredChildren(data);
       }
