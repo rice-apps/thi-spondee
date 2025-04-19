@@ -1,11 +1,20 @@
-import { Trial } from "@/app/tests/speech_therapy/spondee";
-import { SessionData } from "@/components/spondee/SessionControls";
-import { THIText } from "@/components/THIText";
-import { userData } from "@/lib/currentProfile";
-import { supabase } from "@/lib/supabase";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {Trial} from "@/app/tests/speech_therapy/spondee";
+import {SessionData} from "@/components/spondee/SessionControls";
+import {THIText} from "@/components/THIText";
+import {userData} from "@/lib/currentProfile";
+import {supabase} from "@/lib/supabase";
+import {router, useLocalSearchParams} from "expo-router";
+import {useEffect, useState} from "react";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
 import uuid from "react-native-uuid";
 
 export interface SessionDetails {
@@ -21,7 +30,7 @@ export default function InputSessionNotes() {
   const [maximumThresholdLevel, setMaximumThresholdLevel] = useState(0);
   const [sessionNotes, setSessionNotes] = useState<string>("");
 
-  const { sessionData } = useLocalSearchParams<{ sessionData?: string }>();
+  const {sessionData} = useLocalSearchParams<{ sessionData?: string }>();
 
   const generateUUID = () => {
     const newUUID = uuid.v4();
@@ -57,9 +66,9 @@ export default function InputSessionNotes() {
 
   async function createTestSession(sessionUUID: string, childId: string) {
     try {
-      const { data, error } = await supabase
+      const {data, error} = await supabase
         .from("test_session")
-        .insert({ id: sessionUUID, child_id: childId })
+        .insert({id: sessionUUID, child_id: childId})
         .select()
         .single();
 
@@ -82,7 +91,7 @@ export default function InputSessionNotes() {
       test_session_id: sessionUUID,
     }));
 
-    const { data, error } = await supabase.from("test_trial").insert(trials);
+    const {data, error} = await supabase.from("test_trial").insert(trials);
 
     if (error) {
       console.log("Error fetching test trial:", error.message);
@@ -93,7 +102,7 @@ export default function InputSessionNotes() {
 
   async function insertSettingsData(sessionUUID: string) {
     try {
-      const { data, error } = await supabase
+      const {data, error} = await supabase
         .from("test_session_settings")
         .insert({
           id: sessionUUID,
@@ -136,65 +145,70 @@ export default function InputSessionNotes() {
   }
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.container}>
-        <THIText style={styles.header}>Optional Session Notes</THIText>
-        <THIText style={styles.date}>Spondee Cards • {formattedDate}</THIText>
+    <KeyboardAvoidingView style={{width: "100%", height: "100%"}} behavior={"padding"}>
+      <ScrollView style={{width: "100%", height: "100%"}} alwaysBounceVertical={false}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.wrapper}>
+            <View style={styles.container}>
+              <THIText style={styles.header}>Optional Session Notes</THIText>
+              <THIText style={styles.date}>Spondee Cards • {formattedDate}</THIText>
+              <THIText style={styles.label}>Maximum Threshold Level</THIText>
+              <View style={styles.levelInput}>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  placeholderTextColor="#C4C4C4"
+                  value={
+                    maximumThresholdLevel ? maximumThresholdLevel.toString() : ""
+                  }
+                  onChangeText={(text) => {
+                    // Convert entered text to a number.
+                    const numericValue = Number(text);
+                    setMaximumThresholdLevel(isNaN(numericValue) ? 0 : numericValue);
+                  }}
+                />
+                <THIText style={styles.dB}>dB</THIText>
+              </View>
+              <THIText style={styles.label}>Additional Notes</THIText>
+              <TextInput
+                style={[styles.input, styles.notesInput]}
+                placeholder="Type any additional notes here"
+                placeholderTextColor="#C4C4C4"
+                multiline
+                numberOfLines={4}
+                value={sessionNotes}
+                onChangeText={(text) => setSessionNotes(text)}
+              />
 
-        <THIText style={styles.label}>Maximum Threshold Level</THIText>
-        <View style={styles.levelInput}>
-          <TextInput
-            style={styles.input}
-            keyboardType="numeric"
-            placeholderTextColor="#C4C4C4"
-            value={
-              maximumThresholdLevel ? maximumThresholdLevel.toString() : ""
-            }
-            onChangeText={(text) => {
-              // Convert entered text to a number.
-              const numericValue = Number(text);
-              setMaximumThresholdLevel(isNaN(numericValue) ? 0 : numericValue);
-            }}
-          />
-          <THIText style={styles.dB}>dB</THIText>
-        </View>
-        <THIText style={styles.label}>Additional Notes</THIText>
-        <TextInput
-          style={[styles.input, styles.notesInput]}
-          placeholder="Type any additional notes here"
-          placeholderTextColor="#C4C4C4"
-          multiline
-          numberOfLines={4}
-          value={sessionNotes}
-          onChangeText={(text) => setSessionNotes(text)}
-        />
-
-        <View style={styles.buttonWrapper}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={async () => {
-              await handleSubmission();
-              router.push({
-                pathname: "/(tabs)/sessionResults",
-                params: {
-                  sessionData: JSON.stringify({
-                    attempts: parsedAttempts,
-                    soundEnabled: soundEnabled,
-                    numCards: numCards,
-                  }),
-                  sessionNotes: JSON.stringify({
-                    notes: sessionNotes,
-                    thresholdLevel: maximumThresholdLevel,
-                  }),
-                },
-              });
-            }}
-          >
-            <THIText style={styles.buttonText}>Submit</THIText>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+              <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={async () => {
+                    await handleSubmission();
+                    router.push({
+                      pathname: "/(tabs)/sessionResults",
+                      params: {
+                        sessionData: JSON.stringify({
+                          attempts: parsedAttempts,
+                          soundEnabled: soundEnabled,
+                          numCards: numCards,
+                        }),
+                        sessionNotes: JSON.stringify({
+                          notes: sessionNotes,
+                          thresholdLevel: maximumThresholdLevel,
+                        }),
+                      },
+                    });
+                  }}
+                >
+                  <THIText style={styles.buttonText}>Submit</THIText>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -203,6 +217,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
+    height: "100%",
   },
   sidebar: {
     width: 125,
@@ -232,9 +247,10 @@ const styles = StyleSheet.create({
     paddingTop: 300,
   },
   container: {
+    height: "100%",
     flex: 1,
     paddingHorizontal: 40,
-    paddingTop: 40,
+    // paddingTop: 40,
     backgroundColor: "#FFFFFF",
   },
   header: {
@@ -273,7 +289,7 @@ const styles = StyleSheet.create({
     color: "#17262B",
   },
   notesInput: {
-    height: "30%",
+    height: 150,
     textAlignVertical: "top",
     width: "50%",
   },
