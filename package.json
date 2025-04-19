@@ -23,6 +23,7 @@
     "expo": "~52.0.42",
     "expo-av": "^15.0.2",
     "expo-constants": "~17.0.4",
+    "expo-device": "^7.0.3",
     "expo-font": "^13.0.4",
     "expo-linking": "~7.0.4",
     "expo-router": "~4.0.20",

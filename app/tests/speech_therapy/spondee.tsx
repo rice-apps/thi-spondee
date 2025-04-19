@@ -10,7 +10,7 @@ import SpondeeCards from "@/components/spondee/SpondeeCardDefinitions";
 import {userData} from "@/lib/currentProfile.ts";
 import {rewardSets} from "@/constants/RewardSets.tsx";
 import {useFonts} from "expo-font";
-import {Audio} from 'expo-av';
+import {Audio} from '@/components/audio.ts';
 import * as Speech from 'expo-speech';
 
 // Fisher-Yates Shuffle Algorithm
