@@ -1,14 +1,14 @@
 import React from "react";
 import {
   Alert,
-  Image,
-  Pressable,
+  Image, Keyboard, KeyboardAvoidingView,
+  Pressable, ScrollView,
   StyleSheet,
-  TextInput,
+  TextInput, TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { supabase } from "@/lib/supabase";
-import { THIText } from "../THIText";
+import {supabase} from "@/lib/supabase";
+import {THIText} from "../THIText";
 
 export default function AuthScreen() {
   const [email, setEmail] = React.useState("");
@@ -37,7 +37,7 @@ export default function AuthScreen() {
       return;
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const {data, error} = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
@@ -66,7 +66,7 @@ export default function AuthScreen() {
       return;
     }
 
-    const { data, error } = await supabase.auth.signUp({
+    const {data, error} = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
@@ -87,7 +87,7 @@ export default function AuthScreen() {
   };
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
+    const {error} = await supabase.auth.signOut();
 
     if (error) {
       Alert.alert("Logout Error", error.message);
@@ -98,68 +98,80 @@ export default function AuthScreen() {
   };
 
   const renderLoginPage = () => (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("@/assets/images/thi-logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.header}>
-        <THIText style={styles.headerText}>Welcome back!</THIText>
-        <THIText>Log in to start a test session</THIText>
-      </View>
-      <AuthTextEntry label="Email" value={email} onChangeText={setEmail} />
-      <AuthTextEntry
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <View>
-        <Pressable style={styles.switch} onPress={() => setIsSigningUp(true)}>
-          <THIText style={styles.switchButton}>Create Account</THIText>
-        </Pressable>
-      </View>
-      <AuthButton label="Log In" onPress={handleLoginPress} />
-    </View>
+    <KeyboardAvoidingView style={{width: "100%"}} behavior={"padding"}>
+      <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: 'center'}} alwaysBounceVertical={false}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require("@/assets/images/thi-logo.png")}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.header}>
+              <THIText style={styles.headerText}>Welcome back!</THIText>
+              <THIText>Log in to start a test session</THIText>
+            </View>
+            <AuthTextEntry label="Email" value={email} onChangeText={setEmail}/>
+            <AuthTextEntry
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            <View>
+              <Pressable style={styles.switch} onPress={() => setIsSigningUp(true)}>
+                <THIText style={styles.switchButton}>Create Account</THIText>
+              </Pressable>
+            </View>
+            <AuthButton label="Log In" onPress={handleLoginPress}/>
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 
   const renderSignupPage = () => (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("@/assets/images/thi-logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.header}>
-        <THIText style={styles.headerText}>Create Account</THIText>
-      </View>
-      <AuthTextEntry
-        label="First Name"
-        value={firstName}
-        onChangeText={setFirstName}
-      />
-      <AuthTextEntry
-        label="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-      />
-      <AuthTextEntry label="Email" value={email} onChangeText={setEmail} />
-      <AuthTextEntry
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Pressable style={styles.switch} onPress={() => setIsSigningUp(false)}>
-        <THIText style={styles.switchButton}> Log In</THIText>
-      </Pressable>
-      <AuthButton label="Sign Up" onPress={handleSignupPress} />
-    </View>
+    <KeyboardAvoidingView style={{width: "100%"}} behavior={"padding"}>
+      <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: 'center'}} alwaysBounceVertical={false}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require("@/assets/images/thi-logo.png")}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.header}>
+              <THIText style={styles.headerText}>Create Account</THIText>
+            </View>
+            <AuthTextEntry
+              label="First Name"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <AuthTextEntry
+              label="Last Name"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+            <AuthTextEntry label="Email" value={email} onChangeText={setEmail}/>
+            <AuthTextEntry
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            <Pressable style={styles.switch} onPress={() => setIsSigningUp(false)}>
+              <THIText style={styles.switchButton}> Log In</THIText>
+            </Pressable>
+            <AuthButton label="Sign Up" onPress={handleSignupPress}/>
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 
   const renderHomePage = () => (
@@ -175,8 +187,8 @@ export default function AuthScreen() {
   return isLoggedIn
     ? renderHomePage()
     : isSigningUp
-    ? renderSignupPage()
-    : renderLoginPage();
+      ? renderSignupPage()
+      : renderLoginPage();
 }
 
 // Reusable TextEntry and Button components
@@ -188,11 +200,11 @@ type AuthTextEntryProps = {
 };
 
 export function AuthTextEntry({
-  label,
-  value,
-  onChangeText,
-  secureTextEntry = false,
-}: AuthTextEntryProps) {
+                                label,
+                                value,
+                                onChangeText,
+                                secureTextEntry = false,
+                              }: AuthTextEntryProps) {
   return (
     <View>
       <THIText style={styles.label}>{label}</THIText>
@@ -201,6 +213,7 @@ export function AuthTextEntry({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        autoCapitalize={"none"}
       />
     </View>
   );
@@ -211,7 +224,7 @@ type AuthButtonProps = {
   onPress: () => void;
 };
 
-export function AuthButton({ label, onPress }: AuthButtonProps) {
+export function AuthButton({label, onPress}: AuthButtonProps) {
   return (
     <Pressable style={styles.button} onPress={onPress}>
       <THIText style={styles.buttonLabel}>{label}</THIText>
@@ -223,12 +236,13 @@ export function AuthButton({ label, onPress }: AuthButtonProps) {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    width: 400,
   },
   logo: {
     width: "100%",
     height: "100%",
   },
-  logoContainer: { width: 354, height: 96, marginBottom: 30 },
+  logoContainer: {width: 354, height: 96, marginBottom: 30},
   header: {
     display: "flex",
     gap: 15,
