@@ -9,8 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-// TODO: Uncomment this when we can try it on a real device!
-// import { VolumeManager } from 'react-native-volume-manager';
+import { VolumeManager } from 'react-native-volume-manager';
 
 type SettingsProps = {
   numCards: number;
@@ -35,18 +34,18 @@ export default function Settings({
   const handleVolumeChange = async (value: number) => {
     setVolume(value);
     // TODO: Uncomment this when we can try it on a real device!
-    // VolumeManager.setVolume(value);
+    VolumeManager.setVolume(value);
   };
   const handleIncreaseVolume = () => {
     const newVolume = Math.min(volume + 0.1, 1); // Increment by 0.1, max 1
     // TODO: Uncomment this when we can try it on a real device!
-    //VolumeManager.setVolume(newVolume);
+    VolumeManager.setVolume(newVolume);
     setVolume(newVolume);
   };
   const handleDecreaseVolume = () => {
     const newVolume = Math.max(volume - 0.1, 0); // Decrease by 0.1, min 0
     // TODO: Uncomment this when we can try it on a real device!
-    //VolumeManager.setVolume(newVolume);
+    VolumeManager.setVolume(newVolume);
     setVolume(newVolume);
   };
 
