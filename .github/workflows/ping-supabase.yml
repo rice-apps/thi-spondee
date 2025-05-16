@@ -41,8 +41,19 @@ jobs:
               const { createClient } = require('@supabase/supabase-js');
               const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-              // Ping Supabase by querying a table (e.g., 'songs')
-              const { data, error } = await supabase.from('	test_trial').select('*').limit(10);
+              // Ping Supabase by inserting into a table
+              const { data, error } = await supabase.from("children").insert({
+                first_name: "john",
+                last_name: "smith",
+                username: "silly guy",
+                emoji: "🐱"
+              });
+
+              // Handle errors
+              if (error) throw error;
+              
+              // Delete that row we just inserted
+              const { data, error } = await supabase.from("children").delete().eq('username', 'silly guy');
 
               // Handle errors
               if (error) throw error;
