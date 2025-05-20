@@ -2,7 +2,7 @@ name: Ping Supabase to Prevent Pausing
 
 on:
   schedule:
-    - cron: '0 9 * * 1,4' # Runs at 9:00 AM UTC every Monday and Thursday
+    - cron: '*/5 * * * *' # Runs every 5 minutes
   workflow_dispatch: # Allows manual triggering from the GitHub UI
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
               const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
               // Ping Supabase by inserting into a table
-              const { data, error } = await supabase.from("children").insert({
+              const { data: insertData, error: insertError } = await supabase.from("children").insert({
                 first_name: "john",
                 last_name: "smith",
                 username: "silly guy",
@@ -50,16 +50,16 @@ jobs:
               });
 
               // Handle errors
-              if (error) throw error;
+              if (insertError) throw insertError;
               
               // Delete that row we just inserted
-              const { data, error } = await supabase.from("children").delete().eq('username', 'silly guy');
+              const { data: deleteData, error: deleteError } = await supabase.from("children").delete().eq('username', 'silly guy');
 
               // Handle errors
-              if (error) throw error;
+              if (deleteError) throw deleteError;
 
               // Log success
-              console.log('Ping successful:', data);
+              console.log('Ping successful: Row inserted and deleted');
             } catch (err) {
               // Log and exit with error
               console.error('Error pinging Supabase:', err.message);
