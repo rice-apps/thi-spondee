@@ -47,16 +47,23 @@ jobs:
                 last_name: "smith",
                 username: "silly guy",
                 emoji: "🐱"
-              });
+              })
+              .select();
 
               // Handle errors
-              if (insertError) throw insertError;
+              if (insertError) {
+                console.error("insert error:", insertError);
+                throw insertError;
+              }
               
               // Delete that row we just inserted
-              const { data: deleteData, error: deleteError } = await supabase.from("children").delete().eq('username', 'silly guy');
+              const { data: deleteData, error: deleteError } = await supabase.from("children").delete().eq('username', 'silly guy').select();
 
               // Handle errors
-              if (deleteError) throw deleteError;
+              if (deleteError) {
+                console.error("delete error:", deleteError);
+                throw deleteError;
+              }
 
               // Log success
               console.log('Ping successful: Row inserted and deleted');
